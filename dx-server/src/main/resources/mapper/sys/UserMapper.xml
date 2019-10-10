@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dx.base.shiro.mapper.UserMapper">
+
+    <sql id="BaseColumnSelect">
+        id,username,password,salt,locked
+    </sql>
+
+<!--    根据用户名查询用户-->
+    <select id="findByUsername" resultType="com.dx.base.shiro.bean.User">
+        select
+            <include refid="BaseColumnSelect"/>
+        from
+            sys_user
+        where
+            username=#{username}
+    </select>
+
+<!--    用户菜单列表-->
+    <select id="queryUserMenuId" resultType="java.lang.String">
+        select
+            menu.id
+        from
+            sys_user user
+            left join sys_user_role user_role on user.id = user_role.user_id
+            left join sys_role role on user_role.role_id = role.id
+            left join sys_role_menu role_menu on role.id = role_menu.role_id
+            left join sys_menu menu on role_menu.menu_id = menu.id
+        WHERE
+            user.username=#{username}
+    </select>
+
+    <!-- 查询用户的所有权限 -->
+    <select id="queryAllPerms" resultType="java.lang.String">
+		select
+            menu.perms
+        from
+            sys_user user
+            left join sys_user_role user_role on user.id = user_role.user_id
+            left join sys_role role on user_role.role_id = role.id
+            left join sys_role_menu role_menu on role.id = role_menu.role_id
+            left join sys_menu menu on role_menu.menu_id = menu.id
+        WHERE
+            user.username=#{username}
+    </select>
+
+
+
+
+</mapper>
