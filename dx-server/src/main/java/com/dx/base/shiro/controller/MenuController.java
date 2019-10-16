@@ -1,5 +1,6 @@
 package com.dx.base.shiro.controller;
 
+import com.dx.base.monitor.bean.Server;
 import com.dx.base.shiro.bean.Menu;
 import com.dx.base.shiro.service.MenuService;
 import com.dx.base.util.R;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +44,19 @@ public class MenuController {
 
 		return R.ok().put("menuList", menuList).put("permissions", permissions);
 	}
-	
+	/**
+	 * 导航菜单
+	 */
+	@GetMapping("/getServerInfo")
+	public R getServerInfo(HttpServletRequest request) throws Exception {
+
+		Server server = new Server();
+		server.copyTo();
+
+		return R.ok().put("server", server);
+	}
+
+
+
 
 }
