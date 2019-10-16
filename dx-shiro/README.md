@@ -10,7 +10,7 @@ JDK：1.8
 前端：vue-element-admin
 后端：springboot2.x + mybatisplus
 数据库：mysql5.7
-安全框架： spring security
+安全框架： spring shiro
 
 
 #### 安装教程
