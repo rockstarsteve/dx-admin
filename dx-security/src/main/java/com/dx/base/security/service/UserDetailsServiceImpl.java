@@ -1,9 +1,9 @@
 package com.dx.base.security.service;
 
 import com.dx.base.security.bean.LoginUser;
+import com.dx.base.security.bean.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,18 +26,18 @@ import java.util.HashSet;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private SysUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getByName(username);
+        SysUser sysUser = userService.getByName(username);
 
-        if (user == null) {
+        if (sysUser == null) {
             log.info("登录用户：{} 不存在.", username);
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
         }
 
-        return new LoginUser(user,new HashSet<>());
+        return new LoginUser(sysUser,new HashSet<>());
     }
 }
 

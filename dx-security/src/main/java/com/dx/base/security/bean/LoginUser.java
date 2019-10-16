@@ -1,7 +1,7 @@
 package com.dx.base.security.bean;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -16,6 +16,7 @@ import java.util.Set;
  * @copyright Copyright (c) 文理电信
  * @since 2019/10/12
  */
+@Data
 public class LoginUser implements UserDetails {
 
     /**
@@ -41,32 +42,22 @@ public class LoginUser implements UserDetails {
     /**
      * 用户信息
      */
-    private User user;
+    private SysUser sysUser;
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public LoginUser() {
-    }
-
-    public LoginUser(User user, Set<String> permissions) {
-        this.user = user;
+    public LoginUser(SysUser sysUser, Set<String> permissions) {
+        this.sysUser = sysUser;
         this.permissions = permissions;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return sysUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return sysUser.getUserName();
     }
 
     /**
@@ -105,38 +96,6 @@ public class LoginUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public Long getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
-    }
-
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

@@ -42,5 +42,17 @@ public class RedisCache {
         map.put(key,value);
     }
 
+    /**
+     * 删除指定的缓存对象
+     * @param key
+     * @return
+     */
+    public boolean remove(String key) {
+        map.remove(key);
+        return true;
+    }
+
+
+
 
 }

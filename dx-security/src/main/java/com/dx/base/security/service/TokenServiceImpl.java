@@ -7,7 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +25,17 @@ import java.util.UUID;
  * @since 2019/10/15
  */
 @Component
+@ConfigurationProperties(prefix = "token")
 public class TokenServiceImpl {
+
     // 令牌自定义标识
-    @Value("${token.header}")
-    private String header;
+    private String header = "Authorization";
 
     // 令牌秘钥
-    @Value("${token.secret}")
-    private String secret;
+    private String secret = "abcdefghijklmnopqrstuvwxyz";
 
     // 令牌有效期（默认30分钟）
-    @Value("${token.expireTime}")
-    private int expireTime;
+    private int expireTime = 30;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -169,6 +168,7 @@ public class TokenServiceImpl {
 
     /**
      * 获取当前用户key
+     *
      * @param uuid
      * @return
      */
@@ -179,6 +179,7 @@ public class TokenServiceImpl {
 
     /**
      * 获取uuid
+     *
      * @return
      */
     private String getUuid() {
