@@ -1,6 +1,5 @@
 package com.dx.base.security.service;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.dx.base.security.bean.Constants;
 import com.dx.base.security.bean.LoginUser;
 import io.jsonwebtoken.Claims;
@@ -9,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -160,7 +160,7 @@ public class TokenServiceImpl {
         //也可以从body获取
         token = request.getParameter("token");
 
-        if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
+        if (!StringUtils.isEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
             token = token.replace(Constants.TOKEN_PREFIX, "");
         }
         return token;
