@@ -2,6 +2,7 @@ package com.dx.base.security.service.impl;
 
 import com.dx.base.security.bean.SysUser;
 import com.dx.base.security.service.SysUserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserServiceImpl implements SysUserService {
+
+    @Cacheable(value = "validCode", key = "#username")
     @Override
     public SysUser getByName(String username) {
         if (username.equals("tom")) {

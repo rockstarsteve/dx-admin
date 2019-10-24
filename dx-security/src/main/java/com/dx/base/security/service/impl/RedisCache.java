@@ -1,4 +1,4 @@
-package com.dx.base.security.service;
+package com.dx.base.security.service.impl;
 
 import org.springframework.stereotype.Component;
 
@@ -7,6 +7,8 @@ import java.util.Map;
 
 /**
  * Description: com.dx.base.security.service
+ * 暂时用map当做redis使用
+ *
  *
  * @author yaoj
  * @version 1.0

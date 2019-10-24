@@ -28,23 +28,25 @@ import java.util.UUID;
 @ConfigurationProperties(prefix = "token")
 public class TokenServiceImpl {
 
-    // 令牌自定义标识
+    /**
+     * 令牌自定义标识
+     */
     private String header = "Authorization";
-
-    // 令牌秘钥
+    /**
+     * 令牌秘钥
+     */
     private String secret = "abcdefghijklmnopqrstuvwxyz";
-
-    // 令牌有效期（默认30分钟）
+    /**
+     * 令牌有效期（默认30分钟）
+     */
     private int expireTime = 30;
 
     protected static final long MILLIS_SECOND = 1000;
-
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
-
     private static final Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
 
     @Autowired
-    private RedisCache redisCache;
+    private TokenCacheService tokenCacheService;
 
     /**
      * 获取用户身份信息
@@ -59,7 +61,7 @@ public class TokenServiceImpl {
             // 解析对应的权限以及用户信息
             String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
             String userKey = getTokenKey(uuid);
-            LoginUser user = redisCache.getCacheObject(userKey);
+            LoginUser user = tokenCacheService.getLoginUser(userKey, null);
             return user;
         }
         return null;
@@ -108,7 +110,7 @@ public class TokenServiceImpl {
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        redisCache.setCacheObject(userKey, loginUser);
+        tokenCacheService.getLoginUser(userKey,loginUser);
     }
 
     /**

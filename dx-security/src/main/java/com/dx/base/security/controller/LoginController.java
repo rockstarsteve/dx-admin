@@ -1,7 +1,6 @@
 package com.dx.base.security.controller;
 
 import com.dx.base.security.bean.*;
-import com.dx.base.security.service.RedisCache;
 import com.dx.base.security.service.SysMenuService;
 import com.dx.base.security.service.TokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +34,6 @@ public class LoginController {
     private TokenServiceImpl tokenService;
     @Autowired
     private SysMenuService menuService;
-    @Autowired
-    private RedisCache redisCache;
 
     /**
      * 登录
@@ -47,8 +44,7 @@ public class LoginController {
     @GetMapping("/login")
     public Object login(String username, String password) {
 
-        Authentication authenticate
-                = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         LoginUser loginUser = (LoginUser)authenticate.getPrincipal();
 
