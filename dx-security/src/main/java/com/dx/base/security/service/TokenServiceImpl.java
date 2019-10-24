@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Description: com.dx.base.security.service
- * token验证处理
+ * token验证处理类
  *
  * @author yaoj
  * @version 1.0
@@ -159,7 +159,7 @@ public class TokenServiceImpl {
     private String getToken(HttpServletRequest request) {
         //从头部获取数据
         String token = request.getHeader(header);
-        //也可以从body获取
+        //TODO 暂时没先从请求体重获取
         token = request.getParameter("token");
 
         if (!StringUtils.isEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {

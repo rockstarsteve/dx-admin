@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Description: com.dx.base.security
+ * 没有进行加密的加密算法
  *
  * @author yaoj
  * @version 1.0
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Slf4j
 public class NoPasswordEncoder implements PasswordEncoder {
+
     @Override
     public String encode(CharSequence charSequence) {
         return charSequence.toString();

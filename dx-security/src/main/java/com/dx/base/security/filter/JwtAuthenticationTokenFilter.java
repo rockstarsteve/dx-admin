@@ -17,9 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Description: com.dx.base.security.filter
  * token过滤器 验证token有效性
  *
- * @author ruoyi
+ * @author yaoj
+ * @version 1.0
+ * @copyright Copyright (c) 文理电信
+ * @since 2019/10/12
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {

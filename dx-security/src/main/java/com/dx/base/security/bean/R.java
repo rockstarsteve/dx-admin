@@ -46,19 +46,19 @@ public class R<T> implements Serializable {
         return restResult(data, 200, msg);
     }
 
-    public static <T> R<T> failed() {
+    public static <T> R<T> error() {
         return restResult(null, 500, "failed");
     }
 
-    public static <T> R<T> failed(String msg) {
+    public static <T> R<T> error(String msg) {
         return restResult(null, 500, msg);
     }
 
-    public static <T> R<T> failed(T data) {
+    public static <T> R<T> error(T data) {
         return restResult(data, 500, "failed");
     }
 
-    public static <T> R<T> failed(T data, String msg) {
+    public static <T> R<T> error(T data, String msg) {
         return restResult(data, 500, msg);
     }
 

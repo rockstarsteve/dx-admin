@@ -2,11 +2,11 @@ package com.dx.base.security.service.impl;
 
 import com.dx.base.security.bean.SysUser;
 import com.dx.base.security.service.SysUserService;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
  * Description: com.dx.base.security.service.impl
+ *
  *
  * @author yaoj
  * @version 1.0
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl implements SysUserService {
 
-    @Cacheable(value = "validCode", key = "#username")
+    //TODO 暂时写死，不从数据库中获取
     @Override
     public SysUser getByName(String username) {
         if (username.equals("tom")) {

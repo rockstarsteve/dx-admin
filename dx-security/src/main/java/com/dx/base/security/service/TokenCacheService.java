@@ -4,6 +4,7 @@ import com.dx.base.security.bean.LoginUser;
 
 /**
  * Description: com.dx.base.security.service
+ * 缓存用户信息类
  *
  * @author yaoj
  * @version 1.0

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Description: com.dx.base.security.service.impl
+ * 缓存用户登录信息类
  *
  * @author yaoj
  * @version 1.0
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class TokenCacheServiceImpl implements TokenCacheService {
 
 
-    @Cacheable(value = "validCode",key = "#userKey")
+    @Cacheable(value = "userToken",key = "#userKey")
     @Override
     public LoginUser getLoginUser(String userKey,LoginUser loginUser) {
         return loginUser;

@@ -1,20 +1,26 @@
 package com.dx.base.security.controller;
 
 import com.dx.base.security.bean.*;
+import com.dx.base.security.service.CaptchaCacheService;
+import com.dx.base.security.service.SysLoginService;
 import com.dx.base.security.service.SysMenuService;
 import com.dx.base.security.service.TokenServiceImpl;
+import com.dx.base.security.util.VerifyCodeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Description: com.dx.sys.controller
@@ -26,30 +32,39 @@ import java.util.Map;
  * @since 2019/10/12
  */
 @RestController
+@Slf4j
 public class LoginController {
 
-    @Autowired(required = false)
-    private AuthenticationManager authenticationManager;
     @Autowired
     private TokenServiceImpl tokenService;
     @Autowired
     private SysMenuService menuService;
+    @Autowired
+    private SysLoginService sysLoginService;
+    @Autowired
+    private CaptchaCacheService captchaCacheService;
 
     /**
      * 登录
+     *
      * @param username 用户名
      * @param password 密码
      * @return
      */
     @GetMapping("/login")
-    public Object login(String username, String password) {
+    public Object login(String username, String password, String code, String uuid) {
 
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        LoginUser loginUser = (LoginUser)authenticate.getPrincipal();
+        // 生成令牌
+        String token = sysLoginService.login(username, password, code, uuid);
 
-        // 生成token
-        String token = tokenService.createToken(loginUser);
+//        Authentication authenticate
+//                = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//
+//        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+//
+//        // 生成token
+//        String token = tokenService.createToken(loginUser);
 
 
         return R.ok(token);
@@ -61,7 +76,7 @@ public class LoginController {
      *
      * @return 用户信息
      */
-    @RequestMapping("/getInfo")
+    @PostMapping("/getInfo")
     public R getInfo(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
         SysUser sysUser = loginUser.getSysUser();
@@ -79,9 +94,8 @@ public class LoginController {
      *
      * @return 路由信息
      */
-    @RequestMapping("getRouters")
-    public R getRouters(HttpServletRequest request)
-    {
+    @PostMapping("getRouters")
+    public R getRouters(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
         // 用户信息
         SysUser user = loginUser.getSysUser();
@@ -90,6 +104,48 @@ public class LoginController {
         List<RouterVo> routerVoList = menuService.buildMenus(menus);
 
         return R.ok(routerVoList);
+    }
+
+
+    /**
+     * 生成验证码
+     */
+    @GetMapping("/captchaImage")
+    public R getCode(HttpServletResponse response) throws IOException {
+        // 生成随机字串
+        String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
+        log.info("verifyCode:   " + verifyCode);
+        // 唯一标识
+        String uuid = getUuid();
+        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+
+        captchaCacheService.getVerifyCode(verifyKey, verifyCode);
+
+        //TODO 生成图片  要进行可配置的
+        int w = 111, h = 36;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        VerifyCodeUtils.outputImage(w, h, stream, verifyCode);
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("uuid", uuid);
+            //map.put("img", new sun.misc.BASE64Encoder().encode(stream.toByteArray()));
+            map.put("img", Base64Utils.encode(stream.toByteArray()));
+            return R.ok(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error(e.getMessage());
+        } finally {
+            stream.close();
+        }
+    }
+
+    /**
+     * 获取uuid
+     *
+     * @return
+     */
+    private String getUuid() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
 

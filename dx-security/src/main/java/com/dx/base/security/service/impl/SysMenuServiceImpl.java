@@ -21,6 +21,8 @@ import java.util.List;
 @Service
 public class SysMenuServiceImpl implements SysMenuService {
 
+
+    //TODO 暂时不从数据获取，写死数据
     @Override
     public List<SysMenu> selectMenuTreeByUserId(Long userId) {
 
@@ -44,6 +46,11 @@ public class SysMenuServiceImpl implements SysMenuService {
         return sysMenuList;
     }
 
+    /**
+     * 造一颗Router树
+     * @param menus 菜单列表
+     * @return
+     */
     @Override
     public List<RouterVo> buildMenus(List<SysMenu> menus) {
         List<RouterVo> routers = new LinkedList<RouterVo>();
@@ -70,7 +77,7 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @param menu 菜单信息
      * @return 路由地址
      */
-    public String getRouterPath(SysMenu menu)
+    private String getRouterPath(SysMenu menu)
     {
         String routerPath = menu.getPath();
         // 非外链并且是一级目录

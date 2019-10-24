@@ -1,6 +1,7 @@
 package com.dx.base.security.handler;
 
 import com.dx.base.security.bean.R;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -22,11 +23,15 @@ import java.io.Serializable;
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
-        response.setStatus(200);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().print(R.failed("请求访问：" + request.getRequestURI() + "，认证失败，无法访问系统资源"));
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        response.setContentType("text/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        R<Object> failed = R.error("请求访问：" + request.getRequestURI() + "，认证失败，无法访问系统资源");
+        String message = objectMapper.writeValueAsString(failed);
+        response.getWriter().print(message);
     }
 }

@@ -1,22 +1,25 @@
 package com.dx.base.security.service;
 
-import com.dx.base.security.bean.SysUser;
-
 /**
  * Description: com.dx.base.security.service
- * security系统用户类
  *
  * @author yaoj
  * @version 1.0
  * @copyright Copyright (c) 文理电信
- * @since 2019/10/12
+ * @since 2019/10/24
  */
-public interface SysUserService {
+public interface SysLoginService {
+
 
     /**
-     * 获取用户根据用户名
+     * 登录验证
+     *
      * @param username
+     * @param password
+     * @param code
+     * @param uuid
      * @return
      */
-    SysUser getByName(String username);
+    String login(String username, String password, String code, String uuid);
+
 }

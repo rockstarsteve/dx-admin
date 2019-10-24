@@ -37,10 +37,8 @@
     </defaultCache>
 
 
-
-
-    <!-- 缓存验证码的 -->
-    <cache name="validCode"
+    <!-- 缓存tonken的时间为300秒 -->
+    <cache name="userToken"
            eternal="false"
            timeToIdleSeconds="300"
            timeToLiveSeconds="300"
@@ -50,4 +48,19 @@
            overflowToDisk="false"
            memoryStoreEvictionPolicy="LRU">
     </cache>
+
+    <!-- 缓存Captcha验证码的时间为60秒 -->
+    <cache name="validCode"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
+           maxEntriesLocalHeap="100"
+           maxEntriesLocalDisk="100"
+           diskExpiryThreadIntervalSeconds="120"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+
+
 </ehcache>
