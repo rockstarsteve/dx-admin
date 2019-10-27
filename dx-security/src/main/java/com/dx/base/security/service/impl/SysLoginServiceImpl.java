@@ -1,6 +1,6 @@
 package com.dx.base.security.service.impl;
 
-import com.dx.base.security.bean.Constants;
+import com.dx.base.common.bean.Constants;
 import com.dx.base.security.bean.LoginUser;
 import com.dx.base.security.excption.CaptchaException;
 import com.dx.base.security.excption.CaptchaExpireException;
@@ -29,8 +29,7 @@ public class SysLoginServiceImpl implements SysLoginService {
 
     @Autowired
     private CaptchaCacheService captchaCacheService;
-    //TODO 去掉2019-10-24？？
-    @Autowired(required = false)
+    @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenServiceImpl tokenService;

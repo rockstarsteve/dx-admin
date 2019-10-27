@@ -1,5 +1,6 @@
 package com.dx.base.security.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.dx.base.security.bean.SysUser;
 
 /**
@@ -11,12 +12,6 @@ import com.dx.base.security.bean.SysUser;
  * @copyright Copyright (c) 文理电信
  * @since 2019/10/12
  */
-public interface SysUserService {
+public interface SysUserService extends IService<SysUser> {
 
-    /**
-     * 获取用户根据用户名
-     * @param username
-     * @return
-     */
-    SysUser getByName(String username);
 }

@@ -12,6 +12,6 @@ package com.dx.base.security.excption;
 public class CaptchaException extends RuntimeException {
 
     public CaptchaException() {
-        super("user.jcaptcha.error", null);
+        super("验证码错误", null);
     }
 }

@@ -1,5 +1,7 @@
 package com.dx.base.security.controller;
 
+import com.dx.base.common.bean.Constants;
+import com.dx.base.common.bean.R;
 import com.dx.base.security.bean.*;
 import com.dx.base.security.service.CaptchaCacheService;
 import com.dx.base.security.service.SysLoginService;
@@ -54,18 +56,8 @@ public class LoginController {
     @GetMapping("/login")
     public Object login(String username, String password, String code, String uuid) {
 
-
         // 生成令牌
         String token = sysLoginService.login(username, password, code, uuid);
-
-//        Authentication authenticate
-//                = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-//
-//        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
-//
-//        // 生成token
-//        String token = tokenService.createToken(loginUser);
-
 
         return R.ok(token);
     }
@@ -99,7 +91,7 @@ public class LoginController {
         LoginUser loginUser = tokenService.getLoginUser(request);
         // 用户信息
         SysUser user = loginUser.getSysUser();
-        List<SysMenu> menus = menuService.selectMenuTreeByUserId(user.getUserId());
+        List<SysMenu> menus = menuService.selectMenuTreeByUserId(user.getId());
 
         List<RouterVo> routerVoList = menuService.buildMenus(menus);
 
@@ -117,6 +109,7 @@ public class LoginController {
         log.info("verifyCode:   " + verifyCode);
         // 唯一标识
         String uuid = getUuid();
+        log.info("uuid:   " + uuid);
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
 
         captchaCacheService.getVerifyCode(verifyKey, verifyCode);

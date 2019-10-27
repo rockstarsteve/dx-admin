@@ -1,6 +1,6 @@
 package com.dx.base.security.service;
 
-import com.dx.base.security.bean.Constants;
+import com.dx.base.common.bean.Constants;
 import com.dx.base.security.bean.LoginUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

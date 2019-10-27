@@ -12,6 +12,6 @@ package com.dx.base.security.excption;
 public class CaptchaExpireException extends RuntimeException {
 
     public CaptchaExpireException() {
-        super("user.jcaptcha.expire", null);
+        super("验证码过期", null);
     }
 }

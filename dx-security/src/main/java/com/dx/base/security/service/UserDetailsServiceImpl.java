@@ -1,5 +1,6 @@
 package com.dx.base.security.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dx.base.security.bean.LoginUser;
 import com.dx.base.security.bean.SysUser;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        SysUser sysUser = userService.getByName(username);
+        LambdaQueryWrapper<SysUser> sysUserQueryWrapper = new LambdaQueryWrapper<>();
+        sysUserQueryWrapper.eq(SysUser::getUserName,username);
+
+        SysUser sysUser = userService.getOne(sysUserQueryWrapper);
 
         if (sysUser == null) {
             log.info("登录用户：{} 不存在.", username);

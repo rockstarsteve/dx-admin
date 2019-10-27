@@ -1,6 +1,6 @@
 package com.dx.base.security.handler;
 
-import com.dx.base.security.bean.R;
+import com.dx.base.common.bean.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

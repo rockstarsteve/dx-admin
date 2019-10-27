@@ -12,6 +12,6 @@ package com.dx.base.security.excption;
 public class UserPasswordNotMatchException extends RuntimeException {
 
     public UserPasswordNotMatchException() {
-        super("user.password.not.match", null);
+        super("用户名密码错误", null);
     }
 }
