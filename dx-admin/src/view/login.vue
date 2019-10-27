@@ -2,7 +2,7 @@
   <div class="load_wapper">
     <el-form class="form_wapper" size="mini" :model="formModel">
       <el-form-item label="用户名:">
-        <el-input v-model="formModel.user"></el-input>
+        <el-input v-model="formModel.username"></el-input>
       </el-form-item>
       <el-form-item label="密码:">
         <el-input v-model="formModel.password"></el-input>
@@ -10,9 +10,7 @@
       <el-form-item align="center">
         <el-button @click="loadBtn" type="primary" plain> 登录</el-button>
       </el-form-item>
-      <span>管理者：admin,密码：1</span>
-      <br />
-      <span>普通用户：user,密码：1</span>
+      <span>登录用户：admin,密码：1</span>
     </el-form>
   </div>
 </template>
@@ -24,8 +22,8 @@
     data() {
       return {
         formModel: {
-          user: 'admin',
-          password: '1'
+          username: 'tom',
+          password: '123456'
         }
       }
     },
