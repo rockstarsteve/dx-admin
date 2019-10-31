@@ -19,8 +19,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class R<T> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Getter
     @Setter
     private int code;
@@ -29,48 +27,47 @@ public class R<T> implements Serializable {
     @Setter
     private String msg;
 
-
     @Getter
     @Setter
     private T data;
 
     public static <T> R<T> ok() {
-        return restResult(null, 200, "ok");
+        return restResult(200, "ok", null);
     }
 
     public static <T> R<T> ok(T data) {
-        return restResult(data, 200, "ok");
+        return restResult(200, "ok", data);
     }
 
-    public static <T> R<T> ok(T data, String msg) {
-        return restResult(data, 200, msg);
+    public static <T> R<T> ok(String msg, T data) {
+        return restResult(200, msg, data);
     }
 
-    public static <T> R<T> ok(int code,T data, String msg) {
-        return restResult(data, code, msg);
+    public static <T> R<T> ok(int code, String msg, T data) {
+        return restResult(code, msg, data);
     }
 
     public static <T> R<T> error() {
-        return restResult(null, 500, "failed");
+        return restResult(500, "error", null);
     }
 
     public static <T> R<T> error(String msg) {
-        return restResult(null, 500, msg);
+        return restResult(500, msg, null);
     }
 
     public static <T> R<T> error(T data) {
-        return restResult(data, 500, "failed");
+        return restResult(500, "error", data);
     }
 
-    public static <T> R<T> error(T data, String msg) {
-        return restResult(data, 500, msg);
+    public static <T> R<T> error(String msg, T data) {
+        return restResult(500, msg, data);
     }
 
-    public static <T> R<T> error(int code,T data, String msg) {
-        return restResult(data, code, msg);
+    public static <T> R<T> error(int code, String msg, T data) {
+        return restResult(code, msg, data);
     }
 
-    private static <T> R<T> restResult(T data, int code, String msg) {
+    private static <T> R<T> restResult(int code, String msg, T data) {
         R<T> apiResult = new R<T>();
         apiResult.setCode(code);
         apiResult.setData(data);

@@ -197,7 +197,7 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         log.error("错误码： " + code + "错误信息" + ex.getMessage());
         //记录错误码给后台排错用，前后端对接只用500来表示
-        return R.error(500, ex.getMessage());
+        return R.error(500, ex.getMessage().toString(),ex.getMessage());
     }
 
 }
