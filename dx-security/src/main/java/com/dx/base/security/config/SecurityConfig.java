@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/captchaImage").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
+                        //允许匿名访问图标
+                        "/favicon.ico",
                         "/*.html",
                         "/**/*.html",
                         "/**/*.css",

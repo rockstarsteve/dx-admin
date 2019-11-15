@@ -17,7 +17,15 @@ spring:
       initial-size: 1
       max-active: 10
       min-idle: 1
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB    # 上传文件总的最大值
+      max-request-size: 10MB # 单个文件的最大值
 
+
+filer:
+  path: E:/file_upload/
 
 
 #mybatis
@@ -60,3 +68,8 @@ token:
   secret: 123
   # 令牌有效期（默认30分钟）
   expireTime: 30
+
+
+
+
+

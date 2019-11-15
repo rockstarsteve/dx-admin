@@ -16,9 +16,7 @@
 </template>
 <script>
   export default {
-    components: {
-
-    },
+    components: {},
     data() {
       return {
         formModel: {
