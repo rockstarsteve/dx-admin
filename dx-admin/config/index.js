@@ -10,7 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxy: {
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.VUE_APP_BASE_API]: {
+        target: `http://localhost:8080`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -19,6 +28,9 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+
+    VUE_APP_BASE_API: "/dev-api",
+
 
 
     /**

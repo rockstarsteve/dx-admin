@@ -1,178 +1,212 @@
 <template>
-  <div class="site-wrapper site-page--login">
-    <div class="site-content__wrapper">
-      <div class="site-content">
-        <div class="brand-info">
-          <h2 class="brand-info__text">dx-后台支撑系统</h2>
-          <p class="brand-info__intro">dx-后台支撑系前端统基于vue、element-ui构建开发，实现dx-server后台管理前端功能，其中绝大部分借鉴了vue-element-admin项目中的列子。</p>
+  <div class="login">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+      <h3 class="title">支撑平台</h3>
+      <el-form-item prop="username">
+        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
+<!--          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>-->
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="loginForm.password"
+          type="password"
+          auto-complete="off"
+          placeholder="密码"
+          @keyup.enter.native="handleLogin"
+        >
+<!--          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="code">
+        <el-input
+          v-model="loginForm.code"
+          auto-complete="off"
+          placeholder="验证码"
+          style="width: 63%"
+          @keyup.enter.native="handleLogin"
+        >
+<!--          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>-->
+        </el-input>
+        <div class="login-code">
+          <img :src="codeUrl" @click="getCode"/>
         </div>
-        <div class="login-main">
-          <h3 class="login-title">管理员登录</h3>
-          <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" status-icon>
-            <el-form-item prop="userName">
-              <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
-            </el-form-item>
-            <el-form-item prop="captcha">
-              <el-row :gutter="20">
-                <el-col :span="14">
-                  <el-input v-model="dataForm.captcha" placeholder="验证码">
-                  </el-input>
-                </el-col>
-                <el-col :span="10" class="login-captcha">
-                  <img :src="captchaPath" @click="getCaptcha()" alt="">
-                </el-col>
-              </el-row>
-            </el-form-item>
-            <el-form-item>
-              <el-button class="login-btn-submit" type="primary" @click="dataFormSubmit()">登录</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
+      </el-form-item>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-form-item style="width:100%;">
+        <el-button
+          :loading="loading"
+          size="medium"
+          type="primary"
+          style="width:100%;"
+          @click.native.prevent="handleLogin"
+        >
+          <span v-if="!loading">登 录</span>
+          <span v-else>登 录 中...</span>
+        </el-button>
+      </el-form-item>
+    </el-form>
+    <!--  底部  -->
+    <div class="el-login-footer">
+      <span>Copyright © 2018-2019 dx All Rights Reserved.</span>
     </div>
   </div>
 </template>
 
 <script>
-  import { getUUID } from '@/utils'
+  import {getCodeImg} from "@/api/login";
+  import Cookies from "js-cookie";
+
   export default {
-    data () {
+    name: "Login",
+    data() {
       return {
-        dataForm: {
-          userName: '',
-          password: '',
-          uuid: '',
-          captcha: ''
+        codeUrl: "",
+        cookiePassword: "",
+        loginForm: {
+          username: "admin",
+          password: "admin123",
+          rememberMe: false,
+          code: "",
+          uuid: ""
         },
-        dataRule: {
-          userName: [
-            { required: true, message: '帐号不能为空', trigger: 'blur' }
+        loginRules: {
+          username: [
+            {required: true, trigger: "blur", message: "用户名不能为空"}
           ],
           password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
+            {required: true, trigger: "blur", message: "密码不能为空"}
           ],
-          captcha: [
-            { required: true, message: '验证码不能为空', trigger: 'blur' }
-          ]
+          code: [{required: true, trigger: "change", message: "验证码不能为空"}]
         },
-        captchaPath: ''
+        loading: false,
+        redirect: undefined
+      };
+    },
+    watch: {
+      $route: {
+        handler: function (route) {
+          this.redirect = route.query && route.query.redirect;
+        },
+        immediate: true
       }
     },
-    created () {
-      this.getCaptcha()
+    created() {
+      this.getCode();
+      this.getCookie();
     },
     methods: {
-      // 提交表单
-      dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl('/sys/login'),
-              method: 'post',
-              data: this.$http.adornData({
-                'username': this.dataForm.userName,
-                'password': this.dataForm.password,
-                'uuid': this.dataForm.uuid,
-                'captcha': this.dataForm.captcha
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$cookie.set('token', data.token)
-                this.$router.replace({ name: 'home' })
-              } else {
-                this.getCaptcha()
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
+      getCode() {
+        getCodeImg().then(res => {
+          this.codeUrl = "data:image/gif;base64," + res.data.img;
+          this.loginForm.uuid = res.data.uuid;
+        });
       },
-      // 获取验证码
-      getCaptcha () {
-        this.dataForm.uuid = getUUID()
-        this.captchaPath = this.$http.adornUrl(`/captcha.jpg?uuid=${this.dataForm.uuid}`)
+      getCookie() {
+        const username = Cookies.get("username");
+        const password = Cookies.get("password");
+        const rememberMe = Cookies.get('rememberMe')
+        this.loginForm = {
+          username: username === undefined ? this.loginForm.username : username,
+          password: password === undefined ? this.loginForm.password : password,
+          rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+        };
+      },
+      handleLogin() {
+        this.$refs.loginForm.validate(valid => {
+          console.info(valid)
+          if (valid) {
+            this.loading = true;
+            if (this.loginForm.rememberMe) {
+              Cookies.set("username", this.loginForm.username, {expires: 30});
+              Cookies.set("password", this.loginForm.password, {expires: 30});
+              Cookies.set('rememberMe', this.loginForm.rememberMe, {expires: 30});
+            } else {
+              Cookies.remove("username");
+              Cookies.remove("password");
+              Cookies.remove('rememberMe');
+            }
+            this.$store
+              .dispatch("Login", this.loginForm)
+              .then(() => {
+                this.loading = false;
+                this.$router.push({path: this.redirect || "/"});
+              })
+              .catch(() => {
+                this.loading = false;
+                this.getCode();
+              });
+          }
+        });
       }
     }
-  }
+  };
 </script>
 
-<style lang="scss">
-  .site-wrapper.site-page--login {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(38, 50, 56, .6);
-    overflow: hidden;
-    &:before {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      content: "";
-      background-image: url(~@/assets/img/login_bg.jpg);
-      background-size: cover;
-    }
-    .site-content__wrapper {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      padding: 0;
-      margin: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
-      background-color: transparent;
-    }
-    .site-content {
-      min-height: 100%;
-      padding: 30px 500px 30px 30px;
-    }
-    .brand-info {
-      margin: 220px 100px 0 90px;
-      color: #fff;
-    }
-    .brand-info__text {
-      margin:  0 0 22px 0;
-      font-size: 48px;
-      font-weight: 400;
-      text-transform : uppercase;
-    }
-    .brand-info__intro {
-      margin: 10px 0;
-      font-size: 16px;
-      line-height: 1.58;
-      opacity: .6;
-    }
-    .login-main {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 150px 60px 180px;
-      width: 470px;
-      min-height: 100%;
-      background-color: #fff;
-    }
-    .login-title {
-      font-size: 16px;
-    }
-    .login-captcha {
-      overflow: hidden;
-      > img {
-        width: 100%;
-        cursor: pointer;
+<style rel="stylesheet/scss" lang="scss">
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-image: url("../../assets/image/login-background.jpg");
+    background-size: cover;
+  }
+
+  .title {
+    margin: 0px auto 30px auto;
+    text-align: center;
+    color: #707070;
+  }
+
+  .login-form {
+    border-radius: 6px;
+    background: #ffffff;
+    width: 400px;
+    padding: 25px 25px 5px 25px;
+
+    .el-input {
+      height: 38px;
+
+      input {
+        height: 38px;
       }
     }
-    .login-btn-submit {
-      width: 100%;
-      margin-top: 38px;
+
+    .input-icon {
+      height: 39px;
+      width: 14px;
+      margin-left: 2px;
     }
+  }
+
+  .login-tip {
+    font-size: 13px;
+    text-align: center;
+    color: #bfbfbf;
+  }
+
+  .login-code {
+    width: 33%;
+    height: 38px;
+    float: right;
+
+    img {
+      cursor: pointer;
+      vertical-align: middle;
+    }
+  }
+
+  .el-login-footer {
+    height: 40px;
+    line-height: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-family: Arial;
+    font-size: 12px;
+    letter-spacing: 1px;
   }
 </style>

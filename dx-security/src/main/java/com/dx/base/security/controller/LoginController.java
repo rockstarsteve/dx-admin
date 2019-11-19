@@ -2,15 +2,19 @@ package com.dx.base.security.controller;
 
 import com.dx.base.common.bean.Constants;
 import com.dx.base.common.bean.R;
-import com.dx.base.security.bean.*;
+import com.dx.base.security.bean.LoginUser;
+import com.dx.base.security.bean.RouterVo;
+import com.dx.base.security.bean.SysMenu;
+import com.dx.base.security.bean.SysUser;
 import com.dx.base.security.service.CaptchaCacheService;
 import com.dx.base.security.service.SysLoginService;
 import com.dx.base.security.service.SysMenuService;
 import com.dx.base.security.service.TokenServiceImpl;
+import com.dx.base.security.util.Base64Utile;
 import com.dx.base.security.util.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,12 +107,14 @@ public class LoginController {
      * 生成验证码
      */
     @GetMapping("/captchaImage")
-    public R getCode(HttpServletResponse response) throws IOException {
+    public R getCode(HttpServletResponse response,String uuid) throws IOException {
         // 生成随机字串
         String verifyCode = VerifyCodeUtils.generateVerifyCode(4);
         log.info("verifyCode:   " + verifyCode);
         // 唯一标识
-        String uuid = getUuid();
+        if(StringUtils.isEmpty(uuid)){
+            uuid = getUuid();
+        }
         log.info("uuid:   " + uuid);
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
 
@@ -122,7 +128,7 @@ public class LoginController {
             Map<String, Object> map = new HashMap<>();
             map.put("uuid", uuid);
             //map.put("img", new sun.misc.BASE64Encoder().encode(stream.toByteArray()));
-            map.put("img", Base64Utils.encode(stream.toByteArray()));
+            map.put("img", Base64Utile.encode(stream.toByteArray()));
             return R.ok(map);
         } catch (Exception e) {
             e.printStackTrace();
