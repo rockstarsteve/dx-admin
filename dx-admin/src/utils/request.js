@@ -30,7 +30,7 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-  console.log(res)
+  // console.log(res)
     const code = res.data.code
     if (code === 401) {
       MessageBox.confirm(
@@ -56,7 +56,7 @@ service.interceptors.response.use(res => {
     }
   },
   error => {
-    console.log('err' + error)
+    // console.log('err' + error)
     Message({
       message: error.message,
       type: 'error',

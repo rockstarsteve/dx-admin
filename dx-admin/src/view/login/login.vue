@@ -4,7 +4,7 @@
       <h3 class="title">支撑平台</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-<!--          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>-->
+          <!--          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon"/>-->
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -15,7 +15,7 @@
           placeholder="密码"
           @keyup.enter.native="handleLogin"
         >
-<!--          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
+          <!--          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon"/>-->
         </el-input>
       </el-form-item>
       <el-form-item prop="code">
@@ -26,7 +26,7 @@
           style="width: 63%"
           @keyup.enter.native="handleLogin"
         >
-<!--          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>-->
+          <!--          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon"/>-->
         </el-input>
         <div class="login-code">
           <img :src="codeUrl" @click="getCode"/>
@@ -114,7 +114,6 @@
       },
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
-          console.info(valid)
           if (valid) {
             this.loading = true;
             if (this.loginForm.rememberMe) {
@@ -129,8 +128,15 @@
             this.$store
               .dispatch("Login", this.loginForm)
               .then(() => {
+
                 this.loading = false;
-                this.$router.push({path: this.redirect || "/"});
+
+
+                console.log("登录成功了！！")
+                //TODO 跳转首页
+                //this.$router.push({path: this.redirect || "/"});
+
+
               })
               .catch(() => {
                 this.loading = false;
