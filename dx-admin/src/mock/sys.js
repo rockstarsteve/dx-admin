@@ -11,6 +11,12 @@ Mock.mock("/api/captchaImage", {
     }
 })
 
+Mock.mock("/api/login", {
+  "code":200,
+  "msg":"ok",
+  "data":"this is token data"
+})
+
 export default {
 
 }
