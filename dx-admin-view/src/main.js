@@ -5,6 +5,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import mock from './mock'
+import './assets/icons' // icon
 
 //TODO 不知道，查一下
 Vue.config.productionTip = false
