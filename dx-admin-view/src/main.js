@@ -6,11 +6,14 @@ import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import mock from './mock'
 import './assets/icons' // icon
+import '@/router/permission' //
+
 
 //TODO 不知道，查一下
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
+// Vue.use(permission)
 
 new Vue({
   el: '#app',
