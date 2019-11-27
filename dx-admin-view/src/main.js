@@ -7,6 +7,9 @@ import store from './store'
 import mock from './mock'
 import './assets/icons' // icon
 import '@/router/loginIntercept' //
+import 'normalize.css/normalize.css'
+import '@/assets/styles/index.scss' // global css
+
 
 
 //TODO 不知道，查一下
