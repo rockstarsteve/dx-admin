@@ -14,8 +14,91 @@ Mock.mock("/api/captchaImage", {
 Mock.mock(RegExp("/api/login" + ".*"), {
   "code":200,
   "msg":"ok",
-  "data":"this is token data"
+  //eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjQ5ODU4NGVjLTcyNjAtNDZlNi04NTMzLWNlOGFmZTEzOTcxNCJ9.2KUlT0oWBZ-zANC0cAKk7tj41VS6bmERDc9YvCVU3a0Or8pkPWRl3nndJuHQcnEsBTDYFOi7-I3JXJjKr8cgbA
+  "data":"this_is_token_data_string"
 })
+
+Mock.mock(RegExp("/api/getInfo" + ".*"), {
+    "code":200,
+    "msg":"ok",
+    "data": {
+        "permissions": [
+            "*:*:*"
+        ],
+        "roles": [
+            "admin"
+        ],
+        "user": {
+            "searchValue": null,
+            "createBy": "admin",
+            "createTime": "2018-03-16 03:33:00",
+            "updateBy": null,
+            "updateTime": null,
+            "remark": "管理员",
+            "dataScope": null,
+            "userId": 1,
+            "deptId": 103,
+            "userName": "admin",
+            "nickName": "若依",
+            "email": "ry@163.com",
+            "phonenumber": "15888888888",
+            "sex": "1",
+            "avatar": "",
+            "password": "$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2",
+            "salt": null,
+            "status": "0",
+            "delFlag": "0",
+            "loginIp": "127.0.0.1",
+            "loginDate": "2018-03-16T03:33:00.000+0000",
+            "dept": {
+                "searchValue": null,
+                "createBy": null,
+                "createTime": null,
+                "updateBy": null,
+                "updateTime": null,
+                "remark": null,
+                "dataScope": null,
+                "deptId": 103,
+                "parentId": 101,
+                "ancestors": null,
+                "deptName": "研发部门",
+                "orderNum": "1",
+                "leader": "若依",
+                "phone": null,
+                "email": null,
+                "status": "0",
+                "delFlag": null,
+                "parentName": null,
+                "children": []
+            },
+            "roles": [
+                {
+                    "searchValue": null,
+                    "createBy": null,
+                    "createTime": null,
+                    "updateBy": null,
+                    "updateTime": null,
+                    "remark": null,
+                    "dataScope": "1",
+                    "roleId": 1,
+                    "roleName": "管理员",
+                    "roleKey": "admin",
+                    "roleSort": "1",
+                    "status": "0",
+                    "delFlag": null,
+                    "flag": false,
+                    "menuIds": null,
+                    "deptIds": null,
+                    "admin": true
+                }
+            ],
+            "roleIds": null,
+            "postIds": null,
+            "admin": true
+        }
+    }
+})
+
 
 export default {
 

@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'
 import mock from './mock'
 import './assets/icons' // icon
-import '@/router/permission' //
+import '@/router/loginIntercept' //
 
 
 //TODO 不知道，查一下

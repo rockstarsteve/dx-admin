@@ -5,6 +5,9 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import {getToken} from '@/utils/auth'
 
+/**
+ * 登录拦截
+ */
 //不进行拦截的url
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 
@@ -24,14 +27,25 @@ router.beforeEach((to, from, next) => {
     //     let token = localStorage.getItem('token')
     //     token ? next() : next('/login')
     // }
-    console.log("to.path      :          " + to.path);
+    console.log("路由守卫拦截  to.path      :          " + to.path);
+    console.info("getToken()的值是  :  " + getToken())
     NProgress.start()
+    //判断是否登录
     if (getToken()) {
         /* has token*/
+        console.log("判断用户的路径")
+        // 1. 判断是不是登录页面
         if (to.path === '/login') {
+            console.log("进入token判断的if中。。。。。")
             next({path: '/'})
             NProgress.done()
         } else {
+            // 2. 判断是不是登录页面
+            console.log("进入token判断的else中。。。。。");
+            console.info("store : " +store)
+            console.info("store.getters : " + store.getters)
+            console.info("store.getters.roles : " + store.getters.roles)
+
             if (store.getters.roles.length === 0) {
                 // 判断当前用户是否已拉取完user_info信息
                 store.dispatch('GetInfo').then(res => {
@@ -63,6 +77,7 @@ router.beforeEach((to, from, next) => {
             }
         }
     } else {
+        console.log("没有登录。。。")
         // 没有token
         if (whiteList.indexOf(to.path) !== -1) {
             // 在免登录白名单，直接进入
@@ -73,7 +88,6 @@ router.beforeEach((to, from, next) => {
         }
     }
 })
-
 
 
 router.afterEach(() => {

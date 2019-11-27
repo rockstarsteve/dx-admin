@@ -128,15 +128,10 @@
                         this.$store
                             .dispatch("Login", this.loginForm)
                             .then(() => {
-
                                 this.loading = false;
-
-
-                                console.log("登录成功了！！")
+                                console.log("登录成功，跳转首页！！")
                                 //TODO 跳转首页
-                                //this.$router.push({path: this.redirect || "/"});
-
-
+                                this.$router.push({path: this.redirect || "/"});
                             })
                             .catch(() => {
                                 this.loading = false;

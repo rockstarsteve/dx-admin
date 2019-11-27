@@ -8,10 +8,10 @@ Vue.use(Router);
 
 const router = new Router({
     // mode: 'history',   // 去除路由中的 # 号
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: () => ({y: 0}),
     routes: [
         {
-            path: '',
+            path: '/',
             component: Layout,
             redirect: 'index',
             children: [
