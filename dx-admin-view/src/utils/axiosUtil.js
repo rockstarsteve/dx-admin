@@ -1,35 +1,55 @@
+/**
+ * axios工具类
+ */
 import axios from 'axios'
 import {Notification, MessageBox} from 'element-ui'
 import store from '@/store'
-import {getToken} from '@/utils/auth'
+import cookieTokenUtil from '@/utils/cookieTokenUtil'
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
-// 创建axios实例
+
+/**
+ * 请求时候设置请求头的内容
+ * @type {string}
+ */
+axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
+
+
+/**
+ * 创建axios实例
+ * @type {AxiosInstance}
+ */
 const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
-    //TODO 要修改为可配置的
     baseURL: process.env.VUE_APP_BASE_API,
     //baseURL: "http://localhost:8085" + "/api",
-    // 超时
-    timeout: 10000
+    // 超时时间
+    timeout: 3000
 })
-// request拦截器
+
+
+
+/**
+ * request拦截器
+ */
 service.interceptors.request.use(config => {
-        if (getToken()) {
-            config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+        if (cookieTokenUtil.getToken()) {
+            config.headers['Authorization'] = 'Bearer ' + cookieTokenUtil.getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
         }
         console.log("请求路径是： ==> ", config.url)
         return config
     },
     error => {
-        console.log(error)
+        console.log("请求错误，错误信息是 ： ==> " + error)
         Promise.reject(error)
     }
 )
 
-// 响应拦截器
+
+
+/**
+ * 响应拦截器
+ */
 service.interceptors.response.use(res => {
-        console.log(res)
         const code = res.data.code
         if (code === 401) {
             MessageBox.confirm(
@@ -55,7 +75,7 @@ service.interceptors.response.use(res => {
         }
     },
     error => {
-        // console.log('err' + error)
+        console.log("响应错误，错误信息是 ： ==> " + error)
         Message({
             message: error.message,
             type: 'error',
@@ -64,5 +84,9 @@ service.interceptors.response.use(res => {
         return Promise.reject(error)
     }
 )
+
+
+
+
 
 export default service

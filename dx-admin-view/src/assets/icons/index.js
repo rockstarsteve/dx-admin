@@ -1,3 +1,7 @@
+/**
+ * icon自定义svg图标
+ */
+
 import Vue from 'vue'
 import SvgIcon from '@/components/SvgIcon'// svg component
 

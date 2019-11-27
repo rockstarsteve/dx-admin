@@ -1,5 +1,4 @@
-// 'use strict'
-
+ 'use strict'
 
 const path = require('path')
 function resolve(dir) {
@@ -12,9 +11,8 @@ module.exports = {
     devServer: {
         port: 8086
     },
-
+    //svg config 配置 : svg-sprite-loader
     chainWebpack(config) {
-    // set svg-sprite-loader
         config.module
             .rule('svg')
             .exclude.add(resolve('src/assets/icons'))

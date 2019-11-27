@@ -1,6 +1,15 @@
+/**
+ * 系统登陆的模拟
+ */
+
+
 import Mock from "mockjs";
 
 
+/**
+ * 随机获取验证码
+ * @returns {{msg: string, code: number, data: {img: string, uuid: string}}}
+ */
 function getCapRadmon() {
     let ramdom = Math.random() >= 0.5
     console.log(ramdom)

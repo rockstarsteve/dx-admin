@@ -1,3 +1,7 @@
+/**
+ * 全局路由控制器
+ */
+
 import Vue from 'vue';
 import Router from 'vue-router';
 import Layout from '@/layout'

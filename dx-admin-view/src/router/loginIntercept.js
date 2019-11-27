@@ -1,13 +1,15 @@
+/**
+ * 路由的：登录拦截
+ */
+
 import router from '@/router'
 import store from '@/store'
 import {Message} from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import {getToken} from '@/utils/auth'
+import cookieTokenUtil from '@/utils/cookieTokenUtil'
 
-/**
- * 登录拦截
- */
+
 //不进行拦截的url
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 
@@ -28,10 +30,10 @@ router.beforeEach((to, from, next) => {
     //     token ? next() : next('/login')
     // }
     console.log("路由守卫拦截  to.path      :          " + to.path);
-    console.info("getToken()的值是  :  " + getToken())
+    console.info("cookieTokenUtil.getToken()的值是  :  " + cookieTokenUtil.getToken())
     NProgress.start()
     //判断是否登录
-    if (getToken()) {
+    if (cookieTokenUtil.getToken()) {
         /* has token*/
         console.log("判断用户的路径")
         // 1. 判断是不是登录页面
@@ -42,7 +44,7 @@ router.beforeEach((to, from, next) => {
         } else {
             // 2. 判断是不是登录页面
             console.log("进入token判断的else中。。。。。");
-            console.info("store : " +store)
+            console.info("store : " + store)
             console.info("store.getters : " + store.getters)
             console.info("store.getters.roles : " + store.getters.roles)
 

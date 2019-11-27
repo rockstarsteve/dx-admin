@@ -54,7 +54,7 @@
 </template>
 
 <script>
-    import {getCodeImg} from "@/api/login";
+    import loginApi from "@/api/loginApi";
     import Cookies from "js-cookie";
 
     export default {
@@ -97,7 +97,7 @@
         },
         methods: {
             getCode() {
-                getCodeImg().then(res => {
+                loginApi.getCodeImg().then(res => {
                     this.codeUrl = "data:image/gif;base64," + res.data.img;
                     this.loginForm.uuid = res.data.uuid;
                 });

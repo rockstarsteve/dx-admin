@@ -1,5 +1,5 @@
 <template>
-    <div>index layout vue</div>
+    <div>管理页面</div>
 </template>
 
 <script>

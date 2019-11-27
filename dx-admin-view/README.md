@@ -35,7 +35,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     - 路由拦截、
     - http拦截
 
-
+## 关于前端的疑惑
+- es6语法的导出，如果要导出的工具类中有多个方法，是单个方法导出好，还是整体导出好（性能不要有太大差别想选择整体导出）
+    
 
 
 
