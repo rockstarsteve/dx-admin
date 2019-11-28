@@ -57,7 +57,7 @@ public class LoginController {
      * @param password 密码
      * @return
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Object login(String username, String password, String code, String uuid) {
 
         // 生成令牌

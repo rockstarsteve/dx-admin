@@ -21,7 +21,6 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
 const service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
     baseURL: process.env.VUE_APP_BASE_API,
-    //baseURL: "http://localhost:8085" + "/api",
     // 超时时间
     timeout: 3000
 })
@@ -50,28 +49,35 @@ service.interceptors.request.use(config => {
  * 响应拦截器
  */
 service.interceptors.response.use(res => {
-        const code = res.data.code
-        if (code === 401) {
-            MessageBox.confirm(
-                '登录状态已过期，您可以继续留在该页面，或者重新登录',
-                '系统提示',
-                {
-                    confirmButtonText: '重新登录',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }
-            ).then(() => {
-                store.dispatch('LogOut').then(() => {
-                    location.reload() // 为了重新实例化vue-router对象 避免bug
-                })
-            })
-        } else if (code !== 200) {
+        console.log("响应状态码 res.status  ：" + res.status)
+        if (res.status != 200){
             Notification.error({
-                title: res.data.msg
+                title: '服务器内部错误'
             })
-            return Promise.reject('error')
         } else {
-            return res.data
+            const code = res.data.code
+            if (code === 401) {
+                MessageBox.confirm(
+                    '登录状态已过期，您可以继续留在该页面，或者重新登录',
+                    '系统提示',
+                    {
+                        confirmButtonText: '重新登录',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }
+                ).then(() => {
+                    store.dispatch('LogOut').then(() => {
+                        location.reload() // 为了重新实例化vue-router对象 避免bug
+                    })
+                })
+            } else if (code !== 200) {
+                Notification.error({
+                    title: res.data.msg
+                })
+                return Promise.reject('error')
+            } else {
+                return res.data
+            }
         }
     },
     error => {

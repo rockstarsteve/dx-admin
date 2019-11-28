@@ -1,7 +1,6 @@
 /**
  * 路由的：登录拦截
  */
-
 import router from '@/router'
 import store from '@/store'
 import {Message} from 'element-ui'
@@ -19,23 +18,12 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register']
 // 参数2 : from 来源路由对象
 // 参数3 : next() 下一步
 router.beforeEach((to, from, next) => {
-    // 1. 判断是不是登录页面
-    // 是登录页面
-    // if(to.path === '/login') {
-    //     next()
-    // } else {
-    //     // 不是登录页面
-    //     // 2. 判断 是否登录过
-    //     let token = localStorage.getItem('token')
-    //     token ? next() : next('/login')
-    // }
     console.log("路由守卫拦截  to.path      :          " + to.path);
     console.info("cookieTokenUtil.getToken()的值是  :  " + cookieTokenUtil.getToken())
     NProgress.start()
     //判断是否登录
     if (cookieTokenUtil.getToken()) {
         /* has token*/
-        console.log("判断用户的路径")
         // 1. 判断是不是登录页面
         if (to.path === '/login') {
             console.log("进入token判断的if中。。。。。")
@@ -44,10 +32,6 @@ router.beforeEach((to, from, next) => {
         } else {
             // 2. 判断是不是登录页面
             console.log("进入token判断的else中。。。。。");
-            console.info("store : " + store)
-            console.info("store.getters : " + store.getters)
-            console.info("store.getters.roles : " + store.getters.roles)
-
             if (store.getters.roles.length === 0) {
                 // 判断当前用户是否已拉取完user_info信息
                 store.dispatch('GetInfo').then(res => {
@@ -69,14 +53,7 @@ router.beforeEach((to, from, next) => {
                         })
                     })
             } else {
-                next()
-                // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
-                // if (hasPermission(store.getters.roles, to.meta.roles)) {
-                //   next()
-                // } else {
-                //   next({ path: '/401', replace: true, query: { noGoBack: true }})
-                // }
-                // 可删 ↑
+                next();
             }
         }
     } else {
@@ -91,7 +68,6 @@ router.beforeEach((to, from, next) => {
         }
     }
 })
-
 
 router.afterEach(() => {
     NProgress.done()

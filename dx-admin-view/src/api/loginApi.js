@@ -27,7 +27,7 @@ export default {
      * @returns {Promise<AxiosResponse<T>>}
      */
     getInfo() {
-        return axios.get('/getInfo');
+        return axios.post('/getInfo');
     },
 
     /**

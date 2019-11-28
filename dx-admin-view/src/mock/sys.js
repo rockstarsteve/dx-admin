@@ -1,11 +1,13 @@
 /**
  * 系统登陆的模拟
+ * 注意：路径上面带上'/mockApi'方便调试的时候直接看到
  */
-
-
 import Mock from "mockjs";
 
-
+/**
+ * 获取验证码
+ */
+Mock.mock("/mockApi/captchaImage",getCapRadmon());
 /**
  * 随机获取验证码
  * @returns {{msg: string, code: number, data: {img: string, uuid: string}}}
@@ -36,25 +38,53 @@ function getCapRadmon() {
     }
 }
 
-/**
- * 获取验证码
- */
-Mock.mock("/api/captchaImage",getCapRadmon());
 
 /**
  * 登录
  */
-Mock.mock(RegExp("/api/login" + ".*"), {
-    "code": 200,
-    "msg": "ok",
-    //eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjQ5ODU4NGVjLTcyNjAtNDZlNi04NTMzLWNlOGFmZTEzOTcxNCJ9.2KUlT0oWBZ-zANC0cAKk7tj41VS6bmERDc9YvCVU3a0Or8pkPWRl3nndJuHQcnEsBTDYFOi7-I3JXJjKr8cgbA
-    "data": "this_is_token_data_string"
-})
+Mock.mock(RegExp("/mockApi/login" + ".*"), loginSuccess)
+
+/**
+ * 登录成功
+ * @returns {{msg: string, code: number, data: string}}
+ */
+function loginSuccess(){
+    return {
+        "code": 200,
+        "msg": "ok",
+        "data": "this_is_token_data_string"
+    }
+}
+
+/**
+ * 登录失败：验证码错误，过期
+ * @returns {{msg: string, code: number, data: string}}
+ */
+function loginFail1(){
+    return {
+        "code": 500,
+        "msg": "验证码错误",
+        "data": "验证码错误"
+    }
+}
+
+/**
+ * 登录失败：用户名密码错误
+ * @returns {{msg: string, code: number, data: string}}
+ */
+function loginFail2(){
+    return {
+        "code": 500,
+        "msg": "用户名密码错误",
+        "data": "用户名密码错误"
+    }
+}
+
 
 /**
  * 获取用户信息
  */
-Mock.mock(RegExp("/api/getInfo" + ".*"), {
+Mock.mock(RegExp("/mockApi/getInfo" + ".*"), {
     "code": 200,
     "msg": "ok",
     "data": {
@@ -67,7 +97,7 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
         "user": {
             "searchValue": null,
             "createBy": "admin",
-            "createTime": "2018-03-16 03:33:00",
+            "createTime": "2019-11-28 14:29:00",
             "updateBy": null,
             "updateTime": null,
             "remark": "管理员",
@@ -75,8 +105,8 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
             "userId": 1,
             "deptId": 103,
             "userName": "admin",
-            "nickName": "若依",
-            "email": "ry@163.com",
+            "nickName": "DX",
+            "email": "670139644@qq.com",
             "phonenumber": "15888888888",
             "sex": "1",
             "avatar": "",
@@ -86,7 +116,7 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
             "delFlag": "0",
             "loginIp": "127.0.0.1",
             "loginDate": "2018-03-16T03:33:00.000+0000",
-            "dept": {
+            /*"dept": {
                 "searchValue": null,
                 "createBy": null,
                 "createTime": null,
@@ -99,7 +129,7 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
                 "ancestors": null,
                 "deptName": "研发部门",
                 "orderNum": "1",
-                "leader": "若依",
+                "leader": "电信",
                 "phone": null,
                 "email": null,
                 "status": "0",
@@ -127,7 +157,7 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
                     "deptIds": null,
                     "admin": true
                 }
-            ],
+            ],*/
             "roleIds": null,
             "postIds": null,
             "admin": true
@@ -140,7 +170,7 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
 /**
  * 获取菜单
  */
-Mock.mock(RegExp("/api/getRouters" + ".*"), {
+Mock.mock(RegExp("/mockApi/getRouters" + ".*"), {
     "code": 200,
     "msg": "ok",
     "data": [
@@ -350,11 +380,11 @@ Mock.mock(RegExp("/api/getRouters" + ".*"), {
             ]
         },
         {
-            "name": "若依官网",
-            "path": "http://ruoyi.vip",
+            "name": "百度",
+            "path": "https://www.baidu.com",
             "component": "Layout",
             "meta": {
-                "title": "若依官网",
+                "title": "百度",
                 "icon": "guide"
             }
         }
