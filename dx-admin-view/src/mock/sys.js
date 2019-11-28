@@ -136,6 +136,231 @@ Mock.mock(RegExp("/api/getInfo" + ".*"), {
 })
 
 
+
+/**
+ * 获取菜单
+ */
+Mock.mock(RegExp("/api/getRouters" + ".*"), {
+    "code": 200,
+    "msg": "ok",
+    "data": [
+        {
+            "name": "系统管理",
+            "path": "/system",
+            "redirect": "noRedirect",
+            "component": "Layout",
+            "alwaysShow": true,
+            "meta": {
+                "title": "系统管理",
+                "icon": "system"
+            },
+            "children": [
+                {
+                    "name": "用户管理",
+                    "path": "user",
+                    "component": "system/user/index",
+                    "meta": {
+                        "title": "用户管理",
+                        "icon": "user"
+                    }
+                },
+                {
+                    "name": "角色管理",
+                    "path": "role",
+                    "component": "system/role/index",
+                    "meta": {
+                        "title": "角色管理",
+                        "icon": "peoples"
+                    }
+                },
+                {
+                    "name": "菜单管理",
+                    "path": "menu",
+                    "component": "system/menu/index",
+                    "meta": {
+                        "title": "菜单管理",
+                        "icon": "tree-table"
+                    }
+                },
+                {
+                    "name": "部门管理",
+                    "path": "dept",
+                    "component": "system/dept/index",
+                    "meta": {
+                        "title": "部门管理",
+                        "icon": "tree"
+                    }
+                },
+                {
+                    "name": "岗位管理",
+                    "path": "post",
+                    "component": "system/post/index",
+                    "meta": {
+                        "title": "岗位管理",
+                        "icon": "post"
+                    }
+                },
+                {
+                    "name": "字典管理",
+                    "path": "dict",
+                    "component": "system/dict/index",
+                    "meta": {
+                        "title": "字典管理",
+                        "icon": "dict"
+                    }
+                },
+                {
+                    "name": "参数设置",
+                    "path": "config",
+                    "component": "system/config/index",
+                    "meta": {
+                        "title": "参数设置",
+                        "icon": "edit"
+                    }
+                },
+                {
+                    "name": "通知公告",
+                    "path": "notice",
+                    "component": "system/notice/index",
+                    "meta": {
+                        "title": "通知公告",
+                        "icon": "message"
+                    }
+                },
+                {
+                    "name": "日志管理",
+                    "path": "log",
+                    "redirect": "noRedirect",
+                    "component": "system/log/index",
+                    "alwaysShow": true,
+                    "meta": {
+                        "title": "日志管理",
+                        "icon": "log"
+                    },
+                    "children": [
+                        {
+                            "name": "操作日志",
+                            "path": "operlog",
+                            "component": "monitor/operlog/index",
+                            "meta": {
+                                "title": "操作日志",
+                                "icon": "form"
+                            }
+                        },
+                        {
+                            "name": "登录日志",
+                            "path": "logininfor",
+                            "component": "monitor/logininfor/index",
+                            "meta": {
+                                "title": "登录日志",
+                                "icon": "logininfor"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "系统监控",
+            "path": "/monitor",
+            "redirect": "noRedirect",
+            "component": "Layout",
+            "alwaysShow": true,
+            "meta": {
+                "title": "系统监控",
+                "icon": "monitor"
+            },
+            "children": [
+                {
+                    "name": "在线用户",
+                    "path": "online",
+                    "component": "monitor/online/index",
+                    "meta": {
+                        "title": "在线用户",
+                        "icon": "online"
+                    }
+                },
+                {
+                    "name": "定时任务",
+                    "path": "job",
+                    "component": "monitor/job/index",
+                    "meta": {
+                        "title": "定时任务",
+                        "icon": "job"
+                    }
+                },
+                {
+                    "name": "数据监控",
+                    "path": "druid",
+                    "component": "monitor/druid/index",
+                    "meta": {
+                        "title": "数据监控",
+                        "icon": "druid"
+                    }
+                },
+                {
+                    "name": "服务监控",
+                    "path": "server",
+                    "component": "monitor/server/index",
+                    "meta": {
+                        "title": "服务监控",
+                        "icon": "server"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "系统工具",
+            "path": "/tool",
+            "redirect": "noRedirect",
+            "component": "Layout",
+            "alwaysShow": true,
+            "meta": {
+                "title": "系统工具",
+                "icon": "tool"
+            },
+            "children": [
+                {
+                    "name": "表单构建",
+                    "path": "build",
+                    "component": "tool/build/index",
+                    "meta": {
+                        "title": "表单构建",
+                        "icon": "build"
+                    }
+                },
+                {
+                    "name": "代码生成",
+                    "path": "server",
+                    "component": "tool/gen/index",
+                    "meta": {
+                        "title": "代码生成",
+                        "icon": "code"
+                    }
+                },
+                {
+                    "name": "系统接口",
+                    "path": "swagger",
+                    "component": "tool/swagger/index",
+                    "meta": {
+                        "title": "系统接口",
+                        "icon": "swagger"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "若依官网",
+            "path": "http://ruoyi.vip",
+            "component": "Layout",
+            "meta": {
+                "title": "若依官网",
+                "icon": "guide"
+            }
+        }
+    ]
+})
+
 export default {}
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div>index vue</div>
+    <div>view下的首页</div>
 </template>
 
 <script>

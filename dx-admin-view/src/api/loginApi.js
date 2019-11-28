@@ -44,7 +44,18 @@ export default {
      */
     getCodeImg() {
         return axios.get('/captchaImage',)
+    },
+
+    /**
+     * 获取路由
+     * @returns {Promise<AxiosResponse<T>>}
+     */
+    getRouters(){
+        return axios.post("/getRouters");
     }
+
+
+
 
 
 }
