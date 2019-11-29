@@ -56,9 +56,13 @@
 <script>
     import { getCodeImg } from "@/api/user";
     import Cookies from "js-cookie";
+    import { mapState, mapActions } from "vuex";
 
     export default {
         name: "loginIndex",
+        computed: mapState({
+            count: 'user',
+        }),
         data() {
             return {
                 codeUrl: "",
@@ -127,7 +131,7 @@
                         }
                         console.info("验证成功，进行登录。。。")
                         this.$store
-                            .dispatch("login", this.loginForm)
+                            .dispatch("user/login", this.loginForm)
                             .then(() => {
                                 this.loading = false;
                                 console.log("登录成功，跳转页面！！")

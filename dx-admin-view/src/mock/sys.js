@@ -84,7 +84,7 @@ function loginFail2(){
 /**
  * 获取用户信息
  */
-Mock.mock(RegExp("/mockApi/sys/getInfo" + ".*"), {
+Mock.mock(RegExp("/mockApi/sys/info" + ".*"), {
     "code": 200,
     "msg": "ok",
     "data": {

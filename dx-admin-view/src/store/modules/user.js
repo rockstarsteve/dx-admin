@@ -35,7 +35,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             console.info("调用stron里面的回调进行登录了。。。。")
             login({username: username.trim(), password: password, code: code, uuid: uuid}).then(response => {
-                const {token} = response.data
+                const token = response.data
                 commit('SET_TOKEN', token)
                 setToken(token)
                 resolve()
@@ -48,25 +48,18 @@ const actions = {
     // get user info
     getInfo({ commit, state }) {
         return new Promise((resolve, reject) => {
-            getInfo(state.token).then(response => {
-                const { data } = response
-
-                if (!data) {
-                    reject('Verification failed, please Login again.')
+            getInfo(state.token).then(res => {
+                const user = res.data.user
+                const avatar = user.avatar == "" ? require("@/assets/image/profile.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
+                if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+                    commit('SET_ROLES', res.roles)
+                    commit('SET_PERMISSIONS', res.permissions)
+                } else {
+                    commit('SET_ROLES', ['ROLE_DEFAULT'])
                 }
-
-                const { roles, name, avatar, introduction } = data
-
-                // roles must be a non-empty array
-                if (!roles || roles.length <= 0) {
-                    reject('getInfo: roles must be a non-null array!')
-                }
-
-                commit('SET_ROLES', roles)
-                commit('SET_NAME', name)
+                commit('SET_NAME', user.username)
                 commit('SET_AVATAR', avatar)
-                commit('SET_INTRODUCTION', introduction)
-                resolve(data)
+                resolve(res)
             }).catch(error => {
                 reject(error)
             })

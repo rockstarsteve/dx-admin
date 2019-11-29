@@ -26,7 +26,7 @@ Vue.use(Element, {
 })
 
 //阻止启动生产消息
-Vue.config.productionTip = true
+Vue.config.productionTip = false
 
 Vue.use(Element);
 

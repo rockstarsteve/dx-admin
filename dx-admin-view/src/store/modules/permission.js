@@ -2,30 +2,31 @@ import { constantRoutes } from '@/router'
 import Layout from '@/layout/index'
 import { getRouters } from '@/api/menu'
 
-const permission = {
+const state = {
+    routes: [],
+    addRoutes: []
+}
 
-    mutations: {
-        SET_ROUTES: (state, routes) => {
-            state.addRoutes = routes
-            state.routes = constantRoutes.concat(routes)
-        }
-    },
-
-    actions: {
-        // 生成路由
-        GenerateRoutes({commit}) {
-            return new Promise(resolve => {
-                // 向后端请求路由数据
-                getRouters().then(res => {
-                    const accessedRoutes = filterAsyncRouter(res.data)
-                    commit('SET_ROUTES', accessedRoutes)
-                    resolve(accessedRoutes)
-                })
-            })
-        }
+const mutations = {
+    SET_ROUTES: (state, routes) => {
+        state.addRoutes = routes
+        state.routes = constantRoutes.concat(routes)
     }
 }
 
+const actions = {
+    // 生成路由
+    generateRoutes({commit}) {
+        return new Promise(resolve => {
+            // 向后端请求路由数据
+            getRouters().then(res => {
+                const accessedRoutes = filterAsyncRouter(res.data)
+                commit('SET_ROUTES', accessedRoutes)
+                resolve(accessedRoutes)
+            })
+        })
+    }
+}
 
 // 遍历后台传来的路由字符串，转换为组件对象
 function filterAsyncRouter(asyncRouterMap) {
@@ -44,9 +45,13 @@ function filterAsyncRouter(asyncRouterMap) {
         return true
     })
 }
-
 function loadView(view) { // 路由懒加载
     return () => import(`@/views/${view}`)
 }
 
-export default permission
+export default {
+    namespaced: true,
+    state,
+    mutations,
+    actions
+}

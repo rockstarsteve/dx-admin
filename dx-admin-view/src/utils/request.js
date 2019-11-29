@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import {MessageBox, Message, Notification} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
 
 
 // create an axios instance
@@ -21,7 +21,7 @@ service.interceptors.request.use(
             // let each request carry token
             // ['X-Token'] is a custom headers key
             // please modify it according to the actual situation
-            config.headers['Authorization'] = 'Bearer ' + cookieTokenUtil.getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+            config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
             // config.headers['X-Token'] = getToken()
         }
         return config
@@ -46,8 +46,7 @@ service.interceptors.response.use(
      * You can also judge the status by HTTP Status Code
      */
     response => {
-        console.log("响应状态码 response.status  ：" + response.status)
-        if (response.status != 200){
+        if (response.status != 200) {
             Notification.error({
                 title: '服务器内部错误'
             })
@@ -68,6 +67,7 @@ service.interceptors.response.use(
                     })
                 })
             } else if (code !== 200) {
+                console.log("响应消息不正确:" + response.data.msg)
                 Notification.error({
                     title: response.data.msg
                 })

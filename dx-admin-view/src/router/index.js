@@ -54,6 +54,19 @@ export const constantRoutes = [
         path: '/login',
         component: () => import('@/views/login/index'),
         hidden: true
+    },
+    {
+        path: '',
+        component: Layout,
+        redirect: 'index',
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/index'),
+                name: '首页',
+                meta: {title: '首页', icon: 'dashboard', noCache: true, affix: true}
+            }
+        ]
     }
 ]
 
