@@ -27,10 +27,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 ## 我的开发步骤（参考vue-element-admin）
-
-
-
-
 - 登录页面：获取验证码
 - mockjs引入，做模拟数据
 - svg引入：svgo
@@ -39,7 +35,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     - http拦截
 - 响应拦截处理
 - 前后端联调
-- 登录后的界面
+- 管理界面
 
 
 

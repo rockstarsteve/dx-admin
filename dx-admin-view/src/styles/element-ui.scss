@@ -1,6 +1,4 @@
-/**
- * element 样式修改
- */
+// cover some element-ui styles
 
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
@@ -78,4 +76,9 @@
 // fix date-picker ui bug in filter-item
 .el-range-editor.el-input__inner {
   display: inline-flex !important;
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
 }

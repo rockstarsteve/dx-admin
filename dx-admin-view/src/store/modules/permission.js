@@ -1,10 +1,6 @@
-/**
- * 路由模块
- */
 import { constantRoutes } from '@/router'
 import Layout from '@/layout/index'
-import loginApi from '@/api/loginApi'
-
+import { getRouters } from '@/api/menu'
 
 const permission = {
 
@@ -20,7 +16,7 @@ const permission = {
         GenerateRoutes({commit}) {
             return new Promise(resolve => {
                 // 向后端请求路由数据
-                loginApi.getRouters().then(res => {
+                getRouters().then(res => {
                     const accessedRoutes = filterAsyncRouter(res.data)
                     commit('SET_ROUTES', accessedRoutes)
                     resolve(accessedRoutes)
@@ -49,13 +45,8 @@ function filterAsyncRouter(asyncRouterMap) {
     })
 }
 
-/**
- * 路由懒加载
- * @param view
- * @returns {function(): (Promise<*>|*)}
- */
-function loadView(view) {
-    return () => import(`@/view/${view}`)
+function loadView(view) { // 路由懒加载
+    return () => import(`@/views/${view}`)
 }
 
 export default permission

@@ -1,61 +1,58 @@
-/**
- * axios工具类
- */
 import axios from 'axios'
-import {Notification, MessageBox} from 'element-ui'
+import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import cookieTokenUtil from '@/utils/cookieTokenUtil'
+import { getToken } from '@/utils/auth'
 
 
-/**
- * 请求时候设置请求头的内容
- * @type {string}
- */
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
-
-
-/**
- * 创建axios实例
- * @type {AxiosInstance}
- */
+// create an axios instance
 const service = axios.create({
-    // axios中请求配置有baseURL选项，表示请求URL公共部分
-    baseURL: process.env.VUE_APP_BASE_API,
-    // 超时时间
-    timeout: 3000
+    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    // withCredentials: true, // send cookies when cross-domain requests
+    timeout: 5000 // request timeout
 })
 
 
+// request interceptor
+service.interceptors.request.use(
+    config => {
+        // do something before request is sent
 
-/**
- * request拦截器
- */
-service.interceptors.request.use(config => {
-        if (cookieTokenUtil.getToken()) {
+        if (store.getters.token) {
+            // let each request carry token
+            // ['X-Token'] is a custom headers key
+            // please modify it according to the actual situation
             config.headers['Authorization'] = 'Bearer ' + cookieTokenUtil.getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+            // config.headers['X-Token'] = getToken()
         }
-        console.log("请求路径是： ==> ", config.url)
         return config
     },
     error => {
-        console.log("请求错误，错误信息是 ： ==> " + error)
-        Promise.reject(error)
+        // do something with request error
+        console.log(error) // for debug
+        return Promise.reject(error)
     }
 )
 
+// response interceptor
+service.interceptors.response.use(
+    /**
+     * If you want to get http information such as headers or status
+     * Please return  response => response
+     */
 
-
-/**
- * 响应拦截器
- */
-service.interceptors.response.use(res => {
-        console.log("响应状态码 res.status  ：" + res.status)
-        if (res.status != 200){
+    /**
+     * Determine the request status by custom code
+     * Here is just an example
+     * You can also judge the status by HTTP Status Code
+     */
+    response => {
+        console.log("响应状态码 response.status  ：" + response.status)
+        if (response.status != 200){
             Notification.error({
                 title: '服务器内部错误'
             })
         } else {
-            const code = res.data.code
+            const code = response.data.code
             if (code === 401) {
                 MessageBox.confirm(
                     '登录状态已过期，您可以继续留在该页面，或者重新登录',
@@ -72,16 +69,16 @@ service.interceptors.response.use(res => {
                 })
             } else if (code !== 200) {
                 Notification.error({
-                    title: res.data.msg
+                    title: response.data.msg
                 })
                 return Promise.reject('error')
             } else {
-                return res.data
+                return response.data
             }
         }
     },
     error => {
-        console.log("响应错误，错误信息是 ： ==> " + error)
+        console.log('err' + error) // for debug
         Message({
             message: error.message,
             type: 'error',
@@ -90,9 +87,5 @@ service.interceptors.response.use(res => {
         return Promise.reject(error)
     }
 )
-
-
-
-
 
 export default service

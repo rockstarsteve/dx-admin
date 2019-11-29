@@ -54,11 +54,11 @@
 </template>
 
 <script>
-    import loginApi from "@/api/loginApi";
+    import { getCodeImg } from "@/api/user";
     import Cookies from "js-cookie";
 
     export default {
-        name: "Login",
+        name: "loginIndex",
         data() {
             return {
                 codeUrl: "",
@@ -97,7 +97,7 @@
         },
         methods: {
             getCode() {
-                loginApi.getCodeImg().then(res => {
+                getCodeImg().then(res => {
                     this.codeUrl = "data:image/gif;base64," + res.data.img;
                     this.loginForm.uuid = res.data.uuid;
                 });
@@ -125,12 +125,12 @@
                             Cookies.remove("password");
                             Cookies.remove('rememberMe');
                         }
+                        console.info("验证成功，进行登录。。。")
                         this.$store
-                            .dispatch("Login", this.loginForm)
+                            .dispatch("login", this.loginForm)
                             .then(() => {
                                 this.loading = false;
-                                console.log("登录成功，跳转首页！！")
-                                //TODO 跳转首页
+                                console.log("登录成功，跳转页面！！")
                                 this.$router.push({path: this.redirect || "/"});
                             })
                             .catch(() => {
