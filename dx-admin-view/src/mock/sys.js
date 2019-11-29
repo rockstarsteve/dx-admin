@@ -7,7 +7,7 @@ import Mock from "mockjs";
 /**
  * 获取验证码
  */
-Mock.mock("/mockApi/captchaImage",getCapRadmon());
+Mock.mock("/mockApi/sys/captchaImage",getCapRadmon());
 /**
  * 随机获取验证码
  * @returns {{msg: string, code: number, data: {img: string, uuid: string}}}
@@ -42,7 +42,7 @@ function getCapRadmon() {
 /**
  * 登录
  */
-Mock.mock(RegExp("/mockApi/login" + ".*"), loginSuccess)
+Mock.mock(RegExp("/mockApi/sys/login" + ".*"), loginSuccess)
 
 /**
  * 登录成功
@@ -84,7 +84,7 @@ function loginFail2(){
 /**
  * 获取用户信息
  */
-Mock.mock(RegExp("/mockApi/getInfo" + ".*"), {
+Mock.mock(RegExp("/mockApi/sys/getInfo" + ".*"), {
     "code": 200,
     "msg": "ok",
     "data": {
@@ -170,7 +170,7 @@ Mock.mock(RegExp("/mockApi/getInfo" + ".*"), {
 /**
  * 获取菜单
  */
-Mock.mock(RegExp("/mockApi/getRouters" + ".*"), {
+Mock.mock(RegExp("/mockApi/sys/getRouters" + ".*"), {
     "code": 200,
     "msg": "ok",
     "data": [

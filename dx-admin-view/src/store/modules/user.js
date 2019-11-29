@@ -33,6 +33,7 @@ const actions = {
     login({ commit }, userInfo) {
         const {username, password, code, uuid} = userInfo
         return new Promise((resolve, reject) => {
+            console.info("调用stron里面的回调进行登录了。。。。")
             login({username: username.trim(), password: password, code: code, uuid: uuid}).then(response => {
                 const {token} = response.data
                 commit('SET_TOKEN', token)

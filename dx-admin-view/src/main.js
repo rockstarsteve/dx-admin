@@ -21,7 +21,9 @@ import './utils/error-log' // error log
 
 import mock from './mock' //mockjs 模拟请求
 
-
+Vue.use(Element, {
+  size: Cookies.get('size') || 'medium' // set element-ui default size
+})
 
 //阻止启动生产消息
 Vue.config.productionTip = true
