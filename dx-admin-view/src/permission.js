@@ -47,11 +47,11 @@ router.beforeEach(async(to, from, next) => {
                     const res  = await store.dispatch('user/getInfo');
                     const roles = res.data.roles;
 
-                    console.log("roles:" + roles);
                     store.dispatch('permission/generateRoutes', { roles }).then(accessRoutes => {
                         // 根据roles权限生成可访问的路由表
-                        console.log("accessRoutes:"+accessRoutes);
+                        console.log("根据roles权限生成可访问的路由表accessRoutes:"+accessRoutes);
                         router.addRoutes(accessRoutes) // 动态添加可访问路由表
+                        console.log("...to:" + to )
                         next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
                     })
                 } catch (error) {

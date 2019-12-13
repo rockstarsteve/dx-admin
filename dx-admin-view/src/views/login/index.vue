@@ -129,12 +129,10 @@
                             Cookies.remove("password");
                             Cookies.remove('rememberMe');
                         }
-                        console.info("验证成功，进行登录。。。")
                         this.$store
                             .dispatch("user/login", this.loginForm)
                             .then(() => {
                                 this.loading = false;
-                                console.log("登录成功，跳转页面！！")
                                 this.$router.push({path: this.redirect || "/"});
                             })
                             .catch(() => {

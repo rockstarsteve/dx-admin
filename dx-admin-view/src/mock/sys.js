@@ -14,7 +14,6 @@ Mock.mock("/mockApi/sys/captchaImage",getCapRadmon());
  */
 function getCapRadmon() {
     let ramdom = Math.random() >= 0.5
-    console.log(ramdom)
     if (ramdom){
         return {
             "code": 200,
@@ -389,6 +388,16 @@ Mock.mock(RegExp("/mockApi/sys/getRouters" + ".*"), {
             }
         }
     ]
+})
+
+
+/**
+ * 退出登录
+ */
+Mock.mock(RegExp("/mockApi/sys/logout" + ".*"), {
+    "code": 200,
+    "msg": "ok",
+    "data": "退出成功！"
 })
 
 export default {}

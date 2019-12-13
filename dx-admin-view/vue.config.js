@@ -8,6 +8,9 @@ function resolve(dir) {
 
 
 module.exports = {
+
+    assetsDir: './static',
+
     devServer: {
         port: 8086
     },
@@ -28,5 +31,7 @@ module.exports = {
                 symbolId: 'icon-[name]'
             })
             .end()
-    }
+    },
+
+
 }

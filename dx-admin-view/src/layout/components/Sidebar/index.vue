@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-<!--        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />-->
+        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -21,15 +21,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import Logo from './Logo'
-// import SidebarItem from './SidebarItem'
+import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
-  // components: { SidebarItem, Logo },
+  components: { SidebarItem, Logo },
   components: { Logo },
   computed: {
     ...mapGetters([
-      // 'permission_routes',
+      'permission_routes',
       'sidebar'
     ]),
     activeMenu() {
@@ -42,7 +42,6 @@ export default {
       return path
     },
     showLogo() {
-      console.log("this.$store.state.settings.sidebarLogo：" + this.$store.state.settings.sidebarLogo)
       return this.$store.state.settings.sidebarLogo
     },
     variables() {

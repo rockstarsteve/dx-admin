@@ -33,6 +33,7 @@ function filterAsyncRouter(asyncRouterMap) {
     return asyncRouterMap.filter(route => {
         if (route.component) {
             // Layout组件特殊处理
+            console.log("route.component的值是：" +route.component)
             if (route.component === 'Layout') {
                 route.component = Layout
             } else {
