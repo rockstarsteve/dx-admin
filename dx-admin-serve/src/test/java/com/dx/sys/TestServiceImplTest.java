@@ -1,5 +1,6 @@
 package com.dx.sys;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,26 @@ public class TestServiceImplTest {
 
     @Test
     public void test() {
-        List<SysUser> sysUserList = sysUserService.list();
+
+        LambdaQueryWrapper<SysUser> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        objectLambdaQueryWrapper.eq(SysUser::getNickName, "t");
+
+        List<SysUser> sysUserList = sysUserService.list(objectLambdaQueryWrapper);
 
         log.info(sysUserList.toString());
+    }
+
+
+    @Test
+    public void insertDate() {
+
+        SysUser sysUser = new SysUser();
+        sysUser.setUserName("ok");
+        sysUser.setCreateBy("tomg");
+        sysUser.setNickName("defual");
+        boolean save = sysUserService.save(sysUser);
+
+        log.info("save:" + save);
     }
 
 

@@ -1,11 +1,15 @@
 package com.dx.sys.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -68,13 +72,15 @@ public class SysUser implements Serializable {
     private String createBy;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
 
     @ApiModelProperty(value = "更新者")
     private String updateBy;
 
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Date updateTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;

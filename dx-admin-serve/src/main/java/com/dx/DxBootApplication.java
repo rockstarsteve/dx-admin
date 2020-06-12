@@ -1,5 +1,6 @@
 package com.dx;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,10 +14,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2019/9/21
  */
 @SpringBootApplication
+@Slf4j
 public class DxBootApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(DxBootApplication.class, args);
+        log.warn("=================================== http://localhost:8081/doc.html =========================================");
+
     }
 
 }

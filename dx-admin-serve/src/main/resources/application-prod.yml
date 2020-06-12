@@ -1,0 +1,19 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /
+
+
+
+
+#数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dx-server?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+
+
+swagger:
+  enable: false
