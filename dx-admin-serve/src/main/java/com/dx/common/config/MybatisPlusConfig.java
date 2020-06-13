@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Description: com.dx.config
+ * mybatisplus插件设置
  *
  * @author yaoj
  * @version 1.0
