@@ -1,4 +1,4 @@
-package com.dx.common.handler;
+package com.dx.servicebase.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -7,18 +7,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+
 /**
- * Description: com.dx.config
- * 填充器
+ * Description: com.dx.servicebase.handler
  *
  * @author yaoj
  * @version 1.0
  * @copyright Copyright (c) 文理电信
- * @since 2020/3/7
+ * @since 2020/7/22
  */
 @Slf4j
 @Component
-public class CustomMetaObjectHandler implements MetaObjectHandler {
+public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
@@ -33,4 +33,5 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
         log.info("更新开始填充。。。。。。");
         this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     }
+
 }

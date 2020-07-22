@@ -1,4 +1,4 @@
-/target/
+﻿/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -23,3 +23,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+
+
+### 自己需要忽略的一些文件 ###
+/temp/
+**/target/*

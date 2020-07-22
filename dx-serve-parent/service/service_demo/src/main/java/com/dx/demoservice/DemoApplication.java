@@ -1,24 +1,17 @@
-package com.dx;
+package com.dx.demoservice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-/**
- * Description: com.dx
- * 主函数入口
- *
- * @author yaoj
- * @version 1.0
- * @copyright Copyright (c) 文理电信
- * @since 2019/9/21
- */
 @SpringBootApplication
 @Slf4j
-public class DxBootApplication  {
+@ComponentScan(basePackages = {"com.dx"})
+public class DemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DxBootApplication.class, args);
+        SpringApplication.run(DemoApplication.class, args);
         log.warn("=================================== http://localhost:8081/doc.html =========================================");
     }
 

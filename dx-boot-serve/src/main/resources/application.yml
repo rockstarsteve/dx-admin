@@ -1,6 +1,6 @@
 
 spring:
-  # 环境 dev|test|prod
+  # 环境 dev|prod
   profiles:
     active: dev
   jackson:

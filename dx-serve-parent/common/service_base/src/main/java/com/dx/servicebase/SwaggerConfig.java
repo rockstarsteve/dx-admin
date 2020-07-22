@@ -1,4 +1,4 @@
-package com.dx.common.config;
+package com.dx.servicebase;
 
 import com.google.common.base.Predicates;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,15 +13,15 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
 /**
- * Description: com.dx.config
- * ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
+ * Description: com.dx.servicebase
  * 是否开启swagger，正式环境一般是需要关闭的（避免不必要的漏洞暴露！），可根据springboot的多环境配置进行设置
  *
  * @author yaoj
  * @version 1.0
  * @copyright Copyright (c) 文理电信
- * @since 2020/5/30
+ * @since 2020/7/22
  */
 @Configuration
 @EnableSwagger2
@@ -30,6 +30,7 @@ public class SwaggerConfig {
 
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
+     *
      * @return
      */
     @Bean
@@ -38,8 +39,8 @@ public class SwaggerConfig {
                 .apiInfo(webApiInfo())
                 .select()
                 .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
-//                .apis(RequestHandlerSelectors.basePackage("com.dx.controller")).paths(PathSelectors.any())
-                .build().groupName("webApi2");
+//                .apis(RequestHandlerSelectors.basePackage("com.dx.demoservice.controller")).paths(PathSelectors.any())
+                .build().groupName("webApi1");
     }
 
     /**
@@ -52,23 +53,21 @@ public class SwaggerConfig {
                 .select()
                 // 为当前包路径
                 .apis(RequestHandlerSelectors.basePackage("com.dx")).paths(PathSelectors.any())
-                .build().groupName("webApi");
+                .build().groupName("webApi2");
     }
 
+
     /**
-     * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个
+     * 文档信息
+     *
+     * @return
      */
     private ApiInfo webApiInfo() {
         return new ApiInfoBuilder()
-                // 页面标题
-                .title("后台管理系统接口管理")
-                // 创建人信息
-                .contact(new Contact("yaojian", "670139644@qq.com", "670139644@qq.com"))
-                // 版本号
-                .version("0.1")
-                // 描述
-                .description("这个是用来做接口测试的")
+                .title("基础中心API文档")
+                .description("本文档描述了基础服务接口定义")
+                .version("1.0")
+                .contact(new Contact("yaojian", "http://www.baidu.com", "670139644@qq.com"))
                 .build();
     }
-
 }

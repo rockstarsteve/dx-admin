@@ -15,7 +15,8 @@
         
 
 - 后端：
-    - springboot2.x  
+    - springboot2.x 
+    - springsecurity 
     - mybatis plus3.x
     - swigger
     - jwt

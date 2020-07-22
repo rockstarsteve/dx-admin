@@ -1,6 +1,6 @@
-package com.dx.common.exception;
+package com.dx.servicebase.exceptionhandler;
 
-import com.dx.common.util.AjaxResult;
+import com.dx.commonutils.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -13,20 +13,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Description: com.dx.handler
- * <p>
- * ControllerAdvice注解只拦截Controller不会拦截Interceptor的异常
+ * Description: com.dx.servicebase.exceptionhandler
+ * 自定义全局处理异常类
  *
  * @author yaoj
  * @version 1.0
  * @copyright Copyright (c) 文理电信
- * @since 2019/10/8
+ * @since 2020/7/22
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final String logExceptionFormat = "Capture Exception By GlobalExceptionHandler: Code: %s Detail: %s";
+    private static final String logExceptionFormat = "全局异常捕获信息: Code: %s Detail: %s";
 
     /**
      * 自定义异常
