@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @copyright Copyright (c) 文理电信
  * @since 2020/7/22
  */
-@Api("讲师管理")
+@Api(tags = "讲师管理")
 @RestController
 public class DemoController {
 
-    @ApiOperation(value = "获取数据")
+    @ApiOperation(value = "获取数据",notes = "这是notes！")
     @GetMapping("findAll")
     public AjaxResult findAllTeacher() {
         //调用service的方法实现查询所有的操作
