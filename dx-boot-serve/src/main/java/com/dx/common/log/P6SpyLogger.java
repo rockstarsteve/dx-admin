@@ -20,17 +20,16 @@ public class P6SpyLogger implements MessageFormattingStrategy {
 
         StringBuilder sb = new StringBuilder();
         sb
-                .append("\n=====================================================\n")
+                .append("\n======================================   执行sql信息  ===============================================\n")
                 .append("连接id：").append(connectionId).append("\n")
                 .append("当前时间：").append(now).append("\n")
                 .append("类别：").append(category).append("\n")
                 .append("花费时间：").append(elapsed).append("ms \n")
-                .append("url：").append(url).append("\n")
+//                .append("url：").append(url).append("\n")
                 .append("预编译sql：").append(P6Util.singleLine(prepared)).append("\n")
                 .append("最终执行的sql：").append(!"".equals(sql.trim()) ? new Date() + " | " + category + " | connection " + connectionId + "\n " + sql + ";" : "")
-                .append("\n=====================================================\n");
+                .append("\n===================================================================================================\n");
         return sb.toString();
-
 
     }
 }

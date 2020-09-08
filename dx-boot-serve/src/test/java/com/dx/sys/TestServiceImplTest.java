@@ -39,7 +39,7 @@ public class TestServiceImplTest {
     public void test() {
 
         LambdaQueryWrapper<SysUser> objectLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        objectLambdaQueryWrapper.eq(SysUser::getNickName, "t");
+        objectLambdaQueryWrapper.like(SysUser::getUserName, "j");
 
         List<SysUser> sysUserList = sysUserService.list(objectLambdaQueryWrapper);
 
@@ -51,9 +51,8 @@ public class TestServiceImplTest {
     public void insertDate() {
 
         SysUser sysUser = new SysUser();
-        sysUser.setUserName("ok");
-        sysUser.setCreateBy("tomg");
-        sysUser.setNickName("defual");
+        sysUser.setUserName("miller");
+        sysUser.setPassword("123");
         boolean save = sysUserService.save(sysUser);
 
         log.info("save:" + save);

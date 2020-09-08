@@ -22,7 +22,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("插入填充时间。。。。。。");
+        log.warn("插入填充时间。。。。。。");
         Date now = new Date();
         this.strictInsertFill(metaObject, "createTime", Date.class, now);
         this.strictInsertFill(metaObject, "updateTime", Date.class, now);
@@ -30,7 +30,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("更新开始填充。。。。。。");
+        log.warn("更新开始填充。。。。。。");
         this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
     }
 }
