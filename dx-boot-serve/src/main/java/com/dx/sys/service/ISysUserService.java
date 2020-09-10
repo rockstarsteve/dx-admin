@@ -2,6 +2,9 @@ package com.dx.sys.service;
 
 import com.dx.sys.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysUserService extends IService<SysUser> {
 
+
+    boolean checkLogin(String username, String password);
+
+    List<UserDetails> loadUsersByUsername(String username);
 }
