@@ -1,5 +1,8 @@
 package com.dx.sys.controller;
 
+import com.dx.sys.entity.SysUser;
+import com.dx.sys.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,15 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020/9/10
  */
 @RestController
-public class TempController {
+public class LoginController {
 
+
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping("/login")
-    public Object login() {
+    public Object login(SysUser sysUser) {
 
 
-        return "ok";
+        String token = loginService.login(sysUser);
+
+
+        return token;
     }
-
 
 }

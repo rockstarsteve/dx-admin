@@ -17,7 +17,10 @@ import java.util.List;
 public interface ISysUserService extends IService<SysUser> {
 
 
-    boolean checkLogin(String username, String password);
-
+    /**
+     * 根据登录用户名获取用户
+     * @param username
+     * @return
+     */
     List<UserDetails> loadUsersByUsername(String username);
 }

@@ -1,4 +1,4 @@
-package com.dx.common.util;
+package com.dx.common.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 2020/9/8
  */
 @Component
-public class BCryptPasswordEncoderUtil extends BCryptPasswordEncoder {
+public class MyBCryptPasswordEncoder extends BCryptPasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {

@@ -1,8 +1,8 @@
-package com.dx.common.filter;
+package com.dx.common.security;
 
 import com.dx.common.exception.MyAuthenticationException;
-import com.dx.sys.service.ISysUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -26,22 +26,26 @@ import java.util.Map;
  * @copyright Copyright (c) 文理电信
  * @since 2020/9/10
  */
+@Slf4j
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
 
     public static final String MY_SECURITY_FORM_USERNAME_KEY = "username";
     public static final String MY_SECURITY_FORM_PASSWORD_KEY = "password";
 
     @Autowired
-    ISysUserService sysUserService;
+    ObjectMapper mapper;
+
+    public MyUsernamePasswordAuthenticationFilter() {
+        super();
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
         if (request.getContentType().equals(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 || request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
 
-            ObjectMapper mapper = new ObjectMapper();
             UsernamePasswordAuthenticationToken authRequest = null;
             //取authenticationBean
             Map<String, String> authenticationBean = null;
@@ -58,15 +62,13 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
                     String username = authenticationBean.get(MY_SECURITY_FORM_USERNAME_KEY);
                     String password = authenticationBean.get(MY_SECURITY_FORM_PASSWORD_KEY);
 
-                    //检测账号、密码是否存在
-                    if (sysUserService.checkLogin(username, password)) {
-                        //将账号、密码装入UsernamePasswordAuthenticationToken中
-                        authRequest = new UsernamePasswordAuthenticationToken(username, password);
-                        setDetails(request, authRequest);
-                        return this.getAuthenticationManager().authenticate(authRequest);
-                    }
+                    //将账号、密码装入UsernamePasswordAuthenticationToken中
+                    authRequest = new UsernamePasswordAuthenticationToken(username, password);
+                    setDetails(request, authRequest);
+                    return this.getAuthenticationManager().authenticate(authRequest);
                 }
             } catch (Exception e) {
+                log.info("校验出错:" + e.getMessage());
                 throw new MyAuthenticationException(e.getMessage());
             }
             return null;
@@ -78,18 +80,15 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
             UsernamePasswordAuthenticationToken authRequest = null;
 
             try {
-                //检测账号、密码是否存在
-                if (sysUserService.checkLogin(username, password)) {
-                    //将账号、密码装入UsernamePasswordAuthenticationToken中
-                    authRequest = new UsernamePasswordAuthenticationToken(username, password);
-                    setDetails(request, authRequest);
-                    return this.getAuthenticationManager().authenticate(authRequest);
-                }
+                //将账号、密码装入UsernamePasswordAuthenticationToken中
+                authRequest = new UsernamePasswordAuthenticationToken(username, password);
+                setDetails(request, authRequest);
+                return this.getAuthenticationManager().authenticate(authRequest);
             } catch (Exception e) {
+                log.info("校验出错:" + e.getMessage());
+                e.printStackTrace();
                 throw new MyAuthenticationException(e.getMessage());
             }
-
-            return this.attemptAuthentication(request, response);
         } else {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
