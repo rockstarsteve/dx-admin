@@ -22,11 +22,22 @@ public class MyUserDetails implements UserDetails {
      * 用户名
      */
     private String username;
-
     /**
      * 密码
      */
     private String password;
+    /**
+     * 过期时间
+     */
+    private Long expireTime;
+    /**
+     * 登陆时间
+     */
+    private Long loginTime;
+    /**
+     * 用户唯一标识
+     */
+    private String token;
 
     /**
      * 权限部分，暂时不知道写什么
@@ -57,6 +68,7 @@ public class MyUserDetails implements UserDetails {
 
     /**
      * 账号是否过期
+     *
      * @return
      */
     @Override
@@ -66,6 +78,7 @@ public class MyUserDetails implements UserDetails {
 
     /**
      * 账户是否未被锁
+     *
      * @return
      */
     @Override
@@ -80,10 +93,35 @@ public class MyUserDetails implements UserDetails {
 
     /**
      * 是否能用
+     *
      * @return
      */
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Long getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public Long getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Long loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -79,7 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter
         http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         //退出
         http.logout().logoutUrl("/logout").logoutSuccessHandler(myLogoutSuccessHandler);
