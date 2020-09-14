@@ -19,7 +19,7 @@ public class DxBootApplication  {
 
     public static void main(String[] args) {
         SpringApplication.run(DxBootApplication.class, args);
-        log.warn("=================================== http://localhost:8081/doc.html =========================================");
+        log.warn("=================================== http://localhost:8081/api/doc.html =========================================");
     }
 
 }

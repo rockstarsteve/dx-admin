@@ -32,14 +32,16 @@ public class TokenService {
     private String header;
     @Value("${token.secret}")
     private String secret;
-    // 令牌有效期（默认30分钟）
+    /**
+     * 令牌有效期（默认30分钟）
+     */
     @Value("${token.expireTime}")
     private int expireTime;
 
-    //秒
+    //1秒
     protected static final long MILLIS_SECOND = 1000;
 
-    //分钟
+    //1分钟
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
 
     //20分钟

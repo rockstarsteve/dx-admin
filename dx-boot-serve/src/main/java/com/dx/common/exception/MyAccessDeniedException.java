@@ -5,6 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 /**
  * Description: com.dx.common.exception
+ * 权限异常
  *
  *
  * @author yaoj
@@ -12,9 +13,9 @@ import org.springframework.security.access.AccessDeniedException;
  * @copyright Copyright (c) 文理电信
  * @since 2020/9/10
  */
-public class MyaccessDeniedException extends AccessDeniedException {
+public class MyAccessDeniedException extends AccessDeniedException {
 
-    public MyaccessDeniedException(String msg) {
+    public MyAccessDeniedException(String msg) {
         super(msg);
     }
 }

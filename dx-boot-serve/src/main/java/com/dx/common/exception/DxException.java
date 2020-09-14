@@ -27,4 +27,27 @@ public class DxException extends RuntimeException {
      */
     private String msg;
 
+    public DxException(String message) {
+        this.msg = message;
+    }
+
+    public DxException(String message, Integer code) {
+        this.msg = message;
+        this.code = code;
+    }
+
+    public DxException(String message, Throwable e) {
+        super(message, e);
+        this.msg = message;
+    }
+
+    @Override
+    public String getMessage() {
+        return msg;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
 }

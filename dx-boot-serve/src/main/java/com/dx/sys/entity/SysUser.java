@@ -1,5 +1,6 @@
 package com.dx.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,11 +20,12 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="SysUser对象", description="用户信息表")
-@TableName("t_sys_user")
+@TableName("sys_user")
 public class SysUser implements Serializable {
 
-    @ApiModelProperty(value = "ID")
-    private String id;
+    @ApiModelProperty(value = "用户id")
+    @TableId
+    private String userId;
 
     @ApiModelProperty(value = "用户账号")
     private String username;

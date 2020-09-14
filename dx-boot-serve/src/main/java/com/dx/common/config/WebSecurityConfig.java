@@ -1,9 +1,6 @@
 package com.dx.common.config;
 
-import com.dx.common.security.JwtAuthenticationTokenFilter;
-import com.dx.common.security.MyAuthenticationEntryPoint;
-import com.dx.common.security.MyLogoutSuccessHandler;
-import com.dx.common.security.MyUserDetailsService;
+import com.dx.common.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,15 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
     @Autowired
+    private MyAccessDeniedHandler myAccessDeniedHandler;
+    @Autowired
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-//    @Autowired
-//    DynamicPermission  dynamicPermission;
-
+    @Autowired
+    DynamicPermission dynamicPermission;
 
 
     /**
@@ -67,16 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and()
+                //异常处理器
+                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
                 .antMatchers("/login").anonymous()
-
-                //动态url
-                //.anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
-
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -93,12 +89,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*/api-docs").anonymous()
                 .antMatchers("/druid/**").anonymous()
 
+                //动态url
+                .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
-                // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
-
-
-        ;
 
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter
