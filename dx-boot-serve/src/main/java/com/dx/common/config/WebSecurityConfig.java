@@ -1,15 +1,20 @@
 package com.dx.common.config;
 
-import com.dx.common.security.*;
+import com.dx.common.security.JwtAuthenticationTokenFilter;
+import com.dx.common.security.MyAuthenticationEntryPoint;
+import com.dx.common.security.MyLogoutSuccessHandler;
+import com.dx.common.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -29,9 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
     @Autowired
-    private MyOncePerRequestFilter myOncePerRequestFilter;
-    @Autowired
-    private MyBCryptPasswordEncoder bCryptPasswordEncoder;
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
@@ -70,15 +73,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
                 .antMatchers("/login").anonymous()
+
+                //动态url
+                //.anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
+
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/*.html",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
+                .antMatchers("/profile/**").anonymous()
+                .antMatchers("/common/download**").anonymous()
+                .antMatchers("/common/download/resource**").anonymous()
+                .antMatchers("/swagger-ui.html").anonymous()
+                .antMatchers("/swagger-resources/**").anonymous()
+                .antMatchers("/webjars/**").anonymous()
+                .antMatchers("/*/api-docs").anonymous()
+                .antMatchers("/druid/**").anonymous()
+
+
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
 
-//                .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
+
         ;
 
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter
-        http.addFilterBefore(myOncePerRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         //退出
         http.logout().logoutUrl("/logout").logoutSuccessHandler(myLogoutSuccessHandler);
@@ -90,12 +114,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
 
     @Bean
-
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();

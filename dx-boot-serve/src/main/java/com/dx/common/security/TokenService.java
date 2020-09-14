@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -66,7 +68,6 @@ public class TokenService {
     }
 
 
-
     /**
      * 验证令牌有效期，相差不足20分钟，自动刷新缓存
      *
@@ -86,8 +87,7 @@ public class TokenService {
      *
      * @param userDetails 登录信息
      */
-    public void refreshToken(MyUserDetails userDetails)
-    {
+    public void refreshToken(MyUserDetails userDetails) {
         userDetails.setLoginTime(System.currentTimeMillis());
         userDetails.setExpireTime(userDetails.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
@@ -95,19 +95,6 @@ public class TokenService {
         redisCache.setCacheObject(userKey, userDetails, expireTime, TimeUnit.MINUTES);
     }
 
-
-    /**
-     * 从数据声明生成令牌
-     *
-     * @param claims 数据声明
-     * @return 令牌
-     */
-    private String createToken(Map<String, Object> claims) {
-        String token = Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
-        return token;
-    }
 
     /**
      * 从令牌中获取数据声明
@@ -150,5 +137,48 @@ public class TokenService {
     private String getTokenKey(String uuid) {
         return Constants.LOGIN_TOKEN_KEY + uuid;
     }
+
+    /**
+     * 创建令牌
+     *
+     * @param myUserDetails 用户信息
+     * @return 令牌
+     */
+    public String createToken(MyUserDetails myUserDetails) {
+        String token = UUID.randomUUID().toString().replace("-", "");
+        myUserDetails.setToken(token);
+        refreshToken(myUserDetails);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(Constants.LOGIN_USER_KEY, token);
+        claims.put(Constants.LOGIN_USER_NAME, myUserDetails.getUsername());
+        return createToken(claims);
+    }
+
+    /**
+     * 从数据声明生成令牌
+     *
+     * @param claims 数据声明
+     * @return 令牌
+     */
+    private String createToken(Map<String, Object> claims) {
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secret).compact();
+        return token;
+    }
+
+    /**
+     * 删除用户身份信息
+     *
+     * @param token
+     */
+    public void delMyUserDetails(String token) {
+        if (!StringUtils.isEmpty(token)) {
+            String userKey = getTokenKey(token);
+            redisCache.deleteObject(userKey);
+        }
+    }
+
 }
 

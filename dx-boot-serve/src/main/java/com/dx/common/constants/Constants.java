@@ -11,9 +11,13 @@ package com.dx.common.constants;
 public class Constants {
 
     /**
-     * 用户
+     * 登录用户存token中的值
      */
     public static final String LOGIN_USER_KEY = "login_user_key";
+    /**
+     * 登录用户存token中的值
+     */
+    public static final String LOGIN_USER_NAME = "login_user_name";
     /**
      * 令牌前缀
      */

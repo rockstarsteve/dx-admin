@@ -1,7 +1,10 @@
 package com.dx.sys.service.impl;
 
+import com.dx.common.security.MyUserDetails;
+import com.dx.common.security.TokenService;
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.LoginService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,10 +21,13 @@ import org.springframework.stereotype.Component;
  * @since 2020/9/13
  */
 @Component
+@Slf4j
 public class LoginSericeImpl implements LoginService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public String login(SysUser sysUser) {
@@ -31,15 +37,19 @@ public class LoginSericeImpl implements LoginService {
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword()));
         } catch (Exception e) {
-            if (e instanceof BadCredentialsException){
+            if (e instanceof BadCredentialsException) {
                 e.printStackTrace();
                 throw new RuntimeException("账号密码错误");
-            }else {
+            } else {
                 throw new RuntimeException(e.getMessage());
             }
         }
-        Object principal = authentication.getPrincipal();
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        log.info("principal: " + myUserDetails);
 
-        return "ok";
+
+        String token = tokenService.createToken(myUserDetails);
+
+        return token;
     }
 }

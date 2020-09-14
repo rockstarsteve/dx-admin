@@ -1,5 +1,6 @@
 package com.dx.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dx.common.security.MyUserDetails;
 import com.dx.sys.entity.SysUser;
@@ -26,10 +27,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public List<UserDetails> loadUsersByUsername(String username) {
-        log.info("根据用户名获取到了用户");
+
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getUsername,username);
+        List<SysUser> list = list(wrapper);
+
+        //转换为security的用户
         List myUserDetails = new ArrayList<MyUserDetails>();
-        myUserDetails.add(new MyUserDetails("user","$2a$10$JYtKHS090yIqfEcNczeJyO10/L6x5I0qAXUc8lXr5cvWlqhGssZuG"));
-//        myUserDetails.add(new MyUserDetails("user","123"));
+        list.stream().forEach(sysUser -> {
+            myUserDetails.add(new MyUserDetails(sysUser.getUsername(),sysUser.getPassword()));
+        });
+
         return myUserDetails;
     }
 }

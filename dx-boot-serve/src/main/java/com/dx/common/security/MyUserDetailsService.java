@@ -26,6 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         List<UserDetails> users = sysUserService.loadUsersByUsername(username);
 
         if (users == null || users.size() == 0) {
