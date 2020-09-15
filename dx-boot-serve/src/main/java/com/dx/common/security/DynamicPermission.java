@@ -5,6 +5,7 @@ import com.dx.sys.entity.SysApi;
 import com.dx.sys.service.ISysApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,9 @@ public class DynamicPermission {
     @Autowired
     ISysApiService sysApiService;
 
+    @Value("${server.servlet.context-path}")
+    private String contentPath;
+
 
     /**
      * 判断有访问API的权限
@@ -41,7 +45,6 @@ public class DynamicPermission {
                                     Authentication authentication) throws MyAccessDeniedException {
 
         Object principal = authentication.getPrincipal();
-        log.info("DynamicPermission principal = " + principal);
 
         if (principal instanceof UserDetails) {
 
@@ -60,12 +63,10 @@ public class DynamicPermission {
             //提交类型
             String urlMethod = request.getMethod();
 
-            log.info("DynamicPermission requestURI = " + requestURI);
-
             //判断当前路径中是否在资源鉴权中
             boolean rs = apiUrls.stream().anyMatch(item -> {
                 //判断URL是否匹配
-                boolean hashAntPath = antPathMatcher.match(item.getUrl(), requestURI);
+                boolean hashAntPath = antPathMatcher.match(contentPath+item.getUrl(), requestURI);
 
                 //判断请求方式是否和数据库中匹配（数据库存储：GET,POST,PUT,DELETE）
                 String dbMethod = item.getMethod();
@@ -74,9 +75,6 @@ public class DynamicPermission {
                 dbMethod = (dbMethod == null) ? "" : dbMethod;
                 int hasMethod = dbMethod.indexOf(urlMethod);
 
-                log.info("hashAntPath = " + hashAntPath);
-                log.info("hasMethod = " + hasMethod);
-                log.info("hashAntPath && hasMethod = " + (hashAntPath && hasMethod != -1));
                 //两者都成立，返回真，否则返回假
                 return hashAntPath && (hasMethod != -1);
             });

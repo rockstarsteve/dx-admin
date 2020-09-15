@@ -31,6 +31,6 @@ public class MyAuthenticationEntryPoint extends JSONAuthentication implements Au
         //输出
         this.WriteJSON(request, response,
                 //"访问此资源需要完全身份验证（" + authException.getMessage() + "）！"
-                AjaxResult.error(501,"认证失败"));
+                AjaxResult.error(501,"认证失败,请尝试重新登录！"));
     }
 }

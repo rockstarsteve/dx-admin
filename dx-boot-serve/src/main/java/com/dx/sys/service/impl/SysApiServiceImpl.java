@@ -1,10 +1,11 @@
 package com.dx.sys.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dx.sys.entity.SysApi;
+import com.dx.sys.mapper.SysApiMapper;
 import com.dx.sys.service.ISysApiService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +17,11 @@ import java.util.List;
  * @since 2020/9/14
  */
 @Service
-public class SysApiServiceImpl implements ISysApiService {
+public class SysApiServiceImpl extends ServiceImpl<SysApiMapper, SysApi> implements ISysApiService {
 
     @Override
     public List<SysApi> getApiUrlByUserName(String username) {
-        List<SysApi> sysApiList = new ArrayList<>();
-        sysApiList.add(new SysApi("1","获取列表数据","/api/sysUser/getList","POST,GET"));
+        List<SysApi> sysApiList = this.baseMapper.getApiUrlByUserName(username);
         return sysApiList;
     }
 

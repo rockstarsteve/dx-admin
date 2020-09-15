@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    DynamicPermission dynamicPermission;
+    private DynamicPermission dynamicPermission;
 
 
     /**
@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and()
-                //异常处理器
+                // 异常处理器
                 .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -91,7 +91,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //动态url
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
-
 
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter

@@ -1,21 +1,21 @@
-package com.dx.sys.service;
+package com.dx.sys.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dx.sys.entity.SysApi;
 
 import java.util.List;
 
 /**
- * Description: com.dx.sys.service
+ * Description: com.dx.sys.mapper
  *
  * @author yaoj
  * @version 1.0
  * @copyright Copyright (c) 文理电信
- * @since 2020/9/14
+ * @since 2020/9/15
  */
-public interface ISysApiService {
-
+public interface SysApiMapper extends BaseMapper<SysApi> {
     /**
-     * 根据用户名获取能请求的api接口
+     * 根据用户名获取权限
      * @param username
      * @return
      */
