@@ -39,7 +39,7 @@ public class SwaggerConfig {
                 .select()
                 .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
 //                .apis(RequestHandlerSelectors.basePackage("com.dx.controller")).paths(PathSelectors.any())
-                .build().groupName("webApi2");
+                .build().groupName("业务1接口");
     }
 
     /**
@@ -51,8 +51,8 @@ public class SwaggerConfig {
                 .apiInfo(webApiInfo())
                 .select()
                 // 为当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.dx")).paths(PathSelectors.any())
-                .build().groupName("webApi");
+                .apis(RequestHandlerSelectors.basePackage("com.dx.sys")).paths(PathSelectors.any())
+                .build().groupName("系统接口");
     }
 
     /**

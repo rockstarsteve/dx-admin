@@ -1,6 +1,6 @@
 package com.dx.common.util;
 
-import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @copyright Copyright (c) 文理电信
  * @since 2020/3/7
  */
-@Api(tags = "后台模块返回类")
+@ApiModel(value = "后台模块返回类")
 public class AjaxResult extends HashMap<String, Object> {
 
     /**

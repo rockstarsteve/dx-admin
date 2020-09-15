@@ -11,11 +11,11 @@
     - 后台
       - jdk1.8
     - 数据库
-      - mysql5.7
+      - mysql8
         
 
 - 后端：
-    - springboot2.x 
+    - springboot2.4
     - springsecurity 
     - mybatis plus3.x
     - swigger
