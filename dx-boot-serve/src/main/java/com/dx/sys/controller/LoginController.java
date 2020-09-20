@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class LoginController {
 
     @ApiOperation(value = "登录", notes = "登录")
     @PostMapping("/login")
-    public Object login(SysUser sysUser) {
+    public AjaxResult login(SysUser sysUser) {
 
         String token = loginService.login(sysUser);
         Map resultMap = new HashMap<>();
@@ -42,6 +43,18 @@ public class LoginController {
 
         return AjaxResult.success(resultMap);
     }
+
+
+    /**
+     *
+     * @return
+     */
+    @ApiOperation(value = "退出登录", notes = "退出登录的说明")
+    @PostMapping("/info")
+    public AjaxResult info(@RequestBody String token) {
+        return AjaxResult.success((Object) "user");
+    }
+
 
     /**
      * 没用的接口，就为了给swagger展示这个接口而写的，最终调用的是secrity的这个接口
