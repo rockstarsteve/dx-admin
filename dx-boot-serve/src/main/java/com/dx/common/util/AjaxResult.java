@@ -98,12 +98,12 @@ public class AjaxResult extends HashMap<String, Object> {
     /**
      * 返回成功消息
      *
-     * @param msg  返回内容；配合前端的框架20000的返回判断是否登录
+     * @param msg  返回内容；配合前端的框架200的返回判断是否登录
      * @param data 数据对象
      * @return 成功消息
      */
     public static AjaxResult success(String msg, Object data) {
-        return new AjaxResult(20000, msg, data);
+        return new AjaxResult(200, msg, data);
     }
 
     /**

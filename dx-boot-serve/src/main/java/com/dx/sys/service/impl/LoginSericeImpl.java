@@ -37,8 +37,8 @@ public class LoginSericeImpl implements LoginService {
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword()));
         } catch (Exception e) {
+            e.printStackTrace();
             if (e instanceof BadCredentialsException) {
-                e.printStackTrace();
                 throw new RuntimeException("账号密码错误");
             } else {
                 throw new RuntimeException(e.getMessage());

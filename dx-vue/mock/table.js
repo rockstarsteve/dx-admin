@@ -13,12 +13,12 @@ const data = Mock.mock({
 
 export default [
   {
-    url: '/vue-admin-template/table/list',
+    url: '/table/list',
     type: 'get',
     response: config => {
       const items = data.items
       return {
-        code: 20000,
+        code: 200,
         data: {
           total: items.length,
           items: items

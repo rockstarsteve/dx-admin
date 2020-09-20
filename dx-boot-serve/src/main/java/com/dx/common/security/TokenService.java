@@ -182,5 +182,24 @@ public class TokenService {
         }
     }
 
+    /**
+     * 获取用户身份信息
+     *
+     * @param request
+     * @return
+     */
+    public MyUserDetails getDetailUser(HttpServletRequest request) {
+        // 获取请求携带的令牌
+        String token = getToken(request);
+        if (!StringUtils.isEmpty(token)) {
+            Claims claims = parseToken(token);
+            // 解析对应的权限以及用户信息
+            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+            String userKey = getTokenKey(uuid);
+            MyUserDetails userDetails = redisCache.getCacheObject(userKey);
+            return userDetails;
+        }
+        return null;
+    }
 }
 

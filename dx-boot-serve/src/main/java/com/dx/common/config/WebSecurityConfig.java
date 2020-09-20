@@ -37,10 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    private DynamicPermission dynamicPermission;
-
-
     /**
      * anyRequest          |   匹配所有请求路径
      * access              |   SpringEl表达式结果为true时可以访问
@@ -72,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/login").anonymous()
+                .antMatchers("/system/login","/openApi/**").anonymous()
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -87,10 +83,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").anonymous()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/*/api-docs").anonymous()
-                .antMatchers("/druid/**").anonymous()
+                .antMatchers("/druid/**").anonymous();
 
                 //动态url
-                .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
+//                .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter

@@ -1,8 +1,7 @@
 package com.dx.sys.service;
 
-import com.dx.sys.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.dx.sys.entity.SysUser;
 
 import java.util.List;
 
@@ -22,5 +21,5 @@ public interface ISysUserService extends IService<SysUser> {
      * @param username
      * @return
      */
-    List<UserDetails> loadUsersByUsername(String username);
+    List<SysUser> loadUsersByUsername(String username);
 }

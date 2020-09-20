@@ -1,11 +1,12 @@
 package com.dx.common.security;
 
+import com.dx.sys.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Description: com.dx.sys.entity
@@ -17,15 +18,14 @@ import java.util.Collection;
  */
 @Slf4j
 public class MyUserDetails implements UserDetails {
-
     /**
-     * 用户名
+     * 权限列表
      */
-    private String username;
+    private Set<String> permissions;
     /**
-     * 密码
+     * 用户信息
      */
-    private String password;
+    private SysUser user;
     /**
      * 过期时间
      */
@@ -39,31 +39,29 @@ public class MyUserDetails implements UserDetails {
      */
     private String token;
 
-    /**
-     * 权限部分，暂时不知道写什么
-     */
-    private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+    public MyUserDetails(SysUser sysUser) {
+        this.user = sysUser;
+    }
 
-    public MyUserDetails(String username, String password) {
-        this.username = username;
-        this.password = password;
-//        this.authorities = authorities;
+    public MyUserDetails(SysUser user, Set<String> permissions) {
+        this.user = user;
+        this.permissions = permissions;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         log.info("返回权限中的内容....");
-        return authorities;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     /**
@@ -123,5 +121,21 @@ public class MyUserDetails implements UserDetails {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public SysUser getUser() {
+        return user;
+    }
+
+    public void setUser(SysUser user) {
+        this.user = user;
     }
 }

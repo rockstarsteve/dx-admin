@@ -8,7 +8,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Description: com.dx.sys.controller
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags="系统登录的类")
 @RestController
+@RequestMapping("/system")
 @Slf4j
 public class LoginController {
 
@@ -32,8 +37,10 @@ public class LoginController {
     public Object login(SysUser sysUser) {
 
         String token = loginService.login(sysUser);
+        Map resultMap = new HashMap<>();
+        resultMap.put("token",token);
 
-        return AjaxResult.success((Object) token);
+        return AjaxResult.success(resultMap);
     }
 
     /**

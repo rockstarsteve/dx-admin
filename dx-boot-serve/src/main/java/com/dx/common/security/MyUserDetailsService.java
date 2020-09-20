@@ -1,5 +1,6 @@
 package com.dx.common.security;
 
+import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,15 +28,13 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        List<UserDetails> users = sysUserService.loadUsersByUsername(username);
+        List<SysUser> sysUserList = sysUserService.loadUsersByUsername(username);
 
-        if (users == null || users.size() == 0) {
+        if (sysUserList == null || sysUserList.size() == 0) {
             throw new UsernameNotFoundException("用户不存在");
         }
 
-        UserDetails user = users.get(0);
-
-        return new MyUserDetails(user.getUsername(), user.getPassword());
+        return new MyUserDetails(sysUserList.get(0));
 
     }
 }

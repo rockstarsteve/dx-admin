@@ -26,18 +26,12 @@ import java.util.List;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     @Override
-    public List<UserDetails> loadUsersByUsername(String username) {
+    public List<SysUser> loadUsersByUsername(String username) {
 
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(SysUser::getUsername,username);
-        List<SysUser> list = list(wrapper);
+        List<SysUser> sysUserList = list(wrapper);
 
-        //转换为security的用户
-        List myUserDetails = new ArrayList<MyUserDetails>();
-        list.stream().forEach(sysUser -> {
-            myUserDetails.add(new MyUserDetails(sysUser.getUsername(),sysUser.getPassword()));
-        });
-
-        return myUserDetails;
+        return sysUserList;
     }
 }

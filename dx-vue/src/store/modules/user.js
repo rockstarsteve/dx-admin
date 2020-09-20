@@ -35,8 +35,12 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
+    const params = new URLSearchParams()
+    params.append('username', username)
+    params.append('password', password)
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login(params).then(response => {
+        console.log('response:', response)
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)

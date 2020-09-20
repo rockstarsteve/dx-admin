@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DxException.class)
     public AjaxResult RRExceptionHandler(DxException e) {
-        log.info("错误位置：" + e);
+        e.printStackTrace();
         return AjaxResult.error(e.getCode(), e.getMsg());
     }
 
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public AjaxResult runtimeExceptionHandler(RuntimeException e) {
-        log.info("错误位置：" + e);
+        e.printStackTrace();
         return resultFormatDefaultMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
     }
 
