@@ -20,7 +20,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUser对象", description="用户信息表")
+@ApiModel(value = "SysUser对象", description = "用户信息表")
 @NoArgsConstructor
 @TableName("sys_user")
 public class SysUser implements Serializable {
@@ -34,5 +34,13 @@ public class SysUser implements Serializable {
 
     @ApiModelProperty(value = "密码")
     private String password;
+
+    public boolean isAdmin() {
+        return isAdmin(this.userId);
+    }
+
+    public static boolean isAdmin(String userId) {
+        return userId != null && "1".equals(userId);
+    }
 
 }
