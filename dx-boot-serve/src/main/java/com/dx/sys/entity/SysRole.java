@@ -1,5 +1,6 @@
 package com.dx.sys.entity;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @copyright Copyright (c) 文理电信
  * @since 2020/9/21
  */
+@ApiModel(value="SysRole对象", description="角色表")
 @Data
 public class SysRole implements Serializable {
 

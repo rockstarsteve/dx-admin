@@ -31,21 +31,20 @@ public class SysUserController {
     private ISysUserService sysUserService;
 
     @ApiOperation(value = "测试接口", notes = "请将数据展示到前台")
-    @PreAuthorize("@ss.hasPermi('system:user:query')")
     @PostMapping("/ok")
+    @PreAuthorize("@ss.hasPermi('system:menu:query')")
     public Object get(){
+
         return AjaxResult.success(new StringBuilder("调用没问题"));
     }
 
     @ApiOperation(value = "获取用户列表数据", notes = "请将数据展示到前台")
+    @PreAuthorize("@ss.hasPermi('system:user:list')")
     @PostMapping("/getList")
     public Object getList(){
         List<SysUser> list = sysUserService.list();
-        return AjaxResult.success(list.toString());
+        return AjaxResult.success(list);
     }
-
-
-
 
 
 }

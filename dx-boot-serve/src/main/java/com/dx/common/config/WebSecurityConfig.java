@@ -3,12 +3,11 @@ package com.dx.common.config;
 import com.dx.common.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,8 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @copyright Copyright (c) 文理电信
  * @since 2020/9/8
  */
-@Configuration
-@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -61,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and()
-                // 异常处理器
-                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
+//                // 异常处理器
+//                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
@@ -83,10 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").anonymous()
                 .antMatchers("/webjars/**").anonymous()
                 .antMatchers("/*/api-docs").anonymous()
-                .antMatchers("/druid/**").anonymous();
-
-                //动态url
-//                .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
+                .antMatchers("/druid/**").anonymous()
+                // 除上面外的所有请求全部需要鉴权认证
+                .anyRequest().authenticated()
+                .and()
+                .headers().frameOptions().disable();
 
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter

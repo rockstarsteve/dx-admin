@@ -3,6 +3,7 @@ package com.dx.common.exception;
 import com.dx.common.util.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,6 +51,18 @@ public class GlobalExceptionHandler {
     public AjaxResult runtimeExceptionHandler(RuntimeException e) {
         e.printStackTrace();
         return resultFormatDefaultMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), e);
+    }
+
+    /**
+     * 没有权限访问异常处理
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public AjaxResult accessDeniedExceptionHandler(AccessDeniedException e) {
+        e.printStackTrace();
+        return AjaxResult.error(HttpStatus.FORBIDDEN.value(), "对不起，您没有权限访问！");
     }
 
     /**

@@ -11,5 +11,10 @@ import com.dx.sys.entity.SysUser;
  * @since 2020/9/13
  */
 public interface LoginService {
+    /**
+     * 用户登录
+     * @param sysUser
+     * @return
+     */
     String login(SysUser sysUser);
 }

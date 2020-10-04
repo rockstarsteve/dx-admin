@@ -2,6 +2,7 @@ package com.dx.common.security;
 
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.ISysUserService;
+import com.dx.sys.service.impl.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +25,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private ISysUserService sysUserService;
+    @Autowired
+    private SysPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,7 +37,7 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户不存在");
         }
 
-        return new MyUserDetails(sysUserList.get(0));
+        return new MyUserDetails(sysUserList.get(0),permissionService.getMenuPermission(sysUserList.get(0)));
 
     }
 }

@@ -28,19 +28,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
 public class SwaggerConfig {
 
-    /**
-     * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
-     * @return
-     */
-    @Bean
-    public Docket webApiConfig() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(webApiInfo())
-                .select()
-                .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
-//                .apis(RequestHandlerSelectors.basePackage("com.dx.controller")).paths(PathSelectors.any())
-                .build().groupName("业务1接口");
-    }
+
+
 
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
@@ -54,6 +43,23 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.dx.sys")).paths(PathSelectors.any())
                 .build().groupName("系统接口");
     }
+
+
+
+    /**
+     * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
+     * @return
+     */
+    @Bean
+    public Docket webApiConfig() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(webApiInfo())
+                .select()
+                .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
+                //.apis(RequestHandlerSelectors.basePackage("com.dx.controller")).paths(PathSelectors.any())
+                .build().groupName("业务接口");
+    }
+
 
     /**
      * 构建 api文档的详细信息函数,注意这里的注解引用的是哪个
