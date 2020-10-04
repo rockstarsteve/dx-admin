@@ -1,8 +1,8 @@
 {
   "name": "vue-admin-template",
   "version": "4.3.0",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "description": "后台管理系统",
+  "author": "rockstartsteve",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -42,7 +42,6 @@
     "eslint": "5.15.3",
     "eslint-plugin-vue": "5.2.2",
     "html-webpack-plugin": "3.2.0",
-    "mockjs": "1.0.1-beta3",
     "runjs": "^4.3.2",
     "sass": "^1.26.8",
     "sass-loader": "^7.1.0",

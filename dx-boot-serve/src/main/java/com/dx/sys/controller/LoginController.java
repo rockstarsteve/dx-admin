@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Description: com.dx.sys.controller
@@ -53,9 +51,6 @@ public class LoginController {
     }
 
 
-    /**
-     * @return
-     */
     @ApiOperation(value = "获取用户信息", notes = "获取用户的user、roles、permissions信息")
     @PostMapping("/info")
     public AjaxResult info(HttpServletRequest request) {
@@ -70,6 +65,31 @@ public class LoginController {
         result.put("roles", roles);
         result.put("permissions", permissions);
         return AjaxResult.success(result);
+    }
+
+    @ApiOperation(value = "获取用户路由", notes = "获取用户的菜单栏")
+    @PostMapping("/getRouters")
+    public AjaxResult getRouters(HttpServletRequest request) {
+        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("name","System");
+        objectObjectHashMap.put("path","/system");
+        objectObjectHashMap.put("hidden",false);
+        objectObjectHashMap.put("redirect","noRedirect");
+        objectObjectHashMap.put("component","Layout");
+        objectObjectHashMap.put("alwaysShow",true);
+
+//        meta: { title: 'Example', icon: 'example' },
+        HashMap<Object, Object> objectObjectHashMap1 = new HashMap<>();
+        objectObjectHashMap1.put("title","Example");
+        objectObjectHashMap1.put("icon","example");
+        objectObjectHashMap.put("meta",objectObjectHashMap1);
+
+//        objectObjectHashMap.put("children",null);
+
+        List resultList = new ArrayList();
+        resultList.add(objectObjectHashMap);
+
+        return AjaxResult.success(resultList);
     }
 
 
