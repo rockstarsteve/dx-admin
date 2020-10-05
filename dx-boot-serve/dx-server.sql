@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 21/09/2020 14:56:35
+ Date: 05/10/2020 14:06:27
 */
 
 SET NAMES utf8mb4;
@@ -30,15 +30,18 @@ CREATE TABLE `sys_menu`  (
   `perms` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识',
   `icon` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `menu_type` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单类型（M目录 C菜单 F按钮）',
+  `visible` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '显示状态（0显示 1隐藏）',
+  `is_frame` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否为外链（0是 1否）',
   PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', 'system', NULL, NULL, NULL, 'M');
-INSERT INTO `sys_menu` VALUES ('2', '1', '用户管理', 'user', 'system/user/index', 'system:user:list', 'user', 'C');
-INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'role', 'system/role/index', 'system:role:list', 'peoples', 'C');
+INSERT INTO `sys_menu` VALUES ('1', '0', '系统管理', 'system', NULL, NULL, 'user', 'M', '0', '1');
+INSERT INTO `sys_menu` VALUES ('2', '1', '用户管理', 'user', 'system/user/index', 'system:user:list', 'user', 'C', '0', '1');
+INSERT INTO `sys_menu` VALUES ('3', '1', '角色管理', 'role', 'system/role/index', 'system:role:list', 'user', 'C', '0', '1');
+INSERT INTO `sys_menu` VALUES ('4', '0', '百度官网', 'http://www.baidu.com', NULL, NULL, 'user', 'M', '0', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -55,8 +58,8 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '管理员', 'admin');
-INSERT INTO `sys_role` VALUES ('2', '普通管理员', 'pt_admin');
-INSERT INTO `sys_role` VALUES ('3', '系统管理员', 'xt_admin');
+INSERT INTO `sys_role` VALUES ('2', '普通管理员', 'pt_ad');
+INSERT INTO `sys_role` VALUES ('3', '系统管理员', 'xt_ad');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
