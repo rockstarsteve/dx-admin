@@ -3,7 +3,9 @@ package com.dx.sys.controller;
 import com.dx.common.security.MyUserDetails;
 import com.dx.common.security.TokenService;
 import com.dx.common.util.AjaxResult;
+import com.dx.sys.entity.SysMenu;
 import com.dx.sys.entity.SysUser;
+import com.dx.sys.service.ISysMenuService;
 import com.dx.sys.service.LoginService;
 import com.dx.sys.service.impl.SysPermissionService;
 import io.swagger.annotations.Api;
@@ -38,6 +40,8 @@ public class LoginController {
     private TokenService tokenService;
     @Autowired
     private SysPermissionService permissionService;
+    @Autowired
+    private ISysMenuService menuService;
 
     @ApiOperation(value = "登录", notes = "登录")
     @PostMapping("/login")
@@ -70,26 +74,36 @@ public class LoginController {
     @ApiOperation(value = "获取用户路由", notes = "获取用户的菜单栏")
     @PostMapping("/getRouters")
     public AjaxResult getRouters(HttpServletRequest request) {
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("name","System");
-        objectObjectHashMap.put("path","/system");
-        objectObjectHashMap.put("hidden",false);
-        objectObjectHashMap.put("redirect","noRedirect");
-        objectObjectHashMap.put("component","Layout");
-        objectObjectHashMap.put("alwaysShow",true);
+//        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
+//        objectObjectHashMap.put("name","System");
+//        objectObjectHashMap.put("path","/system");
+//        objectObjectHashMap.put("hidden",false);
+//        objectObjectHashMap.put("redirect","noRedirect");
+//        objectObjectHashMap.put("component","Layout");
+//        objectObjectHashMap.put("alwaysShow",true);
+//
+////        meta: { title: 'Example', icon: 'example' },
+//        HashMap<Object, Object> objectObjectHashMap1 = new HashMap<>();
+//        objectObjectHashMap1.put("title","Example");
+//        objectObjectHashMap1.put("icon","example");
+//        objectObjectHashMap.put("meta",objectObjectHashMap1);
+//
+////        objectObjectHashMap.put("children",null);
+//
+//        List resultList = new ArrayList();
+//        resultList.add(objectObjectHashMap);
 
-//        meta: { title: 'Example', icon: 'example' },
-        HashMap<Object, Object> objectObjectHashMap1 = new HashMap<>();
-        objectObjectHashMap1.put("title","Example");
-        objectObjectHashMap1.put("icon","example");
-        objectObjectHashMap.put("meta",objectObjectHashMap1);
 
-//        objectObjectHashMap.put("children",null);
 
-        List resultList = new ArrayList();
-        resultList.add(objectObjectHashMap);
 
-        return AjaxResult.success(resultList);
+
+
+
+        MyUserDetails userDetails = tokenService.getLoginUser(request);
+        // 用户信息
+        SysUser user = userDetails.getUser();
+        List<SysMenu> menus = menuService.selectMenuTreeByUserId(user.getUserId());
+        return AjaxResult.success(menuService.buildMenus(menus));
     }
 
 

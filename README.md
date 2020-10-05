@@ -3,7 +3,7 @@
 #### 介绍
 ```
 基础开发项目，前后端分离
-最轻度封装，能直接追踪源码看懂
+最轻度封装，能直接追踪源码方便看懂
 ```
 
 #### 软件架构
@@ -15,15 +15,13 @@
       - node8+
     
 - 前端：
-    - vue-element-template（vue-cli 4.x）
-    - element-ui
+    - 脚手架：vue-element-template（vue-cli 4.x）
+    - ui框架：element-ui
     
 - 后端：
-    - springboot2.x  
+    - springboot2.x  +springsecurity
     - mybatis plus3.x
-    - jwt
-    - 
-- 数据库：mysql5.7
+- 数据库：mysql8
 
 
 #### 安装教程

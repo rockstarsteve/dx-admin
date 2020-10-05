@@ -1,6 +1,10 @@
 package com.dx.sys.service;
 
+import com.dx.sys.entity.SysMenu;
+import com.dx.sys.entity.vo.RouterVo;
+
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Description: com.dx.sys.service
@@ -17,4 +21,18 @@ public interface ISysMenuService {
      * @return
      */
     Collection<? extends String> selectMenuPermsByUserId(String userId);
+
+    /**
+     * 获取树形结构
+     * @param userId
+     * @return
+     */
+    List<SysMenu> selectMenuTreeByUserId(String userId);
+
+    /**
+     * 构建树形菜单
+     * @param menus
+     * @return
+     */
+    List<RouterVo> buildMenus(List<SysMenu> menus);
 }

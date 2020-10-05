@@ -14,10 +14,25 @@ import java.util.List;
  * @since 2020/9/21
  */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
+
     /**
-     *
      * @param userId
      * @return
      */
     List<String> selectMenuPermsByUserId(String userId);
+
+    /**
+     * 获取所有的菜单树数据
+     *
+     * @return
+     */
+    List<SysMenu> selectMenuTreeAll();
+
+    /**
+     * 根据用户id获取菜单树数据
+     *
+     * @return
+     */
+    List<SysMenu> selectMenuTreeByUserId(String userId);
+
 }
