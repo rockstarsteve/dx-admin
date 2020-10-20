@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+const mockIndexData = require('./mock/data.json')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -29,24 +30,6 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    proxy: {
-      '/dev-api': {
-        target: 'http://localhost:8081',
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/dev-api': '/dev-api'
-        }
-      }
-    },
-  },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -54,6 +37,32 @@ module.exports = {
     resolve: {
       alias: {
         '@': resolve('src')
+      }
+    },
+    devServer: {
+      port: port,
+      open: true,
+      overlay: {
+        warnings: false,
+        errors: true
+      },
+      before(app) {
+        // ***************************************模拟数据***************************************
+        // app.post('/dev-api/system/login', (req, res) => {
+        //   console.log('req,res', req, res)
+        //   res.json(mockIndexData.login)
+        // })
+        // ***************************************模拟数据***************************************
+      },
+      proxy: {
+        '/dev-api': {
+          target: 'http://localhost:8081',
+          changeOrigin: true,
+          ws: true,
+          pathRewrite: {
+            '^/dev-api': '/dev-api'
+          }
+        }
       }
     }
   },
