@@ -1,13 +1,16 @@
 package com.dx.open.controller;
 
 import com.dx.common.util.AjaxResult;
-import com.dx.open.service.IBcdCardService;
+import com.dx.sys.entity.SysUser;
+import com.dx.sys.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Description: com.dx.open.controller
@@ -23,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @Autowired
-    private IBcdCardService iBcdCardService;
+    private ISysUserService sysUserService;
 
     @ApiOperation(value = "前后端接口", notes = "查看前后端是否通")
     @PostMapping("/openApi/getList")
@@ -32,13 +35,12 @@ public class DemoController {
         return AjaxResult.success("请求成功！");
     }
 
-    @ApiOperation(value = "批量保存", notes = "测试接口1")
+    @ApiOperation(value = "获取数据", notes = "获取数据")
     @PostMapping("/openApi/insetData")
     public Object insetData(){
         log.info("请求后台数据！");
-
-
-
+        List<SysUser> sysUsers = sysUserService.loadUsersByUsername("12");
+        return sysUsers;
     }
 
 }
