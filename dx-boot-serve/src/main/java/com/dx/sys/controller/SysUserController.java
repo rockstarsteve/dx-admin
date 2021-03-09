@@ -1,7 +1,7 @@
 package com.dx.sys.controller;
 
 
-import com.dx.common.util.AjaxResult;
+import com.dx.util.AjaxResult;
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.ISysUserService;
 import io.swagger.annotations.Api;

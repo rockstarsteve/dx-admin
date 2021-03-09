@@ -1,6 +1,6 @@
 package com.dx.common.exception;
 
-import com.dx.common.util.AjaxResult;
+import com.dx.util.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

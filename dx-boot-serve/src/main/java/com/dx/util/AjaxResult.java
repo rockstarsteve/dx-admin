@@ -1,4 +1,4 @@
-package com.dx.common.util;
+package com.dx.util;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
