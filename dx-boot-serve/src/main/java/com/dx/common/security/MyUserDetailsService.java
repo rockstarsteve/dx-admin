@@ -1,8 +1,8 @@
 package com.dx.common.security;
 
-import com.dx.sys.entity.SysUser;
-import com.dx.sys.service.ISysUserService;
-import com.dx.sys.service.impl.SysPermissionService;
+import com.dx.service.entity.SysUser;
+import com.dx.service.service.ISysUserService;
+import com.dx.service.service.impl.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

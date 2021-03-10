@@ -18,7 +18,7 @@ import java.util.List;
 public interface UserMapper {
 
 
-    @Select("select * from sys_user")
+    @Select("select * from sys_user where user_id = #{id}")
     List<User> getUser(String id);
 
 }

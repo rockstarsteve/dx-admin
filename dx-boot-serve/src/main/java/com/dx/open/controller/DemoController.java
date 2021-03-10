@@ -1,8 +1,8 @@
 package com.dx.open.controller;
 
 import com.dx.util.AjaxResult;
-import com.dx.sys.entity.SysUser;
-import com.dx.sys.service.ISysUserService;
+import com.dx.service.entity.SysUser;
+import com.dx.service.service.ISysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
