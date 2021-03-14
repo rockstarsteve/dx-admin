@@ -23,6 +23,7 @@ public class SqlSessionCache {
 
     private SqlSessionFactory factory;
     private SqlSession sqlSession;
+    private SqlSession sqlSession2;
 
     @Before
     public void init(){
@@ -31,7 +32,8 @@ public class SqlSessionCache {
 
         //解析xml，构建会话工厂
         factory = factoryBuilder.build(Executor.class.getResourceAsStream("/mybatis-config.xml"));
-        sqlSession = factory.openSession(true);
+        sqlSession = factory.openSession();
+        sqlSession2 = factory.openSession();
     }
 
     @Test
@@ -39,9 +41,12 @@ public class SqlSessionCache {
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
 
         List<User> user = mapper.getUser("1");
+        sqlSession.commit();
         System.out.println(sqlSession);
 
-        List<User> user2 = mapper.getUser("1");
+        UserMapper mapper2 = sqlSession.getMapper(UserMapper.class);
+
+        List<User> user2 = mapper2.getUser2("1");
 
         System.out.println(sqlSession);
 

@@ -21,4 +21,8 @@ public interface UserMapper {
     @Select("select * from sys_user where user_id = #{id}")
     List<User> getUser(String id);
 
+
+    @Select("select * from sys_user where user_id = #{id}")
+    List<User> getUser2(String id);
+
 }
