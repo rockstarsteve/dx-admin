@@ -76,4 +76,17 @@ public class BeanFactoryTest {
         System.out.println(aService);
     }
 
+    @Test
+    public void createTest2() {
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        {
+            RootBeanDefinition mbd = new RootBeanDefinition(AService.class);
+            mbd.setPropertyValues(new MutablePropertyValues().add("contry","外国"));
+            beanFactory.registerBeanDefinition("aService",mbd);
+        }
+        AService aService3 = (AService)beanFactory.getBean("aService");
+
+        System.out.println(aService3);
+    }
+
 }
