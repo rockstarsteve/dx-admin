@@ -1,4 +1,4 @@
-package com.dx.proxy;
+package com.dx.spring.aop.proxy;
 
 import sun.misc.ProxyGenerator;
 

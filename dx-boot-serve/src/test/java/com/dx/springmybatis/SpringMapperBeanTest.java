@@ -2,6 +2,7 @@ package com.dx.springmybatis;
 
 import com.dx.mybatis.bean.User;
 import com.dx.mybatis.mapper.UserMapper;
+import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
  */
 public class SpringMapperBeanTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void SpringMapperBeanTest() {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext("com.dx.springmybatis");
 //        String[] beanDefinitionNames = ctx.getBeanDefinitionNames();

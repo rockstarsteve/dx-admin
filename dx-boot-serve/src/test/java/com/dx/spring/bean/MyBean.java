@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class MyBean implements InitializingBean, DisposableBean,
         BeanFactoryAware, BeanClassLoaderAware, BeanPostProcessor, BeanFactoryPostProcessor, ApplicationContextAware {
 
+    private String city = "长沙";
 
     @Override
     public void afterPropertiesSet() throws Exception {

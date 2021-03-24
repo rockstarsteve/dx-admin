@@ -28,7 +28,6 @@ public class BeanFactoryTest {
 
     public static class AService$proxy extends AService {
         AService aService;
-
         AService$proxy(AService aService) {
             this.aService = aService;
         }
@@ -84,7 +83,9 @@ public class BeanFactoryTest {
             mbd.setPropertyValues(new MutablePropertyValues().add("contry","外国"));
             beanFactory.registerBeanDefinition("aService",mbd);
         }
-        AService aService3 = (AService)beanFactory.getBean("aService");
+//        AService aService3 = (AService)beanFactory.getBean("aService");
+
+        AService aService3 = beanFactory.getBean(AService.class);
 
         System.out.println(aService3);
     }

@@ -1,4 +1,4 @@
-package com.dx.spring.bean;
+package com.dx.spring.aop;
 
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -10,14 +10,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @copyright Copyright (c) 文理电信
  * @date 2021/03/07
  */
-public class SpringBeanAnnotationTest {
+public class AopTest {
 
     @Test
-    public void main() {
+    public void AopTest() {
 
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext("com.dx.spring.bean");
-        MyBean myBean = (MyBean)ctx.getBean("myBean");
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext("com.dx.spring.aop");
+        MyBean myBean = (MyBean) ctx.getBean("myBean");
+
+
         System.out.println(myBean);
+        myBean.say();
 
     }
 
