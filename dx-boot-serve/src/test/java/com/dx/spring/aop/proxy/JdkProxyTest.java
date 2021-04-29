@@ -1,5 +1,6 @@
 package com.dx.spring.aop.proxy;
 
+import org.junit.Test;
 import sun.misc.ProxyGenerator;
 
 import java.lang.reflect.InvocationHandler;
@@ -16,25 +17,14 @@ import java.nio.file.Paths;
  * @copyright Copyright (c) 文理电信
  * @date 2021/03/07
  */
-public class JdkProxyTest {
 
-    public static void main(String[] args) throws Exception {
+interface UserService {
+    void hello();
 
-        UserService userService = (UserService) Proxy.newProxyInstance(
-                JdkProxyTest.class.getClassLoader(),
-                new Class[]{UserService.class},
-                new UserInvocationHandlerImpl());
-
-        byte[] $ProxiesByte = ProxyGenerator.generateProxyClass("$Proxy", new Class[]{userService.getClass()});
-
-        Files.write(Paths.get(System.getProperty("user.dir") + "/target/proxyInstance.class"),$ProxiesByte);
-
-        userService.hello();
-    }
+    String hello(String name);
 }
 
 class UserInvocationHandlerImpl implements InvocationHandler {
-
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -52,9 +42,24 @@ class UserInvocationHandlerImpl implements InvocationHandler {
     }
 }
 
-interface UserService {
-    void hello();
+public class JdkProxyTest {
 
-    String hello(String name);
+    @Test
+    public void test() throws Exception {
+
+        UserService userService = (UserService) Proxy.newProxyInstance(
+                JdkProxyTest.class.getClassLoader(),
+                new Class[]{UserService.class},
+                new UserInvocationHandlerImpl());
+
+        byte[] $ProxiesByte = ProxyGenerator.generateProxyClass("$Proxy", new Class[]{userService.getClass()});
+
+        Files.write(Paths.get(System.getProperty("user.dir") + "/target/proxyInstance.class"),$ProxiesByte);
+
+        userService.hello();
+    }
 }
+
+
+
 

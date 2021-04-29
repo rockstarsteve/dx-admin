@@ -27,3 +27,10 @@ token:
   secret: abcdefghijklmnopqrstuvwxyz
   # 令牌有效期（默认30分钟）
   expireTime: 1
+
+
+#rocketmq:
+#  name-server: 10.1.46.64:9876
+#  producer:
+#    group: test-group
+#

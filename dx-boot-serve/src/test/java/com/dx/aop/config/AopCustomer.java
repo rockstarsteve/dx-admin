@@ -1,4 +1,4 @@
-package com.dx.spring.aop;
+package com.dx.aop.config;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -14,15 +14,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Aspect
-public class AspectCustomer {
+public class AopCustomer {
 
-
-    @Pointcut("execution(public * com.dx.spring.aop.*.*(..))")
-    public void pointCut(){
-    }
+    @Pointcut("@annotation(com.dx.aop.anno.AopAnno)")
+//    @Pointcut("execution(public * com.dx.aop.*.*(..))")
+    public void pointCut(){}
 
     @Before("pointCut()")
-    public void befor(){
+    public void before(){
         System.out.println("在切入方法之前执行。。。。");
     }
 

@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @copyright Copyright (c) 文理电信
  * @since 2019/9/21
  */
+//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
 @Slf4j
 public class DxBootApplication  {

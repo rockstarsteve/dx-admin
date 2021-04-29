@@ -7,5 +7,8 @@ package com.dx.aop.server;
  * @copyright Copyright (c) 文理电信
  * @date 2021/04/14
  */
-public class Temp {
+public interface Temp {
+    
+    public int a = 0;
+
 }

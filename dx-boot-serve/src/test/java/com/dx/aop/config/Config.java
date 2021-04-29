@@ -1,4 +1,4 @@
-package com.dx.spring.aop;
+package com.dx.aop.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

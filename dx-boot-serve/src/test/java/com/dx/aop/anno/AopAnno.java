@@ -1,4 +1,4 @@
-package com.dx.aop;
+package com.dx.aop.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +12,9 @@ import java.lang.annotation.Target;
  * @copyright Copyright (c) 文理电信
  * @date 2021/04/14
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.CLASS)
 public @interface AopAnno {
+
+    String value();
 }

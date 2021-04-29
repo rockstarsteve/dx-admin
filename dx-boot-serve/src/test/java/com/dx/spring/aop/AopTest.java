@@ -18,10 +18,8 @@ public class AopTest {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext("com.dx.spring.aop");
         MyBean myBean = (MyBean) ctx.getBean("myBean");
 
-
         System.out.println(myBean);
         myBean.say();
-
     }
 
 

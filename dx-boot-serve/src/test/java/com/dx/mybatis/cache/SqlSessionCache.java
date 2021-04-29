@@ -23,7 +23,6 @@ public class SqlSessionCache {
 
     private SqlSessionFactory factory;
     private SqlSession sqlSession;
-    private SqlSession sqlSession2;
 
     @Before
     public void init(){
@@ -33,7 +32,6 @@ public class SqlSessionCache {
         //解析xml，构建会话工厂
         factory = factoryBuilder.build(Executor.class.getResourceAsStream("/mybatis-config.xml"));
         sqlSession = factory.openSession();
-        sqlSession2 = factory.openSession();
     }
 
     @Test

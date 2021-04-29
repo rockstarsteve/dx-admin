@@ -18,9 +18,10 @@ public class CglibTest {
         CglibProxy cglibProxy = new CglibProxy();
         MyBean myBean = new MyBean();
 
-        Object cglibIntenc = cglibProxy.createCglibIntenc(myBean);
+        MyBean cglibIntenc = (MyBean)cglibProxy.createCglibIntenc(myBean);
 
-        System.out.println(cglibIntenc);
+//        System.out.println(cglibIntenc);
+        cglibIntenc.say();
 
     }
 

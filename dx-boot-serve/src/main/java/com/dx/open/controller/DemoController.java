@@ -33,6 +33,7 @@ public class DemoController {
 
     @ApiOperation(value = "前后端接口", notes = "查看前后端是否通")
     @PostMapping("/openApi/getList")
+    @RequestMapping(value = "/openApi/getList",method = {RequestMethod.GET,RequestMethod.POST})
     public Object getList(String message){
         log.info("请求后台数据！");
         long a = 796412193754198016L;

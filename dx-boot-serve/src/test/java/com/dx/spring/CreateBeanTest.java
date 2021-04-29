@@ -46,6 +46,7 @@ public class CreateBeanTest {
             }
             @Override
             public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+                System.out.println("--进入了postProcessAfterInitialization--");
                 if (bean instanceof AService) {
                     return new AService$proxy((AService) bean);
                 }

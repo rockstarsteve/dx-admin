@@ -1,6 +1,5 @@
 package com.dx.spring.aop.proxy;
 
-import com.dx.spring.aop.MyBean;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
@@ -29,17 +28,14 @@ public class CglibProxy implements MethodInterceptor {
     }
 
     @Override
-    public Object intercept(Object arg0, Method method, Object[] args, MethodProxy arg3) throws Throwable {
-        MyBean bean = (MyBean) targetObject;// 因为在程序里targetObject为PersonServiceBean
-        Object result = null;
-        if (bean != null)// 判断user是否为空
-            result = method.invoke(targetObject, args);// 如果不为空交给目标对象进行处理.
-        // TODO Auto-generated method stub
-        return result;
+    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+
+        //原始未被代理的对象调用
+//        Object resultObj = method.invoke(targetObject, objects);// 如果不为空交给目标对象进行处理.
+        //代理后的对象调用
+        Object resultObj = methodProxy.invokeSuper(o, objects);
+
+        return resultObj;
     }
 
-//    @Override
-//    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-//        return null;
-//    }
 }
