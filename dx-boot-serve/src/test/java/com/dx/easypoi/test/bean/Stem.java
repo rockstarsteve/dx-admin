@@ -14,14 +14,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Subject {
+public class Stem {
 
-
-    private String subjectName;
+    private String stemName;
 
     private int score;
-
-    //一个科目下有多个题干
-    private List<Stem> stemList;
 
 }

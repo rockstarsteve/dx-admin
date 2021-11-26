@@ -14,12 +14,17 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserExam {
+public class Student {
 
-    private String name;
+    private String studentName;
 
-    private String id;
+    private String phone;
 
-    private List<Subject> sbujectList;
+    private String sex;
+
+    private int score;
+
+    //一个次考试有多个学生参加
+    private List<Subject> subjectList;
 
 }
