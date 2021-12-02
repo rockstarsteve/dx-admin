@@ -1,6 +1,8 @@
 package com.dx.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dx.sys.entity.SysMenu;
 
 import java.util.List;
@@ -34,5 +36,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @return
      */
     List<SysMenu> selectMenuTreeByUserId(String userId);
+
+    IPage<SysMenu> selectPageVo(Page<?> page);
 
 }

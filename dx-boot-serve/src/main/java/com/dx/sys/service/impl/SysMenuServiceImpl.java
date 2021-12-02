@@ -1,10 +1,13 @@
 package com.dx.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dx.sys.entity.SysMenu;
 import com.dx.sys.entity.vo.MetaVo;
 import com.dx.sys.entity.vo.RouterVo;
 import com.dx.sys.mapper.SysMenuMapper;
 import com.dx.sys.service.ISysMenuService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,6 +23,7 @@ import java.util.*;
  * @since 2020/9/21
  */
 @Service
+@Slf4j
 public class SysMenuServiceImpl implements ISysMenuService {
 
     @Autowired
@@ -132,6 +136,22 @@ public class SysMenuServiceImpl implements ISysMenuService {
             routers.add(router);
         }
         return routers;
+    }
+
+    @Override
+    public IPage<SysMenu> selectMenuPage() {
+
+
+
+        Page<SysMenu> page = new Page();
+
+        IPage<SysMenu> sysMenuIPage = sysMenuMapper.selectPageVo(page);
+
+
+        log.info("查询到的结果是(info)："+sysMenuIPage);
+        log.error("查询到的结果是(error)："+sysMenuIPage);
+
+        return sysMenuIPage;
     }
 
     /**

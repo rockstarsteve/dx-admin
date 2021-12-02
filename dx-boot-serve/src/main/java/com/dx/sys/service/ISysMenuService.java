@@ -1,5 +1,6 @@
 package com.dx.sys.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dx.sys.entity.SysMenu;
 import com.dx.sys.entity.vo.RouterVo;
 
@@ -35,4 +36,11 @@ public interface ISysMenuService {
      * @return
      */
     List<RouterVo> buildMenus(List<SysMenu> menus);
+
+    /**
+     * 获取分页内容
+     * @return
+     */
+    IPage<SysMenu> selectMenuPage();
+
 }

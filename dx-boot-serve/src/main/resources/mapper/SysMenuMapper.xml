@@ -36,4 +36,11 @@
             ur.user_id = #{userId} and m.menu_type in ('M', 'C')
     </select>
 
+    <select id="selectPageVo" resultType="com.dx.sys.entity.SysMenu">
+        select
+            m.*
+        from
+            sys_menu m
+    </select>
+
 </mapper>

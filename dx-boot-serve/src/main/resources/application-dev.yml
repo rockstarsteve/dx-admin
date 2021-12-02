@@ -26,6 +26,11 @@ token:
   expireTime: 1
 
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 #rocketmq:
 #  name-server: 10.1.46.64:9876
 #  producer:
