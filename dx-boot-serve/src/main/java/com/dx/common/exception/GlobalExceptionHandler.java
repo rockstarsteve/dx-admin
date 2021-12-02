@@ -4,6 +4,7 @@ import com.dx.util.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,6 +30,7 @@ public class GlobalExceptionHandler {
 
     private static final String logExceptionFormat = "Capture Exception By GlobalExceptionHandler: Code: %s Detail: %s";
 
+
     /**
      * 自定义异常
      *
@@ -39,6 +41,18 @@ public class GlobalExceptionHandler {
     public AjaxResult RRExceptionHandler(DxException e) {
         e.printStackTrace();
         return AjaxResult.error(e.getCode(), e.getMsg());
+    }
+
+    /**
+     * 自定义异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public AjaxResult BadCredentialsExceptionHandler(BadCredentialsException e) {
+        e.printStackTrace();
+        return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     /**

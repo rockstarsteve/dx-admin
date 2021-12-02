@@ -1,6 +1,6 @@
 package com.dx.common.security;
 
-import com.dx.service.entity.SysUser;
+import com.dx.sys.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

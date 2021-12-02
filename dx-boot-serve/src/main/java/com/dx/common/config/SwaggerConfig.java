@@ -1,9 +1,10 @@
 package com.dx.common.config;
 
+import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import com.google.common.base.Predicates;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -25,11 +26,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(name = "swagger.enable", havingValue = "true")
+@EnableSwaggerBootstrapUI
+@Profile({"dev"})
 public class SwaggerConfig {
-
-
-
 
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
@@ -44,7 +43,18 @@ public class SwaggerConfig {
                 .build().groupName("系统接口");
     }
 
-
+    /**
+     * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
+     */
+    @Bean
+    public Docket testApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(webApiInfo())
+                .select()
+                // 为当前包路径
+                .paths(Predicates.and(PathSelectors.regex("/openApi/.*")))
+                .build().groupName("测试的接口");
+    }
 
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
@@ -57,7 +67,7 @@ public class SwaggerConfig {
                 .select()
                 .paths(Predicates.not(PathSelectors.regex("/admin/.*")))
                 //.apis(RequestHandlerSelectors.basePackage("com.dx.controller")).paths(PathSelectors.any())
-                .build().groupName("业务接口");
+                .build().groupName("所有接口");
     }
 
 

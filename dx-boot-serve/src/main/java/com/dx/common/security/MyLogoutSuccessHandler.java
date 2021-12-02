@@ -37,7 +37,7 @@ public class MyLogoutSuccessHandler extends JSONAuthentication implements Logout
             String username = userDetails.getUsername();
             // 删除用户缓存记录
             tokenService.delMyUserDetails(userDetails.getToken());
-            log.info("用户：" + username + "推出登录了");
+            log.info("用户：" + username + "退出登录了");
         }
 //        UserDetails user = (UserDetails) authentication.getPrincipal();
 //        String username = user.getUsername();

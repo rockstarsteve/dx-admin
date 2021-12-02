@@ -1,8 +1,7 @@
 package com.dx.sys.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.dx.service.entity.SysUser;
-import com.dx.service.service.ISysUserService;
+import com.dx.sys.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
