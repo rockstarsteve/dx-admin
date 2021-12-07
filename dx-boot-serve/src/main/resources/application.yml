@@ -9,5 +9,23 @@ spring:
 
 
 
+mybatis-plus:
+  ## mapper文件位置
+  mapper-locations: classpath*:/mapper/**/*.xml
+  ## 别名包设置，在mapper.xml中可直接用类名
+  type-aliases-package: com.xx.xx.bean
+  configuration:
+    ## 自动驼峰命名规则映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
+
+# token配置
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌秘钥
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 令牌有效期（默认30分钟）
+  expireTime: 30
