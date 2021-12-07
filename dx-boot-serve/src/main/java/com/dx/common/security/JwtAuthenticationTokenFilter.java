@@ -16,6 +16,7 @@ import java.io.IOException;
 
 /**
  * Description: com.dx.common.security
+ * 拦截请求，查看权限
  *
  * @author yaoj
  * @version 1.0
@@ -32,6 +33,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+
+        log.info("=================request start===========================");
+        String requestURI = request.getRequestURI();
+        log.info("request uri:{}", requestURI);
+        log.info("request method:{}", request.getMethod());
+        log.info("=================request end===========================");
+
         MyUserDetails userDetails = tokenService.getUserDetails(request);
         if (userDetails != null && SecurityUtils.getAuthentication() == null) {
             tokenService.verifyToken(userDetails);

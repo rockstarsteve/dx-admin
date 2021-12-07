@@ -23,8 +23,14 @@ public class JsonUtil {
      * @return
      * @throws JsonProcessingException
      */
-    public static String toJSONString(Object obj) throws JsonProcessingException {
-        return mp.writeValueAsString(obj);
+    public static String toJSONString(Object obj){
+        String jsonString = "";
+        try {
+            jsonString = mp.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 
 }

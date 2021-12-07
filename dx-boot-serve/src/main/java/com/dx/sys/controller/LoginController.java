@@ -1,5 +1,6 @@
 package com.dx.sys.controller;
 
+import com.dx.common.annotation.Log;
 import com.dx.common.security.MyUserDetails;
 import com.dx.common.security.TokenService;
 import com.dx.util.AjaxResult;
@@ -66,6 +67,7 @@ public class LoginController {
 
     @ApiOperation(value = "获取用户信息", notes = "获取用户的user、roles、permissions信息")
     @PostMapping("/info")
+    @Log(module="系统模块",operator="导出。。。")
     public AjaxResult info(HttpServletRequest request) {
         MyUserDetails loginUser = tokenService.getUserDetails(request);
         SysUser user = loginUser.getUser();
