@@ -1,6 +1,7 @@
 package com.dx.common.security;
 
 import com.dx.sys.entity.SysUser;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import java.util.Set;
  * @since 2020/9/11
  */
 @Slf4j
+@Data
 public class MyUserDetails implements UserDetails {
     /**
      * 权限列表
@@ -37,7 +39,7 @@ public class MyUserDetails implements UserDetails {
     /**
      * 用户唯一标识
      */
-    private String token;
+    private String userKey;
 
     public MyUserDetails(SysUser sysUser) {
         this.user = sysUser;
@@ -64,21 +66,11 @@ public class MyUserDetails implements UserDetails {
         return user.getUsername();
     }
 
-    /**
-     * 账号是否过期
-     *
-     * @return
-     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    /**
-     * 账户是否未被锁
-     *
-     * @return
-     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -89,53 +81,9 @@ public class MyUserDetails implements UserDetails {
         return true;
     }
 
-    /**
-     * 是否能用
-     *
-     * @return
-     */
     @Override
     public boolean isEnabled() {
         return true;
     }
 
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
-    }
-
-    public Long getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(Long loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Set<String> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<String> permissions) {
-        this.permissions = permissions;
-    }
-
-    public SysUser getUser() {
-        return user;
-    }
-
-    public void setUser(SysUser user) {
-        this.user = user;
-    }
 }

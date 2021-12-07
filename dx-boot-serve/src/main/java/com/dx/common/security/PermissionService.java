@@ -1,9 +1,9 @@
 package com.dx.common.security;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -46,10 +46,10 @@ public class PermissionService {
      * @return 用户是否具备某权限
      */
     public boolean hasPermi(String permission) {
-        if (StringUtils.isEmpty(permission)) {
+        if (!StringUtils.hasText(permission)) {
             return false;
         }
-        MyUserDetails myUserDetails = tokenService.getDetailUser(getRequest());
+        MyUserDetails myUserDetails = tokenService.getUserDetails(getRequest());
         if (myUserDetails == null || CollectionUtils.isEmpty(myUserDetails.getPermissions())) {
             return false;
         }
@@ -74,6 +74,7 @@ public class PermissionService {
      * @return 用户是否具备某权限
      */
     private boolean hasPermissions(Set<String> permissions, String permission) {
-        return permissions.contains(ALL_PERMISSION) || permissions.contains(StringUtils.trim(permission));
+        //TODO trimAllWhitespace可能存在问题
+        return permissions.contains(ALL_PERMISSION) || permissions.contains(StringUtils.trimAllWhitespace(permission));
     }
 }

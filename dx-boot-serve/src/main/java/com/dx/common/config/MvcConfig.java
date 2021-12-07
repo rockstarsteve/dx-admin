@@ -14,6 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  */
 @Configuration
 public class MvcConfig extends WebMvcConfigurationSupport {
+//    @Autowired
+//    private LoginInterceptor interceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -26,4 +28,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         super.addResourceHandlers(registry);
     }
 
+//    @Override
+//    protected void addInterceptors(InterceptorRegistry registry) {
+//
+//        registry.addInterceptor(interceptor).addPathPatterns("/**");
+//
+//        super.addInterceptors(registry);
+//    }
 }

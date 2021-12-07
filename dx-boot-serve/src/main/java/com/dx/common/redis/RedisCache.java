@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisCache {
 
-
     private Map map = new HashMap();
 
     static {
@@ -34,7 +33,6 @@ public class RedisCache {
     }
 
     public void setCacheObject(String userKey, MyUserDetails userDetails, int expireTime, TimeUnit minutes) {
-
         map.put(userKey, userDetails);
     }
 

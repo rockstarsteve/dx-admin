@@ -34,7 +34,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         List<String> perms = sysMenuMapper.selectMenuPermsByUserId(userId);
         Set<String> permsSet = new HashSet<>();
         for (String perm : perms) {
-            if (!StringUtils.isEmpty(perm)) {
+            if (StringUtils.hasText(perm)) {
                 permsSet.addAll(Arrays.asList(perm.trim().split(",")));
             }
         }
@@ -125,7 +125,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             router.setHidden("1".equals(menu.getVisible()));
             router.setName(StringUtils.capitalize(menu.getPath()));
             router.setPath(getRouterPath(menu));
-            router.setComponent(StringUtils.isEmpty(menu.getComponent()) ? "Layout" : menu.getComponent());
+            router.setComponent(!StringUtils.hasText(menu.getComponent()) ? "Layout" : menu.getComponent());
             router.setMeta(new MetaVo(menu.getName(), menu.getIcon()));
             List<SysMenu> cMenus = menu.getChildren();
             if (!cMenus.isEmpty() && cMenus.size() > 0 && "M".equals(menu.getMenuType())) {

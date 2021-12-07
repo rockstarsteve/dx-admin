@@ -32,11 +32,11 @@ public class MyLogoutSuccessHandler extends JSONAuthentication implements Logout
                                 HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
 
-        MyUserDetails userDetails = tokenService.getMyUserDetails(request);
+        MyUserDetails userDetails = tokenService.getUserDetails(request);
         if (userDetails != null) {
             String username = userDetails.getUsername();
             // 删除用户缓存记录
-            tokenService.delMyUserDetails(userDetails.getToken());
+            tokenService.delUserDetails(userDetails.getUserKey());
             log.info("用户：" + username + "退出登录了");
         }
 //        UserDetails user = (UserDetails) authentication.getPrincipal();

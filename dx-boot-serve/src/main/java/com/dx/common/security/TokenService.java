@@ -1,6 +1,6 @@
 package com.dx.common.security;
 
-import com.dx.common.constants.Constants;
+import com.dx.common.constants.CommonEnum;
 import com.dx.common.redis.RedisCache;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,23 +27,17 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class TokenService {
 
-
-    @Value("${token.header}")
+    @Value("${token.header:Authorization}")
     private String header;
     @Value("${token.secret}")
     private String secret;
-    /**
-     * 令牌有效期（默认30分钟）
-     */
-    @Value("${token.expireTime}")
+    @Value("${token.expireTime:1}")
     private int expireTime;
 
     //1秒
     protected static final long MILLIS_SECOND = 1000;
-
     //1分钟
     protected static final long MILLIS_MINUTE = 60 * MILLIS_SECOND;
-
     //20分钟
     private static final Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
 
@@ -51,24 +45,42 @@ public class TokenService {
     private RedisCache redisCache;
 
     /**
-     * 获取用户身份信息
+     * 从reques中获取token
      *
-     * @return 用户信息
+     * @param request
+     * @return token
      */
-    public MyUserDetails getMyUserDetails(HttpServletRequest request) {
+    private String getToken(HttpServletRequest request) {
+        String token = request.getHeader(header);
+        if (token == null) {
+            token = request.getParameter("token");
+        }
+
+        if (StringUtils.hasText(token) && token.startsWith(CommonEnum.TOKEN_PREFIX.value())) {
+            token = token.replace(CommonEnum.TOKEN_PREFIX.value(), "");
+        }
+        return token;
+    }
+
+    /**
+     * 从request请求中获取用户身份信息
+     *
+     * @param request
+     * @return
+     */
+    public MyUserDetails getUserDetails(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = getToken(request);
-        if (!StringUtils.isEmpty(token)) {
+        if (StringUtils.hasText(token)) {
             Claims claims = parseToken(token);
             // 解析对应的权限以及用户信息
-            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-            String userKey = getTokenKey(uuid);
-            MyUserDetails user = redisCache.getCacheObject(userKey);
-            return user;
+            String uuid = (String) claims.get(CommonEnum.LOGIN_USER_KEY.value());
+            String userKey = CommonEnum.LOGIN_TOKEN_KEY.value() + uuid;
+            MyUserDetails userDetails = redisCache.getCacheObject(userKey);
+            return userDetails;
         }
         return null;
     }
-
 
     /**
      * 验证令牌有效期，相差不足20分钟，自动刷新缓存
@@ -85,63 +97,21 @@ public class TokenService {
     }
 
     /**
-     * 刷新令牌有效期
+     * 从request中获取用户名
      *
-     * @param userDetails 登录信息
-     */
-    public void refreshToken(MyUserDetails userDetails) {
-        userDetails.setLoginTime(System.currentTimeMillis());
-        userDetails.setExpireTime(userDetails.getLoginTime() + expireTime * MILLIS_MINUTE);
-        // 根据uuid将loginUser缓存
-        String userKey = getTokenKey(userDetails.getToken());
-        redisCache.setCacheObject(userKey, userDetails, expireTime, TimeUnit.MINUTES);
-    }
-
-
-    /**
-     * 从令牌中获取数据声明
-     *
-     * @param token 令牌
-     * @return 数据声明
-     */
-    private Claims parseToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    /**
-     * 从令牌中获取用户名
-     *
-     * @param token 令牌
+     * @param request 令牌
      * @return 用户名
      */
-    public String getUsernameFromToken(String token) {
-        Claims claims = parseToken(token);
-        return claims.getSubject();
-    }
-
-    /**
-     * 获取请求token
-     *
-     * @param request
-     * @return token
-     */
-    private String getToken(HttpServletRequest request) {
-        String token = request.getHeader(header);
-        if (token == null) {
-            token = request.getParameter("token");
+    public String getUserNameFromRequest(HttpServletRequest request) {
+        String token = getToken(request);
+        // 获取请求携带的令牌
+        if (StringUtils.hasText(token)) {
+            Claims claims = parseToken(token);
+            // 解析对应的权限以及用户信息
+            String userName = (String) claims.get(CommonEnum.LOGIN_USER_NAME.value());
+            return userName;
         }
-
-        if (!StringUtils.isEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
-            token = token.replace(Constants.TOKEN_PREFIX, "");
-        }
-        return token;
-    }
-
-    private String getTokenKey(String uuid) {
-        return Constants.LOGIN_TOKEN_KEY + uuid;
+        return null;
     }
 
     /**
@@ -151,79 +121,57 @@ public class TokenService {
      * @return 令牌
      */
     public String createToken(MyUserDetails myUserDetails) {
-        String token = UUID.randomUUID().toString().replace("-", "");
-        myUserDetails.setToken(token);
+        String userKey = UUID.randomUUID().toString().replace("-", "");
+        myUserDetails.setUserKey(userKey);
         refreshToken(myUserDetails);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put(Constants.LOGIN_USER_KEY, token);
-        claims.put(Constants.LOGIN_USER_NAME, myUserDetails.getUsername());
-        return createToken(claims);
-    }
-
-    /**
-     * 从数据声明生成令牌
-     *
-     * @param claims 数据声明
-     * @return 令牌
-     */
-    private String createToken(Map<String, Object> claims) {
-        String token = Jwts.builder()
+        claims.put(CommonEnum.LOGIN_USER_KEY.value(), userKey);
+        claims.put(CommonEnum.LOGIN_USER_NAME.value(), myUserDetails.getUsername());
+        String token2 = Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
-        return token;
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+        return token2;
     }
 
     /**
-     * 删除用户身份信息
+     * 从缓存中删除用户身份信息
      *
-     * @param token
+     * @param userId
      */
-    public void delMyUserDetails(String token) {
-        if (!StringUtils.isEmpty(token)) {
-            String userKey = getTokenKey(token);
+    public void delUserDetails(String userId) {
+        if (StringUtils.hasText(userId)) {
+            String userKey = CommonEnum.LOGIN_TOKEN_KEY.value() + userId;
             redisCache.deleteObject(userKey);
         }
     }
 
     /**
-     * 获取用户身份信息
+     * 刷新令牌有效期
      *
-     * @param request
-     * @return
+     * @param userDetails 登录信息
      */
-    public MyUserDetails getDetailUser(HttpServletRequest request) {
-        // 获取请求携带的令牌
-        String token = getToken(request);
-        if (!StringUtils.isEmpty(token)) {
-            Claims claims = parseToken(token);
-            // 解析对应的权限以及用户信息
-            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-            String userKey = getTokenKey(uuid);
-            MyUserDetails userDetails = redisCache.getCacheObject(userKey);
-            return userDetails;
-        }
-        return null;
+    public void refreshToken(MyUserDetails userDetails) {
+        userDetails.setLoginTime(System.currentTimeMillis());
+        userDetails.setExpireTime(userDetails.getLoginTime() + expireTime * MILLIS_MINUTE);
+        // 根据uuid将loginUser缓存
+        String userKey = CommonEnum.LOGIN_TOKEN_KEY.value() + userDetails.getUserKey();
+        redisCache.setCacheObject(userKey, userDetails, expireTime, TimeUnit.MINUTES);
     }
 
     /**
-     * 获取用户身份信息
+     * 从令牌中获取数据声明
      *
-     * @param request
-     * @return
+     * @param token 令牌
+     * @return 数据声明
      */
-    public MyUserDetails getLoginUser(HttpServletRequest request) {
-        // 获取请求携带的令牌
-        String token = getToken(request);
-        if (!StringUtils.isEmpty(token)) {
-            Claims claims = parseToken(token);
-            // 解析对应的权限以及用户信息
-            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
-            String userKey = getTokenKey(uuid);
-            MyUserDetails user = redisCache.getCacheObject(userKey);
-            return user;
-        }
-        return null;
+    public Claims parseToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
+
 }
 

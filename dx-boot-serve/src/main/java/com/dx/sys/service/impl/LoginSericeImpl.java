@@ -46,8 +46,8 @@ public class LoginSericeImpl implements LoginService {
         }
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
         log.info("principal: " + myUserDetails);
-
-
+        //去除密码
+        myUserDetails.getUser().setPassword("");
         String token = tokenService.createToken(myUserDetails);
 
         return token;

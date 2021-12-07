@@ -54,11 +54,20 @@ public class LoginController {
         return AjaxResult.success(resultMap);
     }
 
+    @ApiOperation(value = "获取登录用户名")
+    @PostMapping("/getLoginUserName")
+    public AjaxResult getLoginUserName(HttpServletRequest request) {
+
+        String userNameFromRequest = tokenService.getUserNameFromRequest(request);
+
+        return AjaxResult.success(userNameFromRequest);
+    }
+
 
     @ApiOperation(value = "获取用户信息", notes = "获取用户的user、roles、permissions信息")
     @PostMapping("/info")
     public AjaxResult info(HttpServletRequest request) {
-        MyUserDetails loginUser = tokenService.getMyUserDetails(request);
+        MyUserDetails loginUser = tokenService.getUserDetails(request);
         SysUser user = loginUser.getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
@@ -74,32 +83,8 @@ public class LoginController {
     @ApiOperation(value = "获取用户路由", notes = "获取用户的菜单栏")
     @PostMapping("/getRouters")
     public AjaxResult getRouters(HttpServletRequest request) {
-//        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-//        objectObjectHashMap.put("name","System");
-//        objectObjectHashMap.put("path","/system");
-//        objectObjectHashMap.put("hidden",false);
-//        objectObjectHashMap.put("redirect","noRedirect");
-//        objectObjectHashMap.put("component","Layout");
-//        objectObjectHashMap.put("alwaysShow",true);
-//
-////        meta: { title: 'Example', icon: 'example' },
-//        HashMap<Object, Object> objectObjectHashMap1 = new HashMap<>();
-//        objectObjectHashMap1.put("title","Example");
-//        objectObjectHashMap1.put("icon","example");
-//        objectObjectHashMap.put("meta",objectObjectHashMap1);
-//
-////        objectObjectHashMap.put("children",null);
-//
-//        List resultList = new ArrayList();
-//        resultList.add(objectObjectHashMap);
 
-
-
-
-
-
-
-        MyUserDetails userDetails = tokenService.getLoginUser(request);
+        MyUserDetails userDetails = tokenService.getUserDetails(request);
         // 用户信息
         SysUser user = userDetails.getUser();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(user.getUserId());
