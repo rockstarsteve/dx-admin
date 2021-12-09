@@ -2,6 +2,7 @@ package com.dx.common.security;
 
 import com.dx.util.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,6 @@ public class MyAccessDeniedHandler extends JSONAuthentication implements AccessD
         accessDeniedException.printStackTrace();
         log.info(accessDeniedException.getMessage());
         this.WriteJSON(request, response,
-                AjaxResult.error(403, accessDeniedException.getMessage()));
+                AjaxResult.error(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage()));
     }
 }
