@@ -68,7 +68,7 @@ public class TokenService {
      * @param request
      * @return
      */
-    public MyUserDetails getUserDetails(HttpServletRequest request) {
+    public LoginUserDetails getUserDetails(HttpServletRequest request) {
         // 获取请求携带的令牌
         String token = getToken(request);
         if (StringUtils.hasText(token)) {
@@ -76,7 +76,7 @@ public class TokenService {
             // 解析对应的权限以及用户信息
             String uuid = (String) claims.get(CommonEnum.LOGIN_USER_KEY.value());
             String userKey = CommonEnum.LOGIN_TOKEN_KEY.value() + uuid;
-            MyUserDetails userDetails = redisCache.getCacheObject(userKey);
+            LoginUserDetails userDetails = redisCache.getCacheObject(userKey);
             return userDetails;
         }
         return null;
@@ -88,7 +88,7 @@ public class TokenService {
      * @param userDetails 令牌
      * @return 令牌
      */
-    public void verifyToken(MyUserDetails userDetails) {
+    public void verifyToken(LoginUserDetails userDetails) {
         long expireTime = userDetails.getExpireTime();
         long currentTime = System.currentTimeMillis();
         if (expireTime - currentTime <= MILLIS_MINUTE_TEN) {
@@ -117,17 +117,17 @@ public class TokenService {
     /**
      * 创建令牌
      *
-     * @param myUserDetails 用户信息
+     * @param loginUserDetails 用户信息
      * @return 令牌
      */
-    public String createToken(MyUserDetails myUserDetails) {
+    public String createToken(LoginUserDetails loginUserDetails) {
         String userKey = UUID.randomUUID().toString().replace("-", "");
-        myUserDetails.setUserKey(userKey);
-        refreshToken(myUserDetails);
+        loginUserDetails.setUserKey(userKey);
+        refreshToken(loginUserDetails);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put(CommonEnum.LOGIN_USER_KEY.value(), userKey);
-        claims.put(CommonEnum.LOGIN_USER_NAME.value(), myUserDetails.getUsername());
+        claims.put(CommonEnum.LOGIN_USER_NAME.value(), loginUserDetails.getUsername());
         String token2 = Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -152,7 +152,7 @@ public class TokenService {
      *
      * @param userDetails 登录信息
      */
-    public void refreshToken(MyUserDetails userDetails) {
+    public void refreshToken(LoginUserDetails userDetails) {
         userDetails.setLoginTime(System.currentTimeMillis());
         userDetails.setExpireTime(userDetails.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存

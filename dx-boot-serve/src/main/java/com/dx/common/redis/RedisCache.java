@@ -1,6 +1,6 @@
 package com.dx.common.redis;
 
-import com.dx.common.security.MyUserDetails;
+import com.dx.common.security.LoginUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +27,12 @@ public class RedisCache {
     }
 
 
-    public MyUserDetails getCacheObject(String userKey) {
-        MyUserDetails userDetails = (MyUserDetails) map.get(userKey);
+    public LoginUserDetails getCacheObject(String userKey) {
+        LoginUserDetails userDetails = (LoginUserDetails) map.get(userKey);
         return userDetails;
     }
 
-    public void setCacheObject(String userKey, MyUserDetails userDetails, int expireTime, TimeUnit minutes) {
+    public void setCacheObject(String userKey, LoginUserDetails userDetails, int expireTime, TimeUnit minutes) {
         map.put(userKey, userDetails);
     }
 

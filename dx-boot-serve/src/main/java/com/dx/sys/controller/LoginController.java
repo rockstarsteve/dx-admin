@@ -1,7 +1,7 @@
 package com.dx.sys.controller;
 
 import com.dx.common.annotation.Log;
-import com.dx.common.security.MyUserDetails;
+import com.dx.common.security.LoginUserDetails;
 import com.dx.common.security.TokenService;
 import com.dx.util.AjaxResult;
 import com.dx.sys.entity.SysMenu;
@@ -69,7 +69,7 @@ public class LoginController {
     @PostMapping("/info")
     @Log(module="系统模块",operator="导出。。。")
     public AjaxResult info(HttpServletRequest request) {
-        MyUserDetails loginUser = tokenService.getUserDetails(request);
+        LoginUserDetails loginUser = tokenService.getUserDetails(request);
         SysUser user = loginUser.getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
@@ -86,7 +86,7 @@ public class LoginController {
     @PostMapping("/getRouters")
     public AjaxResult getRouters(HttpServletRequest request) {
 
-        MyUserDetails userDetails = tokenService.getUserDetails(request);
+        LoginUserDetails userDetails = tokenService.getUserDetails(request);
         // 用户信息
         SysUser user = userDetails.getUser();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(user.getUserId());
@@ -95,7 +95,7 @@ public class LoginController {
 
 
     /**
-     * 没用的接口，就为了给swagger展示这个接口而写的，最终调用的是secrity的这个接口
+     * TODO: 没用的接口，就为了给swagger展示这个接口而写的，最终调用的是secrity的这个接口
      *
      * @return
      */

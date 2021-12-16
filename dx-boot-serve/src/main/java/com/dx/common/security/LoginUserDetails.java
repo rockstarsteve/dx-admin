@@ -19,7 +19,7 @@ import java.util.Set;
  */
 @Slf4j
 @Data
-public class MyUserDetails implements UserDetails {
+public class LoginUserDetails implements UserDetails {
     /**
      * 权限列表
      */
@@ -41,11 +41,11 @@ public class MyUserDetails implements UserDetails {
      */
     private String userKey;
 
-    public MyUserDetails(SysUser sysUser) {
+    public LoginUserDetails(SysUser sysUser) {
         this.user = sysUser;
     }
 
-    public MyUserDetails(SysUser user, Set<String> permissions) {
+    public LoginUserDetails(SysUser user, Set<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }
