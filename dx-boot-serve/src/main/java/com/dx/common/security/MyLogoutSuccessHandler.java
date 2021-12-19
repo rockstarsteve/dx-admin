@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 @Component
 @Slf4j
-public class MyLogoutSuccessHandler extends JSONAuthentication implements LogoutSuccessHandler {
+public class MyLogoutSuccessHandler extends JsonResponseWrite implements LogoutSuccessHandler {
 
     @Autowired
     private TokenService tokenService;

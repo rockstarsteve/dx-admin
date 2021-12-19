@@ -21,16 +21,16 @@ import java.io.IOException;
  */
 @Component
 @Slf4j
-public class MyAuthenticationEntryPoint extends JSONAuthentication implements AuthenticationEntryPoint {
+public class MyResponseWriteEntryPoint extends JsonResponseWrite implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+                         AuthenticationException authException) throws IOException {
         log.info("访问此资源需要完全身份验证（" + authException.getMessage() + "）！");
         authException.printStackTrace();
         //输出
         this.WriteJSON(request, response,
                 //"访问此资源需要完全身份验证（" + authException.getMessage() + "）！"
-                AjaxResult.error(501,"认证失败,请尝试重新登录！"));
+                AjaxResult.error(501, "认证失败,请尝试重新登录！"));
     }
 }

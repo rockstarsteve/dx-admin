@@ -15,7 +15,10 @@ public class Temp {
     public static void main(String[] args) {
 
         ArrayList list = new ArrayList<>();
-        list.add("");
+        for (int i = 0; i < 100; i++) {
+            Object o = new Object();
+            System.out.println(o.hashCode());
+        }
 
 
 

@@ -22,13 +22,12 @@ import java.io.IOException;
  */
 @Component
 @Slf4j
-public class MyAccessDeniedHandler extends JSONAuthentication implements AccessDeniedHandler {
+public class MyAccessDeniedHandler extends JsonResponseWrite implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
         accessDeniedException.printStackTrace();
         log.info(accessDeniedException.getMessage());
-        this.WriteJSON(request, response,
-                AjaxResult.error(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage()));
+        this.WriteJSON(request, response, AjaxResult.error(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage()));
     }
 }

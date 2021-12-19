@@ -17,7 +17,7 @@ import java.io.PrintWriter;
  * @copyright Copyright (c) 文理电信
  * @since 2020/9/11
  */
-public abstract class JSONAuthentication {
+public abstract class JsonResponseWrite {
 
     /**
      * 输出JSON
@@ -28,9 +28,7 @@ public abstract class JSONAuthentication {
      * @throws IOException
      * @throws ServletException
      */
-    protected void WriteJSON(HttpServletRequest request,
-                             HttpServletResponse response,
-                             Object data) throws IOException {
+    protected void WriteJSON(HttpServletRequest request, HttpServletResponse response, Object data) throws IOException {
         //这里很重要，否则页面获取不到正常的JSON数据集
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");

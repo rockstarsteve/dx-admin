@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private MyResponseWriteEntryPoint myAuthenticationEntryPoint;
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
     @Autowired
@@ -60,13 +60,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and()
                 // 异常处理器
-//                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
+                .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/system/login","/openApi/**").anonymous()
+                .antMatchers("/system/login", "/openApi/**").anonymous()
+                //静态资源处理
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
@@ -74,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
+                //swagger的一些资源处理
                 .antMatchers("/profile/**").permitAll()
                 .antMatchers("/common/download**").permitAll()
                 .antMatchers("/common/download/resource**").permitAll()
@@ -81,12 +83,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/*/api-docs").permitAll()
+                //druid的一些静态资源处理
                 .antMatchers("/druid/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
-
 
         //拦截token，并检测。在 UsernamePasswordAuthenticationFilter 之前添加 JwtAuthenticationTokenFilter
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
@@ -97,7 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 身份认证接口
+     * 身份认证
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -105,6 +107,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    /**
+     * AuthenticationManager对象
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
