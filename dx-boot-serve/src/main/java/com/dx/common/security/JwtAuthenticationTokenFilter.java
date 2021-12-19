@@ -34,13 +34,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        log.info("=================request start===========================");
-        String requestURI = request.getRequestURI();
-        log.info("request uri:{}", requestURI);
-        log.info("request method:{}", request.getMethod());
-        log.info("=================request end===========================");
+        log.info("=================>>>>>>>> request: " + request.getMethod() + "    URL:" + request.getRequestURI());
 
-        MyUserDetails userDetails = tokenService.getUserDetails(request);
+        LoginUserDetails userDetails = tokenService.getUserDetails(request);
         if (userDetails != null && SecurityUtils.getAuthentication() == null) {
             tokenService.verifyToken(userDetails);
             UsernamePasswordAuthenticationToken authenticationToken

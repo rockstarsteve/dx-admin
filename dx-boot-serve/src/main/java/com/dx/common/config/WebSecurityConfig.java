@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @since 2020/9/8
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -58,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // CRSF禁用，因为不使用session
                 .csrf().disable()
                 // 认证失败处理类
-                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint).and()
+                .exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint)
+                .and()
                 // 异常处理器
                 .exceptionHandling().accessDeniedHandler(myAccessDeniedHandler).and()
                 // 基于token，所以不需要session

@@ -49,11 +49,11 @@ public class PermissionService {
         if (!StringUtils.hasText(permission)) {
             return false;
         }
-        MyUserDetails myUserDetails = tokenService.getUserDetails(getRequest());
-        if (myUserDetails == null || CollectionUtils.isEmpty(myUserDetails.getPermissions())) {
+        LoginUserDetails loginUserDetails = tokenService.getUserDetails(getRequest());
+        if (loginUserDetails == null || CollectionUtils.isEmpty(loginUserDetails.getPermissions())) {
             return false;
         }
-        return hasPermissions(myUserDetails.getPermissions(), permission);
+        return hasPermissions(loginUserDetails.getPermissions(), permission);
     }
 
     private HttpServletRequest getRequest() {

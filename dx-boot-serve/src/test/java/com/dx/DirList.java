@@ -14,7 +14,7 @@ public class DirList {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        //TODO 可以将path修改为写死的路径
+        //INFO 可以将path修改为写死的路径
         System.out.print("请输入你要查询文件夹的树结构: ");
         String path = sc.nextLine();
 //        String path = "E:\\dev\\bank-ql\\PM\\05.接口文档\\齐鲁银行素材";

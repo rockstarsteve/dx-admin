@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Description: com.dx.common.auth
@@ -36,8 +37,10 @@ public class MyUserDetailsService implements UserDetailsService {
         if (sysUserList == null || sysUserList.size() == 0) {
             throw new UsernameNotFoundException("用户不存在");
         }
+        //用户所有的权限
+        Set<String> menuPermission = permissionService.getMenuPermission(sysUserList.get(0));
 
-        return new MyUserDetails(sysUserList.get(0),permissionService.getMenuPermission(sysUserList.get(0)));
+        return new LoginUserDetails(sysUserList.get(0), menuPermission);
 
     }
 }

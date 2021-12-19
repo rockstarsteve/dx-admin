@@ -1,6 +1,6 @@
 package com.dx.sys.service.impl;
 
-import com.dx.common.security.MyUserDetails;
+import com.dx.common.security.LoginUserDetails;
 import com.dx.common.security.TokenService;
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.LoginService;
@@ -44,11 +44,11 @@ public class LoginSericeImpl implements LoginService {
                 throw new RuntimeException(e.getMessage());
             }
         }
-        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-        log.info("principal: " + myUserDetails);
+        LoginUserDetails loginUserDetails = (LoginUserDetails) authentication.getPrincipal();
+        log.info("principal: " + loginUserDetails);
         //去除密码
-        myUserDetails.getUser().setPassword("");
-        String token = tokenService.createToken(myUserDetails);
+        loginUserDetails.getUser().setPassword("");
+        String token = tokenService.createToken(loginUserDetails);
 
         return token;
     }

@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
 
     private static final String logExceptionFormat = "Capture Exception By GlobalExceptionHandler: Code: %s Detail: %s";
 
-
     /**
      * 自定义异常
      *
@@ -52,7 +51,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public AjaxResult BadCredentialsExceptionHandler(BadCredentialsException e) {
         e.printStackTrace();
-        return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统出错，请联系管理员！");
     }
 
     /**
@@ -88,9 +87,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = BindException.class)
     public AjaxResult handleBindException(BindException ex) {
         log.error("参数校验异常", ex);
-        List<String> defaultMsg = ex.getBindingResult().getAllErrors()
-                .stream()
-                .map(ObjectError::getDefaultMessage)
+        List<String> defaultMsg = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
                 .collect(Collectors.toList());
         return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), defaultMsg.get(0));
     }
@@ -132,7 +129,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     private <T extends Throwable> AjaxResult resultFormatDefaultMsg(Integer code, T e) {
-        e.printStackTrace();
+        //INFO 开发环境可以打开，生产环境不需要那么多日志
+//        e.printStackTrace();
         log.error(String.format(logExceptionFormat, code, e.getMessage()));
         return AjaxResult.error(code, "系统出错，请联系管理员！");
     }

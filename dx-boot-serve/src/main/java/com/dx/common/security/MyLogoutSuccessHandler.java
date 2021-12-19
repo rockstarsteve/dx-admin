@@ -32,7 +32,7 @@ public class MyLogoutSuccessHandler extends JsonResponseWrite implements LogoutS
                                 HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
 
-        MyUserDetails userDetails = tokenService.getUserDetails(request);
+        LoginUserDetails userDetails = tokenService.getUserDetails(request);
         if (userDetails != null) {
             String username = userDetails.getUsername();
             // 删除用户缓存记录
