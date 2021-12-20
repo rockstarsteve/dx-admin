@@ -2,7 +2,6 @@ package com.dx.common.interceptor;
 
 import com.dx.common.security.TokenService;
 import com.dx.common.util.JsonUtil;
-import com.dx.common.util.UserThreadLocal;
 import com.dx.sys.entity.SysUser;
 import com.dx.util.AjaxResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,12 +44,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         String token = request.getHeader("Authorization");
 
-        log.info("=================request start===========================");
-        String requestURI = request.getRequestURI();
-        log.info("request uri:{}", requestURI);
-        log.info("request method:{}", request.getMethod());
-        log.info("token:{}", token);
-        log.info("=================request end===========================");
+        log.info("=================>>>>>>>> request: " + request.getMethod() + "。URL:" + request.getRequestURI() + " 。token：" + token);
 
         if (!StringUtils.hasText(token)) {
             AjaxResult result = AjaxResult.error(HttpStatus.UNAUTHORIZED.value(), "未登录");
@@ -67,14 +61,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         //登录验证成功，放行
-        //我希望在controller中 直接获取用户的信息 怎么获取?
-        UserThreadLocal.put(sysUser);
         return true;
     }
 
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        //如果不删除 ThreadLocal中用完的信息 会有内存泄漏的风险
-        UserThreadLocal.remove();
-    }
 }

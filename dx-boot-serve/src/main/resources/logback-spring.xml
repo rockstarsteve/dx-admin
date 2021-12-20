@@ -12,7 +12,14 @@
     <property name="consolecolor.log.path" value="%black(控制台-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)"/>
 
 
-
+    <!--
+        onMatch="ACCEPT" 表示匹配该级别及以上
+        onMatch="DENY" 表示不匹配该级别及以上
+        onMatch="NEUTRAL" 表示该级别及以上的，由下一个filter处理，如果当前是最后一个，则表示匹配该级别及以上
+        onMismatch="ACCEPT" 表示匹配该级别以下
+        onMismatch="NEUTRAL" 表示该级别及以下的，由下一个filter处理，如果当前是最后一个，则不匹配该级别以下的
+        onMismatch="DENY" 表示不匹配该级别以下的
+    -->
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -104,18 +111,18 @@
 
 
 
-
+    <!--控制台打印信息-->
     <root level="info">
-        <appender-ref ref="console" />
+        <appender-ref ref="console"/>
     </root>
 
-    <!--系统操作日志-->
+    <!--系统日志-->
     <root level="info">
         <appender-ref ref="file_info" />
         <appender-ref ref="file_error" />
     </root>
 
-    <!--系统用户操作日志-->
+    <!--系统操作日志-->
     <logger name="operation-log" level="info">
         <appender-ref ref="operation-log"/>
     </logger>

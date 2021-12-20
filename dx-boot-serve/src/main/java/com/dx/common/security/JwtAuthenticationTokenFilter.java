@@ -34,7 +34,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        log.info("=================>>>>>>>> request: " + request.getMethod() + "    URL:" + request.getRequestURI());
+        log.info("=================>>>>>>>> request: " + request.getMethod() + "。URL:" + request.getRequestURI());
 
         LoginUserDetails userDetails = tokenService.getUserDetails(request);
         if (userDetails != null && SecurityUtils.getAuthentication() == null) {
@@ -44,7 +44,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
+
         chain.doFilter(request, response);
-        }
+    }
 }
 
