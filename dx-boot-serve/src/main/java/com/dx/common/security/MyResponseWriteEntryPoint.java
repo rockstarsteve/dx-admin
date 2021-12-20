@@ -6,7 +6,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,11 +25,11 @@ public class MyResponseWriteEntryPoint extends JsonResponseWrite implements Auth
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        log.info("访问此资源需要完全身份验证（" + authException.getMessage() + "）！");
-        authException.printStackTrace();
+        if (log.isDebugEnabled()) {
+            log.info("访问此资源需要完全身份验证（" + authException.getMessage() + "）！");
+            authException.printStackTrace();
+        }
         //输出
-        this.WriteJSON(request, response,
-                //"访问此资源需要完全身份验证（" + authException.getMessage() + "）！"
-                AjaxResult.error(501, "认证失败,请尝试重新登录！"));
+        this.WriteJSON(request, response, AjaxResult.error(501, "认证失败,请尝试重新登录！"));
     }
 }

@@ -9,6 +9,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,9 @@ import java.lang.reflect.Method;
 @Component
 @Slf4j
 public class LogAspect {
+
+    //记录操作的日志的logger
+    private static final Logger LOGGER = LoggerFactory.getLogger("operation-log");
 
     @Pointcut("@annotation(com.dx.common.annotation.Log)")
     public void logPointCut() {
@@ -46,27 +51,27 @@ public class LogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         Log logAnnotation = method.getAnnotation(Log.class);
-        log.info("=====================log start================================");
-        log.info("module:{}", logAnnotation.module());
-        log.info("operation:{}", logAnnotation.operator());
+        LOGGER.info("=====================log start================================");
+        LOGGER.info("module:{}", logAnnotation.module());
+        LOGGER.info("operation:{}", logAnnotation.operator());
 
         // 请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
-        log.info("request method:{}", className + "." + methodName + "()");
+        LOGGER.info("request method:{}", className + "." + methodName + "()");
 
         // 请求的参数
         Object[] args = joinPoint.getArgs();
 //        String params = JsonUtil.toJSONString(args);
-        log.info("params:{}", args);
+        LOGGER.info("params:{}", args);
 
         // 获取request 设置IP地址
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        log.info("ip:{}", IPUtils.getIpAddr(request));
-        log.info("url:{}", request.getRequestURI());
+        LOGGER.info("ip:{}", IPUtils.getIpAddr(request));
+        LOGGER.info("url:{}", request.getRequestURI());
         // 记录执行时间
-        log.info("excute time : {} ms", time);
-        log.info("=====================log end================================");
+        LOGGER.info("excute time : {} ms", time);
+        LOGGER.info("=====================log end================================");
     }
 
 }

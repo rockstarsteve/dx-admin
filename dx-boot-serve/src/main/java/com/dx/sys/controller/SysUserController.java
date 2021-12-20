@@ -43,6 +43,9 @@ public class SysUserController {
     @PostMapping("/getList")
     public Object getList(){
         List<SysUser> list = sysUserService.list();
+        list.forEach(sysUser -> {
+            sysUser.setPassword("");
+        });
         return AjaxResult.success(list);
     }
 
