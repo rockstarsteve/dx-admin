@@ -1,3 +1,6 @@
+import lombok.Data;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,50 +13,46 @@ import java.util.List;
 public class Temp {
 
     public static void main(String[] args) {
-        List<User> users = new ArrayList<>();
-        User user = new User();
-        user.setName("tom");
-        users.add(user);
-        User user2 = new User();
-        user2.setName("tom");
-        users.add(user2);
+        List<Student> students = new ArrayList<>();
+        Student student = new Student();
+        student.setName("tom");
+        students.add(student);
+        Student student2 = new Student();
+        student2.setName("tom");
+        students.add(student2);
 
-        users.forEach(user1 -> {
-            user1.setId("23323");
+        students.forEach(student1 -> {
+            student1.setId("23323");
         });
 
 
-        System.out.println(users);
-
+        System.out.println(students);
 
 
     }
 }
-class User{
+
+@Data
+@ToString
+class Student {
     private String id;
     private String name;
+    private boolean isGood;
+    private boolean test;
 
-    public String getId() {
-        return id;
+    public boolean isGood() {
+        return isGood;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setGood(boolean good) {
+        isGood = good;
     }
 
-    public String getName() {
-        return name;
+    public boolean isTest() {
+        return test;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public void setTest(boolean test) {
+        this.test = test;
     }
 }

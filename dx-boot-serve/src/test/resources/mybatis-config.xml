@@ -50,7 +50,7 @@
     <!--resource="/mapper/UserMapper.xml"-->
 
     <mappers>
-        <mapper class="com.dx.mybatis.mapper.UserMapper" />
+        <mapper class="com.test.mybatis.mapper.UserMapper" />
     </mappers>
 
 </configuration>

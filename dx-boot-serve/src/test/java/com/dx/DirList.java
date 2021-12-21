@@ -11,6 +11,7 @@ import java.util.Scanner;
  * @date 2021/03/25
  */
 public class DirList {
+
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
