@@ -1,9 +1,11 @@
 package com.dx.sys.service.impl;
 
+import com.dx.common.exception.MyAuthenticationException;
 import com.dx.common.security.LoginUserDetails;
 import com.dx.common.security.TokenService;
 import com.dx.sys.entity.SysUser;
 import com.dx.sys.service.LoginService;
+import com.dx.util.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * Description: com.dx.sys.service.impl
@@ -37,7 +40,6 @@ public class LoginSericeImpl implements LoginService {
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(sysUser.getUsername(), sysUser.getPassword()));
         } catch (Exception e) {
-            e.printStackTrace();
             if (e instanceof BadCredentialsException) {
                 throw new BadCredentialsException("账号密码错误");
             } else {

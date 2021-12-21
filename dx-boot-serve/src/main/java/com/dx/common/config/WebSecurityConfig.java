@@ -4,6 +4,11 @@ import com.dx.common.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,7 +16,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.swing.text.html.MinimalHTMLWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Description: com.dx.common.config
@@ -107,6 +118,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
+
+    public AccessDecisionManager accessDecisionManager(){
+
+        List<AccessDecisionVoter<? extends Object>> decisionVoters = Arrays.asList(
+                new WebExpressionVoter(),
+                new RoleVoter(),
+                new AuthenticatedVoter()
+
+        );
+        return new UnanimousBased(decisionVoters);
+    }
+
 
 
     /**

@@ -13,12 +13,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -48,6 +51,13 @@ public class LoginController {
     @PostMapping("/login")
     public AjaxResult login(@RequestBody SysUser sysUser) {
 
+        if (!StringUtils.hasText(sysUser.getUsername())) {
+            return AjaxResult.error("用户名不能为空");
+        }
+        if (!StringUtils.hasText(sysUser.getPassword())) {
+            return AjaxResult.error("用密码不能为空");
+        }
+
         String token = loginService.login(sysUser);
         Map resultMap = new HashMap<>();
         resultMap.put("token", token);
@@ -63,6 +73,19 @@ public class LoginController {
 
         return AjaxResult.success(userNameFromRequest);
     }
+
+    @ApiOperation(value = "获取principal")
+    @PostMapping("/getPrincipal")
+    public AjaxResult getPrincipal(Principal principal) {
+        return AjaxResult.success(principal);
+    }
+
+    @ApiOperation(value = "获取Authentication")
+    @PostMapping("/getAuthentication")
+    public AjaxResult getAuthentication(Neo4jProperties.Authentication authentication) {
+        return AjaxResult.success(authentication);
+    }
+
 
 
     @ApiOperation(value = "获取用户信息", notes = "获取用户的user、roles、permissions信息")

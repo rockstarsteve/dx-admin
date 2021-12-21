@@ -50,8 +50,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     public AjaxResult BadCredentialsExceptionHandler(BadCredentialsException e) {
-        e.printStackTrace();
-        return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "系统出错，请联系管理员！");
+//        e.printStackTrace();
+        return AjaxResult.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名密码错误！");
     }
 
     /**
