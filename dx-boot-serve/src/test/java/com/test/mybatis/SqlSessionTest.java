@@ -2,6 +2,7 @@ package com.test.mybatis;
 
 import com.test.mybatis.bean.User;
 import com.test.mybatis.mapper.UserMapper;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -28,7 +29,7 @@ public class SqlSessionTest {
         SqlSessionFactoryBuilder factoryBuilder = new SqlSessionFactoryBuilder();
 
         //解析xml，构建会话工厂
-        factory = factoryBuilder.build(SqlSessionTest.class.getResourceAsStream("/mybatis-config.xml"));
+        factory = factoryBuilder.build(Executor.class.getResourceAsStream("/mybatis-config.xml"));
         sqlSession = factory.openSession();
     }
 
