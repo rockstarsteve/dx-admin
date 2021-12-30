@@ -40,7 +40,8 @@
             <transactionManager type="JDBC"/><!-- 单独使用时配置成MANAGED没有事务 -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/dx-server?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=GMT%2B8&amp;allowPublicKeyRetrieval=true"/>
+                <property name="url"
+                          value="jdbc:mysql://localhost:3306/dx-server?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=GMT%2B8&amp;allowPublicKeyRetrieval=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>
@@ -50,10 +51,9 @@
     <!--resource="/mapper/UserMapper.xml"-->
 
     <mappers>
-<!--        <package name="com.**.mapper"/>-->
-<!--        <mapper class="com.test.mybatis.mapper.UserMapper" />-->
-
-        <mapper url="classpath:*UserMapper.xml" />
+<!--        <mapper class="com.test.mybatis.mapper.UserMapper"/>-->
+<!--        <package name="com.test.mybatis.mapper.UserMapper"/>-->
+        <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 
 </configuration>
